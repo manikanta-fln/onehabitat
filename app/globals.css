@@ -1,0 +1,231 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-tertiary-container: #e8bc5c;
+  --color-on-primary-container: #6b4900;
+  --color-on-primary-fixed: #281900;
+  --color-surface: #fff8f3;
+  --color-surface-bright: #fff8f3;
+  --color-on-tertiary-fixed: #261a00;
+  --color-secondary-container: #f7dda8;
+  --color-surface-container-high: #f4e6d6;
+  --color-inverse-surface: #372f24;
+  --color-surface-container-low: #fff2e2;
+  --color-surface-container: #faecdb;
+  --color-secondary-fixed: #fadfab;
+  --color-tertiary-fixed-dim: #edc060;
+  --color-secondary-fixed-dim: #ddc491;
+  --color-on-tertiary-fixed-variant: #5c4300;
+  --color-primary: #7e5700;
+  --color-outline-variant: #d6c4ac;
+  --color-on-background: #211b11;
+  --color-surface-variant: #eee0d0;
+  --color-on-tertiary-container: #674b00;
+  --color-error-container: #ffdad6;
+  --color-surface-container-lowest: #ffffff;
+  --color-primary-fixed-dim: #ffba35;
+  --color-secondary: #6f5c32;
+  --color-on-tertiary: #ffffff;
+  --color-on-secondary-fixed: #251a00;
+  --color-inverse-on-surface: #fdefde;
+  --color-tertiary-fixed: #ffdf9f;
+  --color-outline: #847560;
+  --color-on-primary: #ffffff;
+  --color-primary-fixed: #ffdeac;
+  --color-on-error-container: #93000a;
+  --color-on-surface: #211b11;
+  --color-tertiary: #795900;
+  --color-background: #fff8f3;
+  --color-surface-container-highest: #eee0d0;
+  --color-on-secondary-container: #746036;
+  --color-error: #ba1a1a;
+  --color-on-secondary: #ffffff;
+  --color-on-primary-fixed-variant: #5f4100;
+  --color-on-secondary-fixed-variant: #56441d;
+  --color-surface-tint: #7e5700;
+  --color-surface-dim: #e5d8c8;
+  --color-on-surface-variant: #514532;
+  --color-inverse-primary: #ffba35;
+  --color-primary-container: #ffb401;
+  --color-on-error: #ffffff;
+
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  --spacing-md: 24px;
+  --spacing-gutter: 24px;
+  --spacing-sm: 12px;
+  --spacing-lg: 48px;
+  --spacing-margin-desktop: 64px;
+  --spacing-xs: 4px;
+  --spacing-xl: 80px;
+  --spacing-margin-mobile: 16px;
+  --spacing-base: 8px;
+  --spacing-unit: 8px;
+  --spacing-stack-lg: 48px;
+  --spacing-container-max: 1440px;
+  --spacing-section-padding: 160px;
+  --spacing-stack-sm: 12px;
+  --spacing-margin-desktop-proserve: 80px;
+  --spacing-stack-md: 24px;
+
+  --font-headline: var(--font-manrope-family), ui-sans-serif, sans-serif;
+  --font-display: var(--font-manrope-family), ui-sans-serif, sans-serif;
+  --font-body: var(--font-inter-family), ui-sans-serif, sans-serif;
+  --font-label: var(--font-inter-family), ui-sans-serif, sans-serif;
+  --font-body-md: var(--font-inter-family), ui-sans-serif, sans-serif;
+  --font-label-caps: var(--font-inter-family), ui-sans-serif, sans-serif;
+  --font-headline-lg-family: var(--font-manrope-family), ui-sans-serif, sans-serif;
+  --font-display-xl-family: var(--font-manrope-family), ui-sans-serif, sans-serif;
+  --font-body-lg-family: var(--font-inter-family), ui-sans-serif, sans-serif;
+  --font-headline-md-family: var(--font-manrope-family), ui-sans-serif, sans-serif;
+  --font-manrope: var(--font-manrope-family), ui-sans-serif, sans-serif;
+
+  --text-headline-xl: 48px;
+  --text-headline-xl--line-height: 56px;
+  --text-headline-xl--letter-spacing: -0.02em;
+  --text-headline-xl--font-weight: 700;
+
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--letter-spacing: -0.01em;
+  --text-headline-lg--font-weight: 700;
+
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--font-weight: 600;
+
+  --text-headline-sm: 20px;
+  --text-headline-sm--line-height: 28px;
+  --text-headline-sm--font-weight: 600;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+  --text-body-sm--font-weight: 400;
+
+  --text-label-lg: 14px;
+  --text-label-lg--line-height: 16px;
+  --text-label-lg--letter-spacing: 0.05em;
+  --text-label-lg--font-weight: 600;
+
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 16px;
+  --text-label-sm--letter-spacing: 0.05em;
+  --text-label-sm--font-weight: 700;
+
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 1;
+  --text-label-caps--letter-spacing: 0.1em;
+  --text-label-caps--font-weight: 600;
+
+  --text-display-xl: 80px;
+  --text-display-xl--line-height: 1.1;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display-xl--font-weight: 800;
+
+  --max-width-container-max: 1440px;
+}
+
+/* Tailwind v4 maps max-w-* to spacing tokens when spacing is customized */
+@utility max-w-sm {
+  max-width: 24rem;
+}
+@utility max-w-md {
+  max-width: 28rem;
+}
+@utility max-w-lg {
+  max-width: 32rem;
+}
+@utility max-w-xl {
+  max-width: 36rem;
+}
+@utility max-w-2xl {
+  max-width: 42rem;
+}
+@utility max-w-3xl {
+  max-width: 48rem;
+}
+@utility max-w-4xl {
+  max-width: 56rem;
+}
+@utility max-w-5xl {
+  max-width: 64rem;
+}
+@utility max-w-7xl {
+  max-width: 80rem;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.bg-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ProServe page uses font-* utilities as font-family aliases */
+@utility font-headline-lg {
+  font-family: var(--font-headline-lg-family);
+}
+
+@utility font-display-xl {
+  font-family: var(--font-display-xl-family);
+}
+
+@utility font-body-lg {
+  font-family: var(--font-body-lg-family);
+}
+
+@utility font-headline-md {
+  font-family: var(--font-headline-md-family);
+}
+
+@utility font-label-caps {
+  font-family: var(--font-label-caps);
+}
+
+@utility font-manrope {
+  font-family: var(--font-manrope);
+}
+
+@utility font-body-md {
+  font-family: var(--font-body-md);
+}
+
+@utility max-w-container-max {
+  max-width: var(--max-width-container-max);
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* DN ProServe page uses 80px margin-desktop (vs 64px on Fixora home) */
+.proserve-page {
+  --spacing-margin-desktop: 80px;
+}
+
+.proserve-page .material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
+}
