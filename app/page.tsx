@@ -1,5 +1,6 @@
 import FixoraFooter from "@/components/fixora/Footer";
 import FixoraHeader from "@/components/fixora/Header";
+import MaintenanceCategories from "@/components/fixora/MaintenanceCategories";
 import FixoraMobileBottomNav from "@/components/fixora/MobileBottomNav";
 import FixoraWhatsAppButton from "@/components/fixora/WhatsAppButton";
 import UploadIssueProvider from "@/components/fixora/UploadIssueProvider";
@@ -158,110 +159,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-xl bg-surface-container-lowest">
-        <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
-          <h2 className="font-headline text-headline-lg mb-xl text-center">
-            Maintenance Categories
-          </h2>
-          <div className="flex flex-col md:flex-row gap-lg bg-white rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden min-h-[500px]">
-            <div className="w-full md:w-1/3 border-r border-outline-variant/10 bg-surface-container-lowest">
-              <div className="flex flex-col h-full">
-                <button
-                  type="button"
-                  className="flex items-center gap-md text-left bg-surface-container-low border-l-4 border-primary transition-all py-3 px-6 flex-1"
-                >
-                  <span
-                    className="material-symbols-outlined text-primary text-xl"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    grid_view
-                  </span>
-                  <span className="font-label font-bold text-on-surface text-label-lg">
-                    Wall &amp; Ceiling
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  className="flex items-center gap-md text-left hover:bg-surface-container-low transition-all opacity-70 hover:opacity-100 py-3 px-6 flex-1"
-                >
-                  <span className="material-symbols-outlined text-secondary text-xl">
-                    plumbing
-                  </span>
-                  <span className="font-label font-bold text-on-surface text-label-lg">
-                    Plumbing
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  className="flex items-center gap-md text-left hover:bg-surface-container-low transition-all opacity-70 hover:opacity-100 py-3 px-6 flex-1"
-                >
-                  <span className="material-symbols-outlined text-secondary text-xl">
-                    electrical_services
-                  </span>
-                  <span className="font-label font-bold text-on-surface text-label-lg">
-                    Electrical
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  className="flex items-center gap-md text-left hover:bg-surface-container-low transition-all opacity-70 hover:opacity-100 py-3 px-6 flex-1"
-                >
-                  <span className="material-symbols-outlined text-secondary text-xl">
-                    handyman
-                  </span>
-                  <span className="font-label font-bold text-on-surface text-label-lg">
-                    Carpentry
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  className="flex items-center gap-md text-left hover:bg-surface-container-low transition-all opacity-70 hover:opacity-100 py-3 px-6 flex-1"
-                >
-                  <span className="material-symbols-outlined text-secondary text-xl">
-                    format_paint
-                  </span>
-                  <span className="font-label font-bold text-on-surface text-label-lg">
-                    Painting
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div className="w-full md:w-2/3 p-lg flex flex-col md:flex-row gap-lg items-center">
-              <div className="flex-1 order-2 md:order-1">
-                <h3 className="font-headline text-headline-md mb-md text-primary">
-                  Wall &amp; Ceiling Services
-                </h3>
-                <p className="font-body text-body-md text-on-surface-variant mb-lg">
-                  From structural cracks to aesthetic finishes, our experts handle
-                  all aspects of wall and ceiling maintenance. We provide
-                  professional putty application, wallpapering, false ceiling
-                  repairs, and high-precision painting to restore your
-                  home&apos;s elegance.
-                </p>
-                <button
-                  type="button"
-                  className="bg-primary text-on-primary px-lg py-md rounded-DEFAULT font-label text-label-lg hover:brightness-110 transition-all flex items-center gap-xs shadow-md"
-                >
-                  Book Service{" "}
-                  <span className="material-symbols-outlined text-base">
-                    arrow_forward
-                  </span>
-                </button>
-              </div>
-              <div className="flex-1 order-1 md:order-2">
-                <div className="aspect-video md:aspect-square rounded-lg overflow-hidden shadow-lg">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    alt="Wall and Ceiling Repair"
-                    className="w-full h-full object-cover"
-                    src={WALL_CEILING_IMAGE}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <MaintenanceCategories />
 
       <section className="py-xl px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
         <h2 className="font-headline text-headline-lg text-center mb-xl">

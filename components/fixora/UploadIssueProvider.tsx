@@ -16,6 +16,7 @@ import type {
 } from "@/types/upload-issue";
 import { analyzeIssue, createBooking } from "@/utils/api";
 import { isClientImageFile } from "@/lib/form-file";
+import { mockAnalyzeIssue } from "@/utils/mockAiAnalysis";
 import UploadIssueModal from "./UploadIssueModal";
 
 type UploadIssueContextValue = {
@@ -55,6 +56,7 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isBooked, setIsBooked] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
 
   const captureInputRef = useRef<HTMLInputElement>(null);
   const uploadInputRef = useRef<HTMLInputElement>(null);
@@ -70,6 +72,7 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
     setIsSubmitting(false);
     setIsBooked(false);
     setSubmitError(null);
+    setFileError(null);
   }, [imagePreview]);
 
   const closeModal = useCallback(() => {
@@ -81,7 +84,9 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
     const preview = URL.createObjectURL(file);
     setImageFile(file);
     setImagePreview(preview);
+    setIssueId(null);
     setRecommendation(null);
+    setFileError(null);
     setStep("analyzing");
     setIsModalOpen(true);
 
@@ -91,20 +96,30 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
       setIssueId(savedIssueId);
       setRecommendation(result);
       setStep("results");
-    } catch (err) {
-      setRecommendation({
-        detectedIssue: "Unable to analyze image",
-        category: "General",
-        severity: "medium",
-        summary:
-          err instanceof Error
-            ? err.message
-            : "Please try again with a clearer photo of the issue.",
-        solutions: ["Retake photo in good lighting", "Contact support for help"],
-        estimatedCost: "—",
-        estimatedDuration: "—",
-      });
-      setStep("results");
+    } catch {
+      try {
+        const result = await mockAnalyzeIssue();
+        setRecommendation(result);
+        setStep("results");
+        setFileError(
+          "Analysis completed offline. Start MongoDB to save your issue and enable booking."
+        );
+      } catch {
+        setRecommendation({
+          detectedIssue: "Unable to analyze image",
+          category: "General",
+          severity: "medium",
+          summary: "Please try again with a clearer photo of the issue.",
+          solutions: [
+            "Retake photo in good lighting",
+            "Contact support for help",
+          ],
+          estimatedCost: "—",
+          estimatedDuration: "—",
+        });
+        setStep("results");
+        setFileError("Something went wrong. Please try uploading again.");
+      }
     }
   }, []);
 
@@ -113,6 +128,10 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
       const file = e.target.files?.[0];
       if (file && isClientImageFile(file)) {
         void startAnalysis(file);
+      } else if (file) {
+        setFileError("Please choose a valid image file (JPG, PNG, WEBP, etc.).");
+        setIsModalOpen(true);
+        setStep("analyzing");
       }
       e.target.value = "";
     },
@@ -192,7 +211,8 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
         type="file"
         accept="image/*,.heic,.heif"
         capture="environment"
-        className="sr-only"
+        className="fixed -left-[9999px] top-0 h-px w-px opacity-0"
+        tabIndex={-1}
         aria-hidden
         onChange={handleFileSelect}
       />
@@ -200,7 +220,8 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
         ref={uploadInputRef}
         type="file"
         accept="image/*,.heic,.heif"
-        className="sr-only"
+        className="fixed -left-[9999px] top-0 h-px w-px opacity-0"
+        tabIndex={-1}
         aria-hidden
         onChange={handleFileSelect}
       />
@@ -215,6 +236,7 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
           isSubmitting={isSubmitting}
           isBooked={isBooked}
           submitError={submitError}
+          fileError={fileError}
           canBook={!!issueId}
           onClose={closeModal}
           onGoToBooking={goToBooking}

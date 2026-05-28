@@ -16,6 +16,7 @@ type UploadIssueModalProps = {
   isSubmitting: boolean;
   isBooked: boolean;
   submitError: string | null;
+  fileError: string | null;
   canBook: boolean;
   onClose: () => void;
   onGoToBooking: () => void;
@@ -60,6 +61,7 @@ export default function UploadIssueModal({
   isSubmitting,
   isBooked,
   submitError,
+  fileError,
   canBook,
   onClose,
   onGoToBooking,
@@ -85,14 +87,14 @@ export default function UploadIssueModal({
       />
 
       <div className="relative z-10 flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl border border-outline-variant/20">
-        <div className="flex items-center justify-between border-b border-outline-variant/10 px-lg py-md shrink-0">
-          <div>
-            <p className="font-label text-label-sm text-on-surface-variant uppercase tracking-wider">
+        <div className="flex items-start justify-between gap-md border-b border-outline-variant/10 px-lg py-md shrink-0">
+          <div className="min-w-0 flex-1 text-left">
+            <p className="font-label text-label-sm text-on-surface-variant uppercase tracking-wide">
               Fixora AI
             </p>
             <h2
               id="upload-issue-modal-title"
-              className="font-headline text-headline-md text-primary"
+              className="font-headline text-headline-md text-primary leading-tight"
             >
               {isBooked ? "Booking Confirmed" : STEP_LABELS[step]}
             </h2>
@@ -100,7 +102,7 @@ export default function UploadIssueModal({
           <button
             type="button"
             onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-surface-container-low transition-colors"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-surface-container-low transition-colors"
             aria-label="Close"
           >
             <span className="material-symbols-outlined text-on-surface-variant">
@@ -110,18 +112,21 @@ export default function UploadIssueModal({
         </div>
 
         {!isBooked && (
-          <div className="flex gap-sm px-lg pt-md shrink-0">
+          <div className="grid grid-cols-3 gap-sm px-lg pt-md shrink-0">
             {steps.map((s, i) => (
-              <div key={s} className="flex flex-1 flex-col gap-xs min-w-0">
+              <div
+                key={s}
+                className="flex min-h-[2.5rem] min-w-0 flex-col items-center justify-end gap-xs"
+              >
                 <div
-                  className={`h-1 rounded-full transition-colors ${
+                  className={`h-1 w-full rounded-full transition-colors ${
                     i <= currentIndex ? "bg-primary" : "bg-outline-variant/30"
                   }`}
                 />
                 <span
-                  className={`block truncate font-body text-body-sm leading-tight ${
+                  className={`block w-full px-0.5 text-center font-body text-[11px] leading-tight sm:text-body-sm ${
                     i <= currentIndex
-                      ? "text-primary font-medium"
+                      ? "font-medium text-primary"
                       : "text-on-surface-variant/70"
                   }`}
                 >
@@ -132,7 +137,7 @@ export default function UploadIssueModal({
           </div>
         )}
 
-        <div className="flex-1 overflow-y-auto px-lg py-md">
+        <div className="flex-1 overflow-y-auto px-lg py-md text-left">
           {isBooked ? (
             <div className="flex flex-col items-center gap-md py-lg text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary-container text-secondary">
@@ -146,10 +151,10 @@ export default function UploadIssueModal({
               <h3 className="font-headline text-headline-sm text-on-surface">
                 Service request received
               </h3>
-              <p className="font-body text-body-md text-on-surface-variant max-w-md">
+              <p className="max-w-md font-body text-body-md leading-relaxed text-on-surface-variant">
                 A Fixora expert will contact you within 2 hours to confirm your
                 appointment for{" "}
-                <strong className="text-on-surface">
+                <strong className="font-semibold text-on-surface">
                   {recommendation?.detectedIssue}
                 </strong>
                 .
@@ -157,15 +162,24 @@ export default function UploadIssueModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="mt-sm bg-primary text-on-primary px-lg py-md rounded-DEFAULT font-label text-label-lg hover:brightness-110 transition-all"
+                className="mt-sm inline-flex items-center justify-center bg-primary px-lg py-md font-label text-label-lg text-on-primary rounded-DEFAULT hover:brightness-110 transition-all"
               >
                 Done
               </button>
             </div>
           ) : (
             <>
+              {fileError && step === "results" && (
+                <p
+                  role="status"
+                  className="mb-md rounded-DEFAULT border border-tertiary/30 bg-tertiary-container/30 px-md py-sm text-left font-body text-body-sm leading-relaxed text-on-surface-variant"
+                >
+                  {fileError}
+                </p>
+              )}
+
               {imagePreview && step !== "analyzing" && (
-                <div className="mb-md flex gap-md items-start">
+                <div className="mb-md flex items-center gap-md">
                   <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-outline-variant/20">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -175,7 +189,7 @@ export default function UploadIssueModal({
                     />
                   </div>
                   {imageFile && (
-                    <p className="font-body text-body-sm text-on-surface-variant pt-xs break-all line-clamp-2">
+                    <p className="min-w-0 flex-1 font-body text-body-sm leading-snug text-on-surface-variant break-all line-clamp-2">
                       {imageFile.name}
                     </p>
                   )}
@@ -183,106 +197,108 @@ export default function UploadIssueModal({
               )}
 
               {step === "analyzing" && (
-                <div className="flex flex-col items-center gap-lg py-md">
+                <div className="flex flex-col gap-lg text-left">
                   {imagePreview && (
-                    <div className="w-full max-w-xs mx-auto overflow-hidden rounded-lg border border-outline-variant/20 shadow-sm">
+                    <div className="w-full overflow-hidden rounded-lg border border-outline-variant/20 shadow-sm">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imagePreview}
                         alt="Uploaded issue"
-                        className="w-full aspect-[4/3] object-cover"
+                        className="aspect-[4/3] w-full object-cover"
                       />
                     </div>
                   )}
 
-                  <div className="relative h-20 w-20 shrink-0">
-                    <div className="absolute inset-0 rounded-full border-4 border-outline-variant/20" />
-                    <div className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-primary" />
-                    <span className="absolute inset-0 flex items-center justify-center material-symbols-outlined text-primary text-3xl">
-                      psychology
-                    </span>
-                  </div>
+                  <div className="flex items-start gap-md">
+                    <div className="relative mt-0.5 h-16 w-16 shrink-0">
+                      <div className="absolute inset-0 rounded-full border-4 border-outline-variant/20" />
+                      <div className="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-primary" />
+                      <span className="absolute inset-0 flex items-center justify-center material-symbols-outlined text-3xl text-primary">
+                        psychology
+                      </span>
+                    </div>
 
-                  <div className="w-full max-w-md mx-auto text-center space-y-sm px-sm">
-                    <h3 className="font-headline text-headline-sm text-on-surface">
-                      Analyzing your issue…
-                    </h3>
-                    <p className="font-body text-body-md text-on-surface-variant leading-relaxed">
-                      Our AI is identifying the problem, assessing severity,
-                      and preparing recommended solutions for you.
-                    </p>
-                    <p className="font-body text-body-sm text-on-surface-variant/80">
-                      This usually takes a few seconds
-                    </p>
+                    <div className="min-w-0 flex-1 space-y-sm pt-1">
+                      <h3 className="font-headline text-headline-sm leading-snug text-on-surface">
+                        Analyzing your issue…
+                      </h3>
+                      <p className="font-body text-body-md leading-relaxed text-on-surface-variant">
+                        Our AI is identifying the problem, assessing severity, and
+                        preparing recommended solutions for you.
+                      </p>
+                      <p className="font-body text-body-sm leading-snug text-on-surface-variant/80">
+                        This usually takes a few seconds
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
 
               {step === "results" && recommendation && (
-                <div className="flex flex-col gap-md">
+                <div className="flex flex-col gap-md text-left">
                   <div className="flex flex-wrap items-center gap-sm">
                     <span
-                      className={`rounded-full px-sm py-xs font-label text-label-sm ${SEVERITY_STYLES[recommendation.severity].bg} ${SEVERITY_STYLES[recommendation.severity].text}`}
+                      className={`inline-flex items-center rounded-full px-sm py-xs font-label text-label-sm leading-none ${SEVERITY_STYLES[recommendation.severity].bg} ${SEVERITY_STYLES[recommendation.severity].text}`}
                     >
                       {SEVERITY_STYLES[recommendation.severity].label}
                     </span>
-                    <span className="rounded-full bg-surface-container px-sm py-xs font-label text-label-sm text-on-surface-variant">
+                    <span className="inline-flex items-center rounded-full bg-surface-container px-sm py-xs font-label text-label-sm leading-none text-on-surface-variant">
                       {recommendation.category}
                     </span>
                   </div>
 
-                  <h3 className="font-headline text-headline-sm text-primary">
+                  <h3 className="font-headline text-headline-sm leading-snug text-primary">
                     {recommendation.detectedIssue}
                   </h3>
-                  <p className="font-body text-body-md text-on-surface-variant">
+                  <p className="font-body text-body-md leading-relaxed text-on-surface-variant">
                     {recommendation.summary}
                   </p>
 
-                  <div className="rounded-lg bg-surface-container-low p-md border border-outline-variant/10">
-                    <h4 className="font-headline text-headline-sm mb-sm text-on-surface flex items-center gap-xs">
-                      <span className="material-symbols-outlined text-secondary text-xl">
+                  <div className="rounded-lg border border-outline-variant/10 bg-surface-container-low p-md">
+                    <h4 className="mb-sm flex items-center gap-xs font-headline text-headline-sm leading-snug text-on-surface">
+                      <span className="material-symbols-outlined shrink-0 text-xl text-secondary">
                         auto_awesome
                       </span>
-                      AI recommended solutions
+                      <span>AI recommended solutions</span>
                     </h4>
                     <ul className="space-y-sm">
                       {recommendation.solutions.map((solution) => (
                         <li
                           key={solution}
-                          className="flex items-start gap-sm font-body text-body-sm text-on-surface-variant"
+                          className="flex items-start gap-sm text-left font-body text-body-sm leading-relaxed text-on-surface-variant"
                         >
-                          <span className="material-symbols-outlined text-primary text-base shrink-0 mt-0.5">
+                          <span className="material-symbols-outlined mt-0.5 shrink-0 text-base text-primary">
                             check_circle
                           </span>
-                          {solution}
+                          <span className="min-w-0 flex-1">{solution}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   <div className="grid grid-cols-2 gap-md">
-                    <div className="rounded-lg border border-outline-variant/10 p-md">
-                      <p className="font-label text-label-sm text-on-surface-variant mb-xs">
+                    <div className="rounded-lg border border-outline-variant/10 p-md text-left">
+                      <p className="mb-xs font-label text-label-sm leading-snug text-on-surface-variant">
                         Est. cost (INR)
                       </p>
-                      <p className="font-headline text-headline-sm text-primary">
+                      <p className="font-headline text-headline-sm leading-snug text-primary">
                         {recommendation.estimatedCost}
                       </p>
                     </div>
-                    <div className="rounded-lg border border-outline-variant/10 p-md">
-                      <p className="font-label text-label-sm text-on-surface-variant mb-xs">
+                    <div className="rounded-lg border border-outline-variant/10 p-md text-left">
+                      <p className="mb-xs font-label text-label-sm leading-snug text-on-surface-variant">
                         Duration
                       </p>
-                      <p className="font-headline text-headline-sm text-primary">
+                      <p className="font-headline text-headline-sm leading-snug text-primary">
                         {recommendation.estimatedDuration}
                       </p>
                     </div>
                   </div>
 
                   {!canBook && (
-                    <p className="font-body text-body-sm text-on-surface-variant">
-                      Analysis could not be saved. Close and try uploading again
-                      to book a service.
+                    <p className="font-body text-body-sm leading-relaxed text-on-surface-variant">
+                      Booking is unavailable until your issue is saved. Start
+                      MongoDB and upload again to book a service.
                     </p>
                   )}
 
@@ -290,7 +306,7 @@ export default function UploadIssueModal({
                     type="button"
                     onClick={onGoToBooking}
                     disabled={!canBook}
-                    className="w-full bg-primary text-on-primary px-lg py-md rounded-DEFAULT font-label text-label-lg hover:brightness-110 transition-all flex items-center justify-center gap-xs mt-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="mt-sm inline-flex w-full items-center justify-center gap-xs rounded-DEFAULT bg-primary px-lg py-md font-label text-label-lg text-on-primary hover:brightness-110 transition-all disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Book this service
                     <span className="material-symbols-outlined text-base">
@@ -301,22 +317,25 @@ export default function UploadIssueModal({
               )}
 
               {step === "booking" && recommendation && (
-                <form onSubmit={onSubmitBooking} className="flex flex-col gap-md">
-                  <div className="rounded-lg bg-primary-container/30 border border-primary/20 p-md mb-sm">
-                    <p className="font-label text-label-sm text-on-primary-container mb-xs">
+                <form
+                  onSubmit={onSubmitBooking}
+                  className="flex flex-col gap-md text-left"
+                >
+                  <div className="mb-sm rounded-lg border border-primary/20 bg-primary-container/30 p-md text-left">
+                    <p className="mb-xs font-label text-label-sm leading-snug text-on-primary-container">
                       Booking for
                     </p>
-                    <p className="font-headline text-headline-sm text-on-primary-container">
+                    <p className="font-headline text-headline-sm leading-snug text-on-primary-container">
                       {recommendation.detectedIssue}
                     </p>
-                    <p className="font-body text-body-sm text-on-surface-variant mt-xs">
+                    <p className="mt-xs font-body text-body-sm leading-snug text-on-surface-variant">
                       {recommendation.category} · {recommendation.estimatedCost}
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-md">
-                    <label className="flex flex-col gap-xs sm:col-span-2">
-                      <span className="font-label text-label-sm text-on-surface-variant">
+                  <div className="grid grid-cols-1 gap-md sm:grid-cols-2">
+                    <label className="flex flex-col gap-xs text-left sm:col-span-2">
+                      <span className="font-label text-label-sm leading-snug text-on-surface-variant">
                         Full name *
                       </span>
                       <input
@@ -326,12 +345,12 @@ export default function UploadIssueModal({
                         onChange={(e) =>
                           onUpdateBooking("fullName", e.target.value)
                         }
-                        className="rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm text-left font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="John Doe"
                       />
                     </label>
-                    <label className="flex flex-col gap-xs">
-                      <span className="font-label text-label-sm text-on-surface-variant">
+                    <label className="flex flex-col gap-xs text-left">
+                      <span className="font-label text-label-sm leading-snug text-on-surface-variant">
                         Phone *
                       </span>
                       <input
@@ -341,12 +360,12 @@ export default function UploadIssueModal({
                         onChange={(e) =>
                           onUpdateBooking("phone", e.target.value)
                         }
-                        className="rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm text-left font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="+1 (555) 000-0000"
                       />
                     </label>
-                    <label className="flex flex-col gap-xs">
-                      <span className="font-label text-label-sm text-on-surface-variant">
+                    <label className="flex flex-col gap-xs text-left">
+                      <span className="font-label text-label-sm leading-snug text-on-surface-variant">
                         Email *
                       </span>
                       <input
@@ -356,12 +375,12 @@ export default function UploadIssueModal({
                         onChange={(e) =>
                           onUpdateBooking("email", e.target.value)
                         }
-                        className="rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm text-left font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="you@email.com"
                       />
                     </label>
-                    <label className="flex flex-col gap-xs sm:col-span-2">
-                      <span className="font-label text-label-sm text-on-surface-variant">
+                    <label className="flex flex-col gap-xs text-left sm:col-span-2">
+                      <span className="font-label text-label-sm leading-snug text-on-surface-variant">
                         Service address *
                       </span>
                       <input
@@ -371,12 +390,12 @@ export default function UploadIssueModal({
                         onChange={(e) =>
                           onUpdateBooking("address", e.target.value)
                         }
-                        className="rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm text-left font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="Street, city, zip"
                       />
                     </label>
-                    <label className="flex flex-col gap-xs sm:col-span-2">
-                      <span className="font-label text-label-sm text-on-surface-variant">
+                    <label className="flex flex-col gap-xs text-left sm:col-span-2">
+                      <span className="font-label text-label-sm leading-snug text-on-surface-variant">
                         Preferred date *
                       </span>
                       <input
@@ -387,11 +406,11 @@ export default function UploadIssueModal({
                           onUpdateBooking("preferredDate", e.target.value)
                         }
                         min={new Date().toISOString().split("T")[0]}
-                        className="rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        className="w-full rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm text-left font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                       />
                     </label>
-                    <label className="flex flex-col gap-xs sm:col-span-2">
-                      <span className="font-label text-label-sm text-on-surface-variant">
+                    <label className="flex flex-col gap-xs text-left sm:col-span-2">
+                      <span className="font-label text-label-sm leading-snug text-on-surface-variant">
                         Additional notes
                       </span>
                       <textarea
@@ -400,7 +419,7 @@ export default function UploadIssueModal({
                         onChange={(e) =>
                           onUpdateBooking("notes", e.target.value)
                         }
-                        className="rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
+                        className="w-full resize-none rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm text-left font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="Access instructions, preferred time window, etc."
                       />
                     </label>
@@ -409,24 +428,24 @@ export default function UploadIssueModal({
                   {submitError && (
                     <p
                       role="alert"
-                      className="rounded-DEFAULT border border-error/30 bg-error-container/30 px-md py-sm font-body text-body-sm text-on-error-container"
+                      className="rounded-DEFAULT border border-error/30 bg-error-container/30 px-md py-sm text-left font-body text-body-sm leading-relaxed text-on-error-container"
                     >
                       {submitError}
                     </p>
                   )}
 
-                  <div className="flex flex-col-reverse sm:flex-row gap-md pt-sm">
+                  <div className="flex flex-col-reverse gap-md pt-sm sm:flex-row">
                     <button
                       type="button"
                       onClick={onBackToResults}
-                      className="flex-1 border-2 border-outline-variant/30 text-on-surface-variant px-lg py-md rounded-DEFAULT font-label text-label-lg hover:bg-surface-container-low transition-all"
+                      className="inline-flex flex-1 items-center justify-center rounded-DEFAULT border-2 border-outline-variant/30 px-lg py-md font-label text-label-lg text-on-surface-variant hover:bg-surface-container-low transition-all"
                     >
                       Back to results
                     </button>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="flex-1 bg-primary text-on-primary px-lg py-md rounded-DEFAULT font-label text-label-lg hover:brightness-110 transition-all disabled:opacity-60 flex items-center justify-center gap-xs"
+                      className="inline-flex flex-1 items-center justify-center gap-xs rounded-DEFAULT bg-primary px-lg py-md font-label text-label-lg text-on-primary hover:brightness-110 transition-all disabled:opacity-60"
                     >
                       {isSubmitting ? (
                         <>

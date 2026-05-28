@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { inter, manrope } from "@/lib/fonts";
+import "./material-symbols.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

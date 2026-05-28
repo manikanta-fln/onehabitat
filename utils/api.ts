@@ -14,8 +14,9 @@ async function parseError(response: Response): Promise<string> {
 }
 
 export async function analyzeIssue(file: File): Promise<{
-  issueId: string;
+  issueId: string | null;
   recommendation: AIRecommendation;
+  saved: boolean;
 }> {
   const formData = new FormData();
   formData.append("file", file);
@@ -30,8 +31,9 @@ export async function analyzeIssue(file: File): Promise<{
   }
 
   return response.json() as Promise<{
-    issueId: string;
+    issueId: string | null;
     recommendation: AIRecommendation;
+    saved: boolean;
   }>;
 }
 
