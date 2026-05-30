@@ -91,8 +91,15 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
     setIsModalOpen(true);
 
     try {
-      const { issueId: savedIssueId, recommendation: result } =
+      const { issueId: savedIssueId, recommendation: result, saved } =
         await analyzeIssue(file);
+
+      if (!saved || !savedIssueId) {
+        throw new Error(
+          "Issue could not be saved. Check that MONGODB_URI is configured in your deployment environment."
+        );
+      }
+
       setIssueId(savedIssueId);
       setRecommendation(result);
       setStep("results");
@@ -102,7 +109,7 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
         setRecommendation(result);
         setStep("results");
         setFileError(
-          "Analysis completed offline. Start MongoDB to save your issue and enable booking."
+          "Analysis completed, but saving to the database failed. Verify MONGODB_URI is set on your server and that MongoDB allows connections from your deployment host."
         );
       } catch {
         setRecommendation({

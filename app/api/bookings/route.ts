@@ -5,6 +5,8 @@ import { getDb } from "@/lib/mongodb";
 import { isValidBooking, isValidRecommendation } from "@/lib/validation";
 import type { BookingDocument, IssueDocument } from "@/types/database";
 
+export const runtime = "nodejs";
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();

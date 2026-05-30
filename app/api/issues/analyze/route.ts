@@ -29,50 +29,42 @@ export async function POST(request: Request) {
     }
 
     const recommendation = await mockAnalyzeIssue();
+    const now = new Date();
+    const db = await getDb();
 
-    let issueId: string | null = null;
-    let imageId: string | null = null;
+    const issue: IssueDocument = {
+      image: {
+        fileName: parsed.fileName,
+        mimeType: parsed.mimeType,
+        sizeBytes: parsed.sizeBytes,
+      },
+      recommendation,
+      status: "analyzed",
+      createdAt: now,
+      updatedAt: now,
+    };
 
-    try {
-      const now = new Date();
-      const db = await getDb();
+    const result = await db.collection<IssueDocument>("issues").insertOne(issue);
+    const issueId = result.insertedId.toString();
 
-      const issue: IssueDocument = {
-        image: {
-          fileName: parsed.fileName,
-          mimeType: parsed.mimeType,
-          sizeBytes: parsed.sizeBytes,
+    const savedImageId = await saveIssueImage(db, result.insertedId, parsed);
+    const imageId = savedImageId.toString();
+
+    await db.collection<IssueDocument>("issues").updateOne(
+      { _id: result.insertedId },
+      {
+        $set: {
+          imageId: savedImageId,
+          updatedAt: new Date(),
         },
-        recommendation,
-        status: "analyzed",
-        createdAt: now,
-        updatedAt: now,
-      };
-
-      const result = await db.collection<IssueDocument>("issues").insertOne(issue);
-      issueId = result.insertedId.toString();
-
-      const savedImageId = await saveIssueImage(db, result.insertedId, parsed);
-      imageId = savedImageId.toString();
-
-      await db.collection<IssueDocument>("issues").updateOne(
-        { _id: result.insertedId },
-        {
-          $set: {
-            imageId: savedImageId,
-            updatedAt: new Date(),
-          },
-        }
-      );
-    } catch (dbError) {
-      console.error("[POST /api/issues/analyze] DB save failed:", dbError);
-    }
+      }
+    );
 
     return NextResponse.json({
       issueId,
       imageId,
       recommendation,
-      saved: issueId !== null,
+      saved: true,
     });
   } catch (error) {
     console.error("[POST /api/issues/analyze]", error);
