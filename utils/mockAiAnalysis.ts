@@ -3,7 +3,7 @@ import { formatInrRange } from "@/utils/currency";
 
 /**
  * Estimated costs for metro/urban India (visit + labour + basic materials).
- * Ranges reflect typical Fixora-style home service pricing, not luxury quotes.
+ * Ranges reflect typical Onehabitat home service pricing, not luxury quotes.
  */
 const MOCK_RECOMMENDATIONS: AIRecommendation[] = [
   {

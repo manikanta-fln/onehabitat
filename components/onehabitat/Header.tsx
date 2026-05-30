@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
 
-export default function FixoraHeader() {
+export default function OnehabitatHeader() {
   return <Navbar />;
 }

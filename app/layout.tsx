@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import OnehabitatWhatsAppButton from "@/components/onehabitat/WhatsAppButton";
 import { inter, manrope } from "@/lib/fonts";
+import { SITE_TITLE } from "@/utils/constants";
 import "material-symbols/outlined.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Fixora | Urban Service Excellence",
+  title: SITE_TITLE,
   description:
     "Upload an issue, get AI analysis, expert guidance, and professional service at your doorstep.",
 };
@@ -25,6 +27,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <OnehabitatWhatsAppButton />
       </body>
     </html>
   );

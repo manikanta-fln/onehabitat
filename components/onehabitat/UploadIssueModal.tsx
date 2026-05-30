@@ -90,7 +90,7 @@ export default function UploadIssueModal({
         <div className="flex items-start justify-between gap-md border-b border-outline-variant/10 px-lg py-md shrink-0">
           <div className="min-w-0 flex-1 text-left">
             <p className="font-label text-label-sm text-on-surface-variant uppercase tracking-wide">
-              Fixora AI
+              Onehabitat AI
             </p>
             <h2
               id="upload-issue-modal-title"
@@ -152,7 +152,7 @@ export default function UploadIssueModal({
                 Service request received
               </h3>
               <p className="max-w-md font-body text-body-md leading-relaxed text-on-surface-variant">
-                A Fixora expert will contact you within 2 hours to confirm your
+                A Onehabitat expert will contact you within 2 hours to confirm your
                 appointment for{" "}
                 <strong className="font-semibold text-on-surface">
                   {recommendation?.detectedIssue}

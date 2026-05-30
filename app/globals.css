@@ -223,7 +223,7 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* DN ProServe page uses 80px margin-desktop (vs 64px on Fixora home) */
+/* DN ProServe page uses 80px margin-desktop (vs 64px on Onehabitat home) */
 .proserve-page {
   --spacing-margin-desktop: 80px;
 }

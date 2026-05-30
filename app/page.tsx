@@ -1,10 +1,8 @@
-import FixoraFooter from "@/components/fixora/Footer";
-import FixoraHeader from "@/components/fixora/Header";
-import MaintenanceCategories from "@/components/fixora/MaintenanceCategories";
-import FixoraMobileBottomNav from "@/components/fixora/MobileBottomNav";
-import FixoraWhatsAppButton from "@/components/fixora/WhatsAppButton";
-import UploadIssueProvider from "@/components/fixora/UploadIssueProvider";
-import UploadIssueTrigger from "@/components/fixora/UploadIssueTrigger";
+import OnehabitatFooter from "@/components/onehabitat/Footer";
+import OnehabitatHeader from "@/components/onehabitat/Header";
+import MaintenanceCategories from "@/components/onehabitat/MaintenanceCategories";
+import UploadIssueProvider from "@/components/onehabitat/UploadIssueProvider";
+import UploadIssueTrigger from "@/components/onehabitat/UploadIssueTrigger";
 
 const HERO_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuBuovZ42VZ8nNOkXhOJMQ0-pIEGlWSMXu9UoerWeu5AW29kZHUkfEEqLb2XlGJ-eRhAoEObnbG7aylFV-MqZfc4l8gMMUTAr3OhIzngcdbV1S3k7CseiTOaIId0DhF1ml-ZLzD5O_SbZSewRGJ1sJMrZB7D4ZqRj4A7bzKyiygGmYjbS9TpZU50oQFP-xe4RNjjaL-QcSucmgAPBvaluK8Lmrmd0FCQOcWmN1L1cKZaH_fzujpmSrQ97tLwyuDf9lCJXpYwkU_L0g";
@@ -20,7 +18,7 @@ const INTERIOR_IMAGE_2 =
 export default function HomePage() {
   return (
     <UploadIssueProvider>
-      <FixoraHeader />
+      <OnehabitatHeader />
 
       <section className="pt-xl pb-lg px-margin-mobile md:px-margin-desktop mt-xl overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-lg items-center">
@@ -31,11 +29,11 @@ export default function HomePage() {
             <p className="font-body text-body-lg text-on-surface-variant max-w-[32rem]">
               Upload an issue, get AI analysis, expert guidance, and professional service at your doorstep.
             </p>
-            <div className="flex flex-wrap gap-md mt-sm">
-              <UploadIssueTrigger variant="primary" />
+            <div className="mt-sm flex w-full flex-col gap-md md:flex-row md:flex-wrap">
+              <UploadIssueTrigger variant="primary" className="w-full md:w-auto" />
               <button
                 type="button"
-                className="border-2 border-primary text-primary px-lg py-md rounded-DEFAULT font-label text-label-lg hover:bg-primary hover:text-white transition-all"
+                className="flex w-full items-center justify-center rounded-DEFAULT border-2 border-primary px-lg py-md font-label text-label-lg text-primary transition-all hover:bg-primary hover:text-white md:w-auto"
               >
                 Get Free Consultation
               </button>
@@ -99,7 +97,7 @@ export default function HomePage() {
       <section className="py-xl bg-white border-y border-outline-variant/10">
         <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
           <h2 className="font-headline text-headline-lg text-center mb-xl text-on-surface">
-            How Fixora Works
+            How Onehabitat Works
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg relative">
             <div className="hidden lg:block absolute top-12 left-1/4 right-1/4 h-px bg-outline-variant/30 -z-0" />
@@ -554,7 +552,7 @@ export default function HomePage() {
               </span>
             </summary>
             <div className="mt-md font-body text-body-md text-on-surface-variant">
-              Yes, 100% of our lead experts are Fixora employees. We do not use
+              Yes, 100% of our lead experts are Onehabitat employees. We do not use
               third-party freelance marketplaces for core service delivery to
               maintain quality standards.
             </div>
@@ -575,9 +573,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <FixoraWhatsAppButton />
-      <FixoraFooter />
-      <FixoraMobileBottomNav />
+      <OnehabitatFooter />
     </UploadIssueProvider>
   );
 }

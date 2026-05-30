@@ -42,10 +42,10 @@ export default function UploadIssueTrigger({
   const buttonClass =
     variant === "header"
       ? "bg-primary-container text-on-primary-container px-md py-sm rounded-DEFAULT font-label text-label-lg hover:scale-95 active:scale-90 transition-transform inline-flex items-center gap-xs"
-      : "bg-primary text-on-primary px-lg py-md rounded-DEFAULT font-label text-label-lg shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-xs";
+      : "flex w-full items-center justify-center gap-xs rounded-DEFAULT bg-primary px-lg py-md font-label text-label-lg text-on-primary shadow-lg transition-all hover:shadow-xl md:inline-flex md:w-auto";
 
   return (
-    <div ref={wrapperRef} className={`relative inline-block ${className}`}>
+    <div ref={wrapperRef} className={`relative ${className}`}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}

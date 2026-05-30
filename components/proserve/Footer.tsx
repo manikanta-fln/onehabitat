@@ -1,3 +1,5 @@
+import { BRAND_NAME } from "@/utils/constants";
+
 export default function ProServeFooter() {
   return (
     <footer className="w-full py-20 px-12 border-t border-slate-200 bg-white">
@@ -5,7 +7,7 @@ export default function ProServeFooter() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
           <div className="col-span-1 md:col-span-1">
             <div className="text-2xl font-bold tracking-tighter text-on-background mb-6">
-              DN ProServe
+              {BRAND_NAME}
             </div>
             <p className="text-on-surface-variant text-sm leading-relaxed mb-6">
               Architectural precision in every weld, every wire, and every drop of
@@ -110,7 +112,7 @@ export default function ProServeFooter() {
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-slate-100">
           <p className="font-manrope text-xs tracking-widest uppercase text-on-surface-variant/60">
-            © 2024 DN ProServe. All Rights Reserved.
+            © 2024 {BRAND_NAME}. All Rights Reserved.
           </p>
           <div className="flex space-x-8 mt-6 md:mt-0">
             <span className="text-xs uppercase tracking-widest font-bold text-on-surface/40">

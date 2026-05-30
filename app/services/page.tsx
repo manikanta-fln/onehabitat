@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import ProServeFooter from "@/components/proserve/Footer";
 import ProServeHeader from "@/components/proserve/Header";
+import { SITE_TITLE } from "@/utils/constants";
 
 export const metadata: Metadata = {
-  title: "DN ProServe - Comprehensive Service Catalog",
+  title: SITE_TITLE,
   description:
-    "DN ProServe redefines property upkeep as a discipline of precision. We provide a curated suite of services designed for luxury estates and modern infrastructures.",
+    "Onehabitat redefines property upkeep as a discipline of precision. We provide a curated suite of services designed for luxury estates and modern infrastructures.",
 };
 
 const HERO_BG =
