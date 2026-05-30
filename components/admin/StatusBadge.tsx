@@ -13,6 +13,7 @@ const STATUS_STYLES: Record<string, string> = {
   low: "bg-secondary-container text-on-secondary-container",
   medium: "bg-tertiary-container text-on-tertiary-container",
   high: "bg-error-container text-on-error-container",
+  urgent: "bg-error text-on-primary",
   warning: "bg-tertiary-container text-on-tertiary-container",
   info: "bg-primary-container/20 text-primary",
   error: "bg-error-container text-on-error-container",

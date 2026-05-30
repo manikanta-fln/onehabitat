@@ -16,7 +16,6 @@ import type {
 } from "@/types/upload-issue";
 import { analyzeIssue, createBooking } from "@/utils/api";
 import { isClientImageFile } from "@/lib/form-file";
-import { mockAnalyzeIssue } from "@/utils/mockAiAnalysis";
 import UploadIssueModal from "./UploadIssueModal";
 
 type UploadIssueContextValue = {
@@ -103,30 +102,13 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
       setIssueId(savedIssueId);
       setRecommendation(result);
       setStep("results");
-    } catch {
-      try {
-        const result = await mockAnalyzeIssue();
-        setRecommendation(result);
-        setStep("results");
-        setFileError(
-          "Analysis completed, but saving to the database failed. Verify MONGODB_URI is set on your server and that MongoDB allows connections from your deployment host."
-        );
-      } catch {
-        setRecommendation({
-          detectedIssue: "Unable to analyze image",
-          category: "General",
-          severity: "medium",
-          summary: "Please try again with a clearer photo of the issue.",
-          solutions: [
-            "Retake photo in good lighting",
-            "Contact support for help",
-          ],
-          estimatedCost: "—",
-          estimatedDuration: "—",
-        });
-        setStep("results");
-        setFileError("Something went wrong. Please try uploading again.");
-      }
+    } catch (err) {
+      setStep("results");
+      setFileError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try uploading again."
+      );
     }
   }, []);
 

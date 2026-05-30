@@ -34,7 +34,8 @@ export function isValidRecommendation(
     typeof r.category === "string" &&
     (r.severity === "low" ||
       r.severity === "medium" ||
-      r.severity === "high") &&
+      r.severity === "high" ||
+      r.severity === "urgent") &&
     typeof r.summary === "string" &&
     Array.isArray(r.solutions) &&
     r.solutions.every((s) => typeof s === "string") &&
