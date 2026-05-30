@@ -56,7 +56,18 @@ export async function POST(request: Request) {
 
     const bookingResult = await db
       .collection<BookingDocument>("bookings")
-      .insertOne(bookingDoc);
+      .insertOne({
+        ...bookingDoc,
+        status: "pending",
+        assignedTo: null,
+        internalNotes: "",
+        updatedAt: now,
+      } as BookingDocument & {
+        status: string;
+        assignedTo: null;
+        internalNotes: string;
+        updatedAt: Date;
+      });
 
     await db.collection<IssueDocument>("issues").updateOne(
       { _id: objectIssueId },

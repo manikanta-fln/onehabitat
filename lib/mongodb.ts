@@ -14,19 +14,27 @@ function getUri(): string {
   return uri;
 }
 
+function connectClient(uri: string): Promise<MongoClient> {
+  const client = new MongoClient(uri, options);
+  return client.connect().catch((error) => {
+    if (process.env.NODE_ENV === "development") {
+      global._mongoClientPromise = undefined;
+    }
+    throw error;
+  });
+}
+
 function getClientPromise(): Promise<MongoClient> {
   const uri = getUri();
 
   if (process.env.NODE_ENV === "development") {
     if (!global._mongoClientPromise) {
-      const client = new MongoClient(uri, options);
-      global._mongoClientPromise = client.connect();
+      global._mongoClientPromise = connectClient(uri);
     }
     return global._mongoClientPromise;
   }
 
-  const client = new MongoClient(uri, options);
-  return client.connect();
+  return connectClient(uri);
 }
 
 export async function getDb(): Promise<Db> {
