@@ -1,5 +1,6 @@
 import type { ObjectId } from "mongodb";
 import type { AIRecommendation, BookingFormData } from "@/types/upload-issue";
+import type { IssueAnalysisResult } from "@/types/database";
 import type { AdminRole } from "@/types/admin/auth";
 
 export const BOOKING_STATUSES = [
@@ -102,6 +103,7 @@ export type ExtendedIssueDocument = {
     sizeBytes: number;
   };
   recommendation: AIRecommendation;
+  analysisResult?: IssueAnalysisResult;
   status: "analyzed" | "booked";
   archived: boolean;
   archivedAt: Date | null;

@@ -17,7 +17,22 @@ import type { PaginationParams } from "@/types/admin/api";
 import type { IssueListFilters } from "@/lib/admin/repositories/issues";
 import { serializeDate, serializeId, sanitizeRecord } from "@/lib/admin/utils/serialize";
 import type { AdminSession } from "@/types/admin/auth";
+import type { IssueAnalysisResult } from "@/types/database";
 import type { AIRecommendation } from "@/types/upload-issue";
+
+function serializeAnalysisResult(
+  analysisResult: IssueAnalysisResult | undefined
+) {
+  if (!analysisResult) return null;
+
+  return {
+    issueId: analysisResult.issueId,
+    imageId: analysisResult.imageId,
+    recommendation: analysisResult.recommendation,
+    saved: analysisResult.saved,
+    analyzedAt: serializeDate(analysisResult.analyzedAt) ?? "",
+  };
+}
 
 function serializeIssue(issue: NonNullable<Awaited<ReturnType<typeof findIssueById>>>) {
   return {
@@ -31,6 +46,7 @@ function serializeIssue(issue: NonNullable<Awaited<ReturnType<typeof findIssueBy
         }
       : null,
     recommendation: issue.recommendation,
+    analysisResult: serializeAnalysisResult(issue.analysisResult),
     status: issue.status,
     archived: Boolean((issue as { archived?: boolean }).archived),
     archivedAt: serializeDate((issue as { archivedAt?: Date | null }).archivedAt),
@@ -135,7 +151,7 @@ export async function getIssueFilterOptions() {
   const categories = await getIssueCategories(db);
   return {
     categories: categories.filter(Boolean).sort(),
-    severities: ["low", "medium", "high"],
+    severities: ["low", "medium", "high", "urgent"],
     statuses: ["analyzed", "booked"],
   };
 }

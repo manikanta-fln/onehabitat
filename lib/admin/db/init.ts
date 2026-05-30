@@ -160,7 +160,7 @@ async function seedDashboardSettings(db: Db): Promise<void> {
     {
       key: "upload",
       value: {
-        maxImageBytes: 5 * 1024 * 1024,
+        maxImageBytes: 50 * 1024 * 1024,
         allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/heic"],
       },
     },

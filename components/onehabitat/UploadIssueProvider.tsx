@@ -15,7 +15,6 @@ import type {
   UploadIssueStep,
 } from "@/types/upload-issue";
 import { analyzeIssue, createBooking } from "@/utils/api";
-import { compressImageForUpload } from "@/lib/client-image-compress";
 import { isClientImageFile } from "@/lib/form-file";
 import UploadIssueModal from "./UploadIssueModal";
 
@@ -91,9 +90,8 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
     setIsModalOpen(true);
 
     try {
-      const uploadFile = await compressImageForUpload(file);
       const { issueId: savedIssueId, recommendation: result, saved } =
-        await analyzeIssue(uploadFile);
+        await analyzeIssue(file);
 
       if (!saved || !savedIssueId) {
         throw new Error(

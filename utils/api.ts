@@ -6,7 +6,7 @@ type ApiErrorBody = {
 
 async function parseError(response: Response): Promise<string> {
   if (response.status === 413) {
-    return "Image is too large for upload. Try a smaller photo or retake the picture at lower resolution.";
+    return "Upload was rejected by the server (413). Ask your host to raise nginx client_max_body_size for /api/issues/analyze.";
   }
 
   try {
@@ -19,8 +19,10 @@ async function parseError(response: Response): Promise<string> {
 
 export async function analyzeIssue(file: File): Promise<{
   issueId: string | null;
+  imageId?: string | null;
   recommendation: AIRecommendation;
   saved: boolean;
+  analyzedAt?: string;
 }> {
   const formData = new FormData();
   formData.append("file", file);
@@ -36,8 +38,10 @@ export async function analyzeIssue(file: File): Promise<{
 
   return response.json() as Promise<{
     issueId: string | null;
+    imageId?: string | null;
     recommendation: AIRecommendation;
     saved: boolean;
+    analyzedAt?: string;
   }>;
 }
 

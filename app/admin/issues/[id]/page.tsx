@@ -8,14 +8,24 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { ImagePreviewModal } from "@/components/admin/Modals";
 import { ErrorState, LoadingState } from "@/components/admin/States";
 import { StatusBadge } from "@/components/admin/StatusBadge";
+import { IssueRecommendationSummary } from "@/components/shared/IssueDiagnosticDetails";
 import { adminFetch } from "@/services/admin/api-client";
 import type { AIRecommendation } from "@/types/upload-issue";
+
+type IssueAnalysisResultResponse = {
+  issueId: string;
+  imageId: string;
+  recommendation: AIRecommendation;
+  saved: boolean;
+  analyzedAt: string;
+};
 
 type IssueDetailResponse = {
   issue: {
     id: string;
     imageUrl: string;
     recommendation: AIRecommendation;
+    analysisResult: IssueAnalysisResultResponse | null;
     status: string;
     archived: boolean;
     adminNotes: string;
@@ -73,10 +83,12 @@ export default function AdminIssueDetailPage() {
   }
 
   const { issue, booking, customer, auditLogs } = query.data;
+  const analysisRecommendation =
+    issue.analysisResult?.recommendation ?? issue.recommendation;
 
   return (
     <AdminShell
-      title={issue.recommendation.detectedIssue}
+      title={analysisRecommendation.detectedIssue}
       subtitle={`Issue #${issue.id}`}
       actions={
         <Link href="/admin/issues" className="admin-btn-secondary">
@@ -95,44 +107,62 @@ export default function AdminIssueDetailPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={issue.imageUrl}
-                alt={issue.recommendation.detectedIssue}
+                alt={analysisRecommendation.detectedIssue}
                 className="max-h-96 w-full object-cover"
               />
             </button>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              <StatusBadge label={issue.recommendation.severity} tone={issue.recommendation.severity} />
-              <StatusBadge label={issue.recommendation.category} />
+              <StatusBadge
+                label={analysisRecommendation.severity}
+                tone={analysisRecommendation.severity}
+              />
+              <StatusBadge label={analysisRecommendation.category} />
               <StatusBadge label={issue.status} tone={issue.status} />
               {issue.archived ? <StatusBadge label="archived" tone="cancelled" /> : null}
             </div>
+          </section>
 
-            <p className="mt-4 font-body text-body-md text-on-surface-variant">
-              {issue.recommendation.summary}
-            </p>
-
-            <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="rounded-xl bg-surface-container-low p-4">
-                <p className="font-label text-label-sm text-on-surface-variant">Estimated cost</p>
-                <p className="mt-1 font-headline text-headline-sm">{issue.recommendation.estimatedCost}</p>
-              </div>
-              <div className="rounded-xl bg-surface-container-low p-4">
-                <p className="font-label text-label-sm text-on-surface-variant">Duration</p>
-                <p className="mt-1 font-headline text-headline-sm">
-                  {issue.recommendation.estimatedDuration}
+          <section className="rounded-2xl border border-outline-variant/10 bg-white p-6 shadow-sm">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+              <h2 className="font-headline text-headline-sm">AI analysis</h2>
+              {issue.analysisResult ? (
+                <p className="font-body text-body-sm text-on-surface-variant">
+                  Analyzed {new Date(issue.analysisResult.analyzedAt).toLocaleString()}
                 </p>
-              </div>
+              ) : null}
             </div>
 
-            <ul className="mt-6 space-y-2">
-              {issue.recommendation.solutions.map((solution) => (
-                <li key={solution} className="flex gap-2 font-body text-body-sm">
-                  <span className="material-symbols-outlined text-primary text-base">check_circle</span>
-                  {solution}
-                </li>
-              ))}
-            </ul>
+            <IssueRecommendationSummary recommendation={analysisRecommendation} />
           </section>
+
+          {issue.analysisResult ? (
+            <section className="rounded-2xl border border-outline-variant/10 bg-white p-6 shadow-sm">
+              <h2 className="font-headline text-headline-sm">Saved analysis response</h2>
+              <dl className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="rounded-xl bg-surface-container-low p-4">
+                  <dt className="font-label text-label-sm text-on-surface-variant">Issue ID</dt>
+                  <dd className="mt-1 break-all font-body text-body-sm">{issue.analysisResult.issueId}</dd>
+                </div>
+                <div className="rounded-xl bg-surface-container-low p-4">
+                  <dt className="font-label text-label-sm text-on-surface-variant">Image ID</dt>
+                  <dd className="mt-1 break-all font-body text-body-sm">{issue.analysisResult.imageId}</dd>
+                </div>
+                <div className="rounded-xl bg-surface-container-low p-4">
+                  <dt className="font-label text-label-sm text-on-surface-variant">Saved</dt>
+                  <dd className="mt-1 font-body text-body-sm">
+                    {issue.analysisResult.saved ? "Yes" : "No"}
+                  </dd>
+                </div>
+                <div className="rounded-xl bg-surface-container-low p-4">
+                  <dt className="font-label text-label-sm text-on-surface-variant">Analyzed at</dt>
+                  <dd className="mt-1 font-body text-body-sm">
+                    {new Date(issue.analysisResult.analyzedAt).toLocaleString()}
+                  </dd>
+                </div>
+              </dl>
+            </section>
+          ) : null}
 
           <section className="rounded-2xl border border-outline-variant/10 bg-white p-6 shadow-sm">
             <h2 className="font-headline text-headline-sm">Timeline & Audit</h2>
@@ -235,7 +265,7 @@ export default function AdminIssueDetailPage() {
       <ImagePreviewModal
         open={previewOpen}
         src={issue.imageUrl}
-        alt={issue.recommendation.detectedIssue}
+        alt={analysisRecommendation.detectedIssue}
         onClose={() => setPreviewOpen(false)}
       />
     </AdminShell>

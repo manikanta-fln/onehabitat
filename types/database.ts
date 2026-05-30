@@ -26,11 +26,20 @@ export type ImageDocument = {
   createdAt: Date;
 };
 
+export type IssueAnalysisResult = {
+  issueId: string;
+  imageId: string;
+  recommendation: AIRecommendation;
+  saved: boolean;
+  analyzedAt: Date;
+};
+
 export type IssueDocument = {
   _id?: ObjectId;
   imageId?: ObjectId;
   image?: IssueImageMeta | StoredIssueImageLegacy;
   recommendation: AIRecommendation;
+  analysisResult?: IssueAnalysisResult;
   status: IssueStatus;
   createdAt: Date;
   updatedAt: Date;
