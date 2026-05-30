@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    // Allow issue photo uploads up to the API route limit (5MB).
+    proxyClientMaxBodySize: "5mb",
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
+  },
 };
 
 export default nextConfig;

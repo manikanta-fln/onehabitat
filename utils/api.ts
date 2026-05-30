@@ -5,6 +5,10 @@ type ApiErrorBody = {
 };
 
 async function parseError(response: Response): Promise<string> {
+  if (response.status === 413) {
+    return "Image is too large for upload. Try a smaller photo or retake the picture at lower resolution.";
+  }
+
   try {
     const body = (await response.json()) as ApiErrorBody;
     return body.error ?? `Request failed (${response.status})`;
