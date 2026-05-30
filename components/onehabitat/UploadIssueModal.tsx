@@ -139,7 +139,7 @@ export default function UploadIssueModal({
 
         <div className="flex-1 overflow-y-auto px-lg py-md text-left">
           {isBooked ? (
-            <div className="flex flex-col items-center gap-md py-lg text-center">
+            <div className="flex w-full flex-col items-center gap-md py-lg text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary-container text-secondary">
                 <span
                   className="material-symbols-outlined text-4xl"
@@ -151,7 +151,7 @@ export default function UploadIssueModal({
               <h3 className="font-headline text-headline-sm text-on-surface">
                 Service request received
               </h3>
-              <p className="max-w-md font-body text-body-md leading-relaxed text-on-surface-variant">
+              <p className="mx-auto w-full max-w-[28rem] text-pretty font-body text-body-md leading-relaxed text-on-surface-variant">
                 A Onehabitat expert will contact you within 2 hours to confirm your
                 appointment for{" "}
                 <strong className="font-semibold text-on-surface">
