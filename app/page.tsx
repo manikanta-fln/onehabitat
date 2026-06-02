@@ -4,8 +4,7 @@ import MaintenanceCategories from "@/components/onehabitat/MaintenanceCategories
 import UploadIssueProvider from "@/components/onehabitat/UploadIssueProvider";
 import UploadIssueTrigger from "@/components/onehabitat/UploadIssueTrigger";
 
-const HERO_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBuovZ42VZ8nNOkXhOJMQ0-pIEGlWSMXu9UoerWeu5AW29kZHUkfEEqLb2XlGJ-eRhAoEObnbG7aylFV-MqZfc4l8gMMUTAr3OhIzngcdbV1S3k7CseiTOaIId0DhF1ml-ZLzD5O_SbZSewRGJ1sJMrZB7D4ZqRj4A7bzKyiygGmYjbS9TpZU50oQFP-xe4RNjjaL-QcSucmgAPBvaluK8Lmrmd0FCQOcWmN1L1cKZaH_fzujpmSrQ97tLwyuDf9lCJXpYwkU_L0g";
+const HERO_IMAGE = "/assets/hero-section.png";
 
 const WALL_CEILING_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuA8C8s0sv_4bdoCeuI40l0WaTA0QGFArGt5NDyajHD0Wt-M3QIS4K0sQWbvzBucrqj-G-cBlfAct-a3DCcc0z_DYY8bLeCNjQ3XQzI_cRAsc4_Svy52l3LY9Lfx0CY__rHpGfQEAHONsR4L7bste2KjAwqZ3j0xFGDUCmiNv_OV3RBgXW5uvDjJKeMj4GjjTAfshCj3jTld3qND04F-BQkCiTtTEjzujvT4y2u-1IqlWrUs0ieDg_9YltfJ5kuN5kQArok5202aPg";
@@ -21,10 +20,13 @@ export default function HomePage() {
       <OnehabitatHeader />
 
       <section className="pt-xl pb-lg px-margin-mobile md:px-margin-desktop mt-xl overflow-hidden">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-lg items-center">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.08fr] gap-lg items-center">
           <div className="flex flex-col gap-md">
             <h1 className="font-headline text-headline-xl text-primary leading-tight">
-              From Small Repairs to Beautiful Interiors, We Handle It All
+              From Small Repairs to Complete Home Makeovers
+              <span className="mt-sm block font-body text-body-lg font-normal text-on-surface-variant">
+                Powered by Smart AI Maintenance.
+              </span>
             </h1>
             <p className="font-body text-body-lg text-on-surface-variant max-w-[32rem]">
               Upload an issue, get AI analysis, expert guidance, and professional service at your doorstep.
@@ -69,10 +71,10 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative">
-            <div className="aspect-square rounded-xl overflow-hidden shadow-2xl">
+            <div className="aspect-square w-full rounded-xl overflow-hidden shadow-2xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                alt="AI Home Analysis"
+                alt="Smart AI home maintenance — upload a photo for instant analysis"
                 className="w-full h-full object-cover"
                 src={HERO_IMAGE}
               />
@@ -159,96 +161,6 @@ export default function HomePage() {
 
       <MaintenanceCategories />
 
-      <section className="py-xl px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
-        <h2 className="font-headline text-headline-lg text-center mb-xl">
-          Comprehensive Property Care
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
-          <div className="bg-white p-lg rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-lg transition-all group">
-            <span className="material-symbols-outlined text-secondary text-headline-xl mb-md block">
-              camera_enhance
-            </span>
-            <h3 className="font-headline text-headline-sm mb-sm">
-              Fix a Problem
-            </h3>
-            <p className="font-body text-body-sm text-on-surface-variant mb-md">
-              Simply upload a photo or video. Our AI detects the issue and
-              matches you with the right expert.
-            </p>
-            <a
-              className="text-secondary font-label text-label-lg flex items-center gap-xs"
-              href="#"
-            >
-              Try Detection{" "}
-              <span className="material-symbols-outlined text-base">
-                arrow_forward
-              </span>
-            </a>
-          </div>
-          <div className="bg-white p-lg rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-lg transition-all group">
-            <span className="material-symbols-outlined text-secondary text-headline-xl mb-md block">
-              architecture
-            </span>
-            <h3 className="font-headline text-headline-sm mb-sm">
-              Plan Interiors
-            </h3>
-            <p className="font-body text-body-sm text-on-surface-variant mb-md">
-              End-to-end design and execution for your space. Premium finishes,
-              bespoke furniture, and perfect fit-outs.
-            </p>
-            <a
-              className="text-secondary font-label text-label-lg flex items-center gap-xs"
-              href="#"
-            >
-              Explore Designs{" "}
-              <span className="material-symbols-outlined text-base">
-                arrow_forward
-              </span>
-            </a>
-          </div>
-          <div className="bg-white p-lg rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-lg transition-all group">
-            <span className="material-symbols-outlined text-secondary text-headline-xl mb-md block">
-              verified_user
-            </span>
-            <h3 className="font-headline text-headline-sm mb-sm">
-              Handover Inspection
-            </h3>
-            <p className="font-body text-body-sm text-on-surface-variant mb-md">
-              Professional snag list report before you take keys. We ensure your
-              builder delivers the promised quality.
-            </p>
-            <a
-              className="text-secondary font-label text-label-lg flex items-center gap-xs"
-              href="#"
-            >
-              Book Inspection{" "}
-              <span className="material-symbols-outlined text-base">
-                arrow_forward
-              </span>
-            </a>
-          </div>
-          <div className="bg-white p-lg rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-lg transition-all group">
-            <span className="material-symbols-outlined text-secondary text-headline-xl mb-md block">
-              event_repeat
-            </span>
-            <h3 className="font-headline text-headline-sm mb-sm">AMC Plans</h3>
-            <p className="font-body text-body-sm text-on-surface-variant mb-md">
-              Preventive maintenance for Villas and Apartments. Zero-hassle
-              upkeep with 24/7 emergency support.
-            </p>
-            <a
-              className="text-secondary font-label text-label-lg flex items-center gap-xs"
-              href="#"
-            >
-              View Packages{" "}
-              <span className="material-symbols-outlined text-base">
-                arrow_forward
-              </span>
-            </a>
-          </div>
-        </div>
-      </section>
-
       <section
         id="interiors"
         className="py-xl bg-surface-container-low text-on-surface scroll-mt-24"
@@ -304,13 +216,19 @@ export default function HomePage() {
                 </span>{" "}
                 False Ceilings &amp; Lighting
               </li>
+              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
+                <span className="material-symbols-outlined text-primary">
+                  check_circle
+                </span>{" "}
+                Painting
+              </li>
+              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
+                <span className="material-symbols-outlined text-primary">
+                  check_circle
+                </span>{" "}
+                Pergola
+              </li>
             </ul>
-            <button
-              type="button"
-              className="px-lg py-md rounded-DEFAULT w-fit mt-md font-label text-label-lg bg-primary text-on-primary"
-            >
-              Book a Free Consultation
-            </button>
           </div>
         </div>
       </section>
@@ -388,20 +306,20 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
           <div className="text-center mb-xl">
             <h2 className="font-headline text-headline-lg text-primary">
-              Peace of Mind Subscription
+              AMC Plans
             </h2>
             <p className="font-body text-body-lg text-on-surface-variant max-w-2xl mx-auto">
-              Expert property management at a predictable monthly cost. No more
-              chasing contractors.
+              Annual maintenance for apartments and villas — electrician, plumber,
+              and carpenter visits bundled at a predictable cost.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter items-center">
             <div className="bg-white p-lg rounded-lg shadow-sm flex flex-col gap-md border border-outline-variant/10">
-              <h3 className="font-headline text-headline-sm">Essentials</h3>
+              <h3 className="font-headline text-headline-sm">1 BHK / 2 BHK</h3>
               <p className="text-headline-md font-bold text-primary">
-                $49
+                Starting from ₹1,500
                 <span className="text-body-sm font-normal text-on-surface-variant">
-                  /mo
+                  /-
                 </span>
               </p>
               <ul className="space-y-sm my-md">
@@ -409,25 +327,19 @@ export default function HomePage() {
                   <span className="material-symbols-outlined text-primary text-base">
                     check
                   </span>{" "}
-                  2 Maintenance Visits
+                  Electrician — 2 visits
                 </li>
                 <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
                   <span className="material-symbols-outlined text-primary text-base">
                     check
                   </span>{" "}
-                  AC Filter Cleaning
+                  Plumber — 2 visits
                 </li>
                 <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
                   <span className="material-symbols-outlined text-primary text-base">
                     check
                   </span>{" "}
-                  Electrical Audit
-                </li>
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant/40 line-through">
-                  <span className="material-symbols-outlined text-base">
-                    close
-                  </span>{" "}
-                  Emergency Support
+                  Carpenter — 1 visit
                 </li>
               </ul>
               <button
@@ -442,36 +354,30 @@ export default function HomePage() {
                 Most Popular
               </span>
               <h3 className="font-headline text-headline-sm text-on-primary-container">
-                Premium Plus
+                3 BHK
               </h3>
               <p className="text-headline-md font-bold text-on-primary-container">
-                $99
-                <span className="text-body-sm font-normal opacity-80">/mo</span>
+                Starting from ₹2,899
+                <span className="text-body-sm font-normal opacity-80">/-</span>
               </p>
               <ul className="space-y-sm my-md">
                 <li className="flex items-center gap-xs font-body text-body-sm text-on-primary-container">
                   <span className="material-symbols-outlined text-base">
                     check
                   </span>{" "}
-                  4 Scheduled Visits
+                  Electrician — 3 visits
                 </li>
                 <li className="flex items-center gap-xs font-body text-body-sm text-on-primary-container">
                   <span className="material-symbols-outlined text-base">
                     check
                   </span>{" "}
-                  Full Home Deep Clean
+                  Plumber — 3 visits
                 </li>
                 <li className="flex items-center gap-xs font-body text-body-sm text-on-primary-container">
                   <span className="material-symbols-outlined text-base">
                     check
                   </span>{" "}
-                  24/7 Emergency Response
-                </li>
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-primary-container">
-                  <span className="material-symbols-outlined text-base">
-                    check
-                  </span>{" "}
-                  Plumbing &amp; Electrical Fixes
+                  Carpenter — 2 visits
                 </li>
               </ul>
               <button
@@ -482,11 +388,11 @@ export default function HomePage() {
               </button>
             </div>
             <div className="bg-white p-lg rounded-lg shadow-sm flex flex-col gap-md border border-outline-variant/10">
-              <h3 className="font-headline text-headline-sm">Villa Care</h3>
+              <h3 className="font-headline text-headline-sm">Villa</h3>
               <p className="text-headline-md font-bold text-primary">
-                $199
+                Starting from ₹5,699
                 <span className="text-body-sm font-normal text-on-surface-variant">
-                  /mo
+                  /-
                 </span>
               </p>
               <ul className="space-y-sm my-md">
@@ -494,25 +400,19 @@ export default function HomePage() {
                   <span className="material-symbols-outlined text-primary text-base">
                     check
                   </span>{" "}
-                  Unlimited Callouts
+                  Electrician — 5 visits
                 </li>
                 <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
                   <span className="material-symbols-outlined text-primary text-base">
                     check
                   </span>{" "}
-                  Pool &amp; Garden Upkeep
+                  Plumber — 5 visits
                 </li>
                 <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
                   <span className="material-symbols-outlined text-primary text-base">
                     check
                   </span>{" "}
-                  Pest Control Included
-                </li>
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
-                  <span className="material-symbols-outlined text-primary text-base">
-                    check
-                  </span>{" "}
-                  Priority Concierge
+                  Carpenter — 3 visits
                 </li>
               </ul>
               <button
@@ -528,7 +428,7 @@ export default function HomePage() {
 
       <section className="py-xl px-margin-mobile md:px-margin-desktop max-w-3xl mx-auto">
         <h2 className="font-headline text-headline-lg text-center mb-xl">
-          Common Questions
+          Frequently Asked Questions
         </h2>
         <div className="space-y-md">
           <details className="group bg-white p-md rounded-lg shadow-sm border border-outline-variant/10">
@@ -539,9 +439,24 @@ export default function HomePage() {
               </span>
             </summary>
             <div className="mt-md font-body text-body-md text-on-surface-variant">
-              Our AI model is trained on over 50,000 property snag images with a
-              94% accuracy rate in identifying common plumbing, electrical, and
-              structural issues.
+              Our AI model is trained on thousands of home maintenance images and
+              delivers reliable issue detection for plumbing, electrical,
+              waterproofing, and structural concerns. Every result is reviewed by
+              our team before a service is recommended.
+            </div>
+          </details>
+          <details className="group bg-white p-md rounded-lg shadow-sm border border-outline-variant/10">
+            <summary className="list-none flex justify-between items-center cursor-pointer font-headline text-headline-sm">
+              How do I upload an issue and book a service?
+              <span className="material-symbols-outlined group-open:rotate-180 transition-transform">
+                expand_more
+              </span>
+            </summary>
+            <div className="mt-md font-body text-body-md text-on-surface-variant">
+              Tap &quot;Upload an Issue&quot; on the homepage, take or upload a
+              photo, and our AI will analyse it instantly. You&apos;ll receive a
+              summary, recommended fix, and estimated scope — then you can book a
+              verified professional directly from the results screen.
             </div>
           </details>
           <details className="group bg-white p-md rounded-lg shadow-sm border border-outline-variant/10">
@@ -559,15 +474,43 @@ export default function HomePage() {
           </details>
           <details className="group bg-white p-md rounded-lg shadow-sm border border-outline-variant/10">
             <summary className="list-none flex justify-between items-center cursor-pointer font-headline text-headline-sm">
-              Can I get a custom quote for a large office?
+              What types of home issues can you handle?
               <span className="material-symbols-outlined group-open:rotate-180 transition-transform">
                 expand_more
               </span>
             </summary>
             <div className="mt-md font-body text-body-md text-on-surface-variant">
-              Absolutely. We have a dedicated Commercial Division for offices,
-              retail spaces, and restaurants. Contact us via the &apos;AMC
-              Plans&apos; section for a bespoke proposal.
+              We cover small repairs through complete home makeovers — including
+              plumbing leaks, electrical faults, wall damage, seepage,
+              waterproofing, painting, and general maintenance. Upload a photo and
+              our AI will identify the category and suggest the right service.
+            </div>
+          </details>
+          <details className="group bg-white p-md rounded-lg shadow-sm border border-outline-variant/10">
+            <summary className="list-none flex justify-between items-center cursor-pointer font-headline text-headline-sm">
+              How quickly will someone respond after I book?
+              <span className="material-symbols-outlined group-open:rotate-180 transition-transform">
+                expand_more
+              </span>
+            </summary>
+            <div className="mt-md font-body text-body-md text-on-surface-variant">
+              Urgent issues are prioritised for same-day or next-day visits where
+              available. Standard bookings are typically scheduled within 1–2
+              business days. You&apos;ll receive confirmation with your preferred
+              date once the booking is submitted.
+            </div>
+          </details>
+          <details className="group bg-white p-md rounded-lg shadow-sm border border-outline-variant/10">
+            <summary className="list-none flex justify-between items-center cursor-pointer font-headline text-headline-sm">
+              Can I get a custom quote for a large property or office?
+              <span className="material-symbols-outlined group-open:rotate-180 transition-transform">
+                expand_more
+              </span>
+            </summary>
+            <div className="mt-md font-body text-body-md text-on-surface-variant">
+              Absolutely. We have a dedicated team for larger homes, offices,
+              retail spaces, and annual maintenance contracts. Contact us via the
+              details in the footer or request a free consultation from the homepage.
             </div>
           </details>
         </div>

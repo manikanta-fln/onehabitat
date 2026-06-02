@@ -20,9 +20,8 @@ const MAINTENANCE_CATEGORIES: MaintenanceCategory[] = [
     title: "Electrical Services",
     description:
       "We handle all electrical repairs and installations, ensuring safe and reliable power across your home.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDTCis7t2klpL6wiIRbUWIRZXkL_BgH55L4FLX5lbRGVn2OMnsmQny40qyMplKs1SWDWoMWYjfTGUbIL8bZBxLKEXy9DJctYb3LqYl_JPHhfzrJzRDIpNZSFp6sw4zdFFBfg7exhvM2WoUxU51TU8Ly8RbgT9odBTCvfFtxCqOPYVjs5nWvpq5NyeCUbvRALt_EZh1fp53_thVkeb8369s31i1cZAEi8o913ReyAh-dn6vArryrwdEURO8BRvbWvG_-fgMZ6Qg7cQ",
-    imageAlt: "Electrical maintenance work",
+    image: "/assets/electrical-service.png",
+    imageAlt: "Professional electrician servicing a home electrical panel",
   },
   {
     id: "carpentry",
@@ -31,9 +30,8 @@ const MAINTENANCE_CATEGORIES: MaintenanceCategory[] = [
     title: "Carpentry Services",
     description:
       "We provide precise carpentry repairs and installations for doors, furniture, and fittings.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDz25cKkOryXda5aWO0IkEl082HTM1NITnCY64dU-4iB_eQEcaSrTQo6Hxyuh5CTgakDDRhFU-npQwDAyanG2Sl6Dg_grZhRngMBaEVGs_IsTpB-zdvdFnzKVew_oiA1P2aqrz_09qozNBzFvTZer9HO76ZFxNuF3Z5GDDm6w8R6FBNKY2CY4WNJm_87rCg6hllCfoLTMAKsRHeEQVFwA-NCixTcvLb1sPkWp8Od6hRBTlnC59_hIG0s_jITvPNE10cKUyo6T-8nQ",
-    imageAlt: "Carpentry repair work",
+    image: "/assets/carpentry-service.png",
+    imageAlt: "Professional carpentry repair and door fitting service",
   },
   {
     id: "painting",
@@ -42,9 +40,8 @@ const MAINTENANCE_CATEGORIES: MaintenanceCategory[] = [
     title: "Painting Services",
     description:
       "We carry out painting repairs and touch-ups to maintain a clean and fresh finish.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA8C8s0sv_4bdoCeuI40l0WaTA0QGFArGt5NDyajHD0Wt-M3QIS4K0sQWbvzBucrqj-G-cBlfAct-a3DCcc0z_DYY8bLeCNjQ3XQzI_cRAsc4_Svy52l3LY9Lfx0CY__rHpGfQEAHONsR4L7bste2KjAwqZ3j0xFGDUCmiNv_OV3RBgXW5uvDjJKeMj4GjjTAfshCj3jTld3qND04F-BQkCiTtTEjzujvT4y2u-1IqlWrUs0ieDg_9YltfJ5kuN5kQArok5202aPg",
-    imageAlt: "Interior painting work",
+    image: "/assets/painting-service.png",
+    imageAlt: "Professional interior painting service",
   },
   {
     id: "seepage",
@@ -53,9 +50,8 @@ const MAINTENANCE_CATEGORIES: MaintenanceCategory[] = [
     title: "Seepage Works",
     description:
       "We identify and fix seepage issues to prevent damage and ensure long-term protection.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA8C8s0sv_4bdoCeuI40l0WaTA0QGFArGt5NDyajHD0Wt-M3QIS4K0sQWbvzBucrqj-G-cBlfAct-a3DCcc0z_DYY8bLeCNjQ3XQzI_cRAsc4_Svy52l3LY9Lfx0CY__rHpGfQEAHONsR4L7bste2KjAwqZ3j0xFGDUCmiNv_OV3RBgXW5uvDjJKeMj4GjjTAfshCj3jTld3qND04F-BQkCiTtTEjzujvT4y2u-1IqlWrUs0ieDg_9YltfJ5kuN5kQArok5202aPg",
-    imageAlt: "Seepage repair work",
+    image: "/assets/seepage-service.png",
+    imageAlt: "Professional seepage and waterproofing repair service",
   },
   {
     id: "plumbing",
@@ -64,9 +60,8 @@ const MAINTENANCE_CATEGORIES: MaintenanceCategory[] = [
     title: "Plumbing Services",
     description:
       "We manage all plumbing repairs and installations for smooth and leak-free operation.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBjqFEyDR_aqoF_pqwezCDjvhxmutRoZDd187LNDsEsVF9g2xtRTM6wVbNk0ZtxDMd6uw9fDddyrYfGTSv2xzHUQJvyFkhMycK1jliXKVtyspbyDUHHM3YN1JbPGQlXUtVtHmKPz5Att_fhXYw0WdWWI5U3EO_EqOxnJ8959-iRprlu64alp8TnCm2OkT2nme-g0ys87sVD5zmrYboqLpkcEZTrZNSRZHTNKgspiEc5QUKUhSNDDruxMDvKQqLmdDBORVE537ghtA",
-    imageAlt: "Plumbing maintenance work",
+    image: "/assets/plumbing-service.png",
+    imageAlt: "Professional plumbing repair under sink",
   },
 ];
 
@@ -138,18 +133,9 @@ export default function MaintenanceCategories() {
               <h3 className="font-headline text-headline-md mb-md text-primary">
                 {activeCategory.title}
               </h3>
-              <p className="font-body text-body-md text-on-surface-variant mb-lg">
+              <p className="font-body text-body-md text-on-surface-variant">
                 {activeCategory.description}
               </p>
-              <button
-                type="button"
-                className="bg-primary text-on-primary px-lg py-md rounded-DEFAULT font-label text-label-lg hover:brightness-110 transition-all flex items-center gap-xs shadow-md"
-              >
-                Book Service{" "}
-                <span className="material-symbols-outlined text-base">
-                  arrow_forward
-                </span>
-              </button>
             </div>
             <div className="flex-1 order-1 md:order-2">
               <div className="aspect-video md:aspect-square rounded-lg overflow-hidden shadow-lg">
