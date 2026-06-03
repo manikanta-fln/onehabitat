@@ -250,3 +250,140 @@
 .proserve-page .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
 }
+
+/* App launch section — lightweight scroll & ambient animations */
+@keyframes app-launch-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes app-launch-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes app-launch-gradient-shift {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translate(2%, -2%) scale(1.04);
+  }
+}
+
+@keyframes app-launch-indicator-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.app-launch-section .app-launch-gradient {
+  background:
+    radial-gradient(
+      ellipse 70% 50% at 15% 40%,
+      color-mix(in srgb, var(--color-primary-container) 28%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 85% 60%,
+      color-mix(in srgb, var(--color-secondary-container) 35%, transparent),
+      transparent 65%
+    ),
+    var(--color-surface-container-low);
+  animation: app-launch-gradient-shift 14s ease-in-out infinite;
+}
+
+.app-launch-section .app-launch-badge-dot {
+  animation: app-launch-pulse 2s ease-in-out infinite;
+}
+
+.app-launch-section .app-launch-indicator {
+  animation: app-launch-indicator-pulse 1.6s ease-in-out infinite;
+}
+
+.app-launch-section .app-launch-indicator-delay-1 {
+  animation-delay: 0.25s;
+}
+
+.app-launch-section .app-launch-indicator-delay-2 {
+  animation-delay: 0.5s;
+}
+
+.app-launch-section .app-launch-phone {
+  animation: app-launch-float 5s ease-in-out infinite;
+}
+
+.app-launch-section .app-launch-float-card {
+  animation: app-launch-float 4s ease-in-out infinite;
+}
+
+.app-launch-section .app-launch-float-delay {
+  animation-delay: 1.2s;
+}
+
+.app-launch-section .app-launch-content,
+.app-launch-section .app-launch-visual,
+.app-launch-section .app-launch-feature-card {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s ease-out,
+    transform 0.55s ease-out;
+}
+
+.app-launch-section.is-visible .app-launch-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.05s;
+}
+
+.app-launch-section.is-visible .app-launch-visual {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.15s;
+}
+
+.app-launch-section.is-visible .app-launch-feature-card {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(0.2s + (var(--stagger, 0) * 0.06s));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-launch-section .app-launch-gradient,
+  .app-launch-section .app-launch-badge-dot,
+  .app-launch-section .app-launch-indicator,
+  .app-launch-section .app-launch-phone,
+  .app-launch-section .app-launch-float-card {
+    animation: none;
+  }
+
+  .app-launch-section .app-launch-content,
+  .app-launch-section .app-launch-visual,
+  .app-launch-section .app-launch-feature-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

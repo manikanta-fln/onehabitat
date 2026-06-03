@@ -1,6 +1,10 @@
 import type { ParsedUploadFile } from "@/lib/form-file";
 import type { AIRecommendation, HomeServicesDiagnostic } from "@/types/upload-issue";
 import { HOME_SERVICES_DIAGNOSTIC_SYSTEM_PROMPT } from "@/lib/ai/home-services-prompt";
+import {
+  AI_ANALYSIS_TIMEOUT_MS,
+  AI_ANALYSIS_TIMEOUT_MESSAGE,
+} from "@/lib/ai/constants";
 
 const OPENAI_VISION_MIMES = new Set([
   "image/jpeg",
@@ -9,7 +13,7 @@ const OPENAI_VISION_MIMES = new Set([
   "image/webp",
 ]);
 
-const ANALYSIS_TIMEOUT_MS = 60_000;
+const ANALYSIS_TIMEOUT_MS = AI_ANALYSIS_TIMEOUT_MS;
 
 const ISSUE_CATEGORIES = new Set([
   "plumbing",
@@ -260,7 +264,7 @@ export async function analyzeHomeServicesImage(
     });
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
-      throw new Error("AI analysis timed out. Please try again.");
+      throw new Error(AI_ANALYSIS_TIMEOUT_MESSAGE);
     }
     throw error;
   } finally {

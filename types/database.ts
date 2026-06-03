@@ -62,5 +62,6 @@ export type BookingDocument = {
   customerId: ObjectId;
   booking: BookingFormData;
   recommendation: AIRecommendation;
+  notificationEmailSentAt?: Date;
   createdAt: Date;
 };

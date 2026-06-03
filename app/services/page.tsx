@@ -12,17 +12,15 @@ export const metadata: Metadata = {
 const HERO_BG =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAVBjvq6EWk3DjCWpJtTisvKXjE3fFSFw-SEIYD6g-qvyT-7a616moB464xhivcw_FGIdXrzT46zWX98dqwVjEuCZIMCkUyr130cLjEFbEtClKFuSkOfnXhKe3XfQxJQ5it06zXGEtNQav3IoVXeJ-wYvLIvM9BZ2GkJOBLTiAFMI5RtgjDkXr5Rz6MI5TMonx_HqhDFReAIe-BIRCi23zzMUvZ_GP0de7_xFladqRpl-8njFqeMxsXjoJWwZiiOI8HPv_gRl6L0Q";
 
-const PLUMBING_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBjqFEyDR_aqoF_pqwezCDjvhxmutRoZDd187LNDsEsVF9g2xtRTM6wVbNk0ZtxDMd6uw9fDddyrYfGTSv2xzHUQJvyFkhMycK1jliXKVtyspbyDUHHM3YN1JbPGQlXUtVtHmKPz5Att_fhXYw0WdWWI5U3EO_EqOxnJ8959-iRprlu64alp8TnCm2OkT2nme-g0ys87sVD5zmrYboqLpkcEZTrZNSRZHTNKgspiEc5QUKUhSNDDruxMDvKQqLmdDBORVE537ghtA";
+const PLUMBING_IMG = "/assets/plumbing-service.png";
 
-const ELECTRICAL_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDTCis7t2klpL6wiIRbUWIRZXkL_BgH55L4FLX5lbRGVn2OMnsmQny40qyMplKs1SWDWoMWYjfTGUbIL8bZBxLKEXy9DJctYb3LqYl_JPHhfzrJzRDIpNZSFp6sw4zdFFBfg7exhvM2WoUxU51TU8Ly8RbgT9odBTCvfFtxCqOPYVjs5nWvpq5NyeCUbvRALt_EZh1fp53_thVkeb8369s31i1cZAEi8o913ReyAh-dn6vArryrwdEURO8BRvbWvG_-fgMZ6Qg7cQ";
+const ELECTRICAL_IMG = "/assets/electrical-service.png";
 
-const CARPENTRY_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDz25cKkOryXda5aWO0IkEl082HTM1NITnCY64dU-4iB_eQEcaSrTQo6Hxyuh5CTgakDDRhFU-npQwDAyanG2Sl6Dg_grZhRngMBaEVGs_IsTpB-zdvdFnzKVew_oiA1P2aqrz_09qozNBzFvTZer9HO76ZFxNuF3Z5GDDm6w8R6FBNKY2CY4WNJm_87rCg6hllCfoLTMAKsRHeEQVFwA-NCixTcvLb1sPkWp8Od6hRBTlnC59_hIG0s_jITvPNE10cKUyo6T-8nQ";
+const CARPENTRY_IMG = "/assets/carpentry-service.png";
 
-const GARDEN_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDdDYt2GsF32MlGArJFejr0TZSqpKGfhXSorCoid0c8juWQwMV-Nxy6jzEE-cRvJfgvxolDTvOUX0qk5LxYfNknuDURn9oTJNU3Umk_Z9STTC3nWFKSyrmdE4dHBoailS5J_60iSbFzl_zX8VQ1vAiiuNZa6AXRru8aM6sMg5jdLH6ZVMbvMUwofDhnPlAkbWBACSEjJ40Y37ZuYaYpY5GlZIK1KraXmAShcEkUcGeUiqugp7S5wTMxLkTDmNRxRp0Uw6btfazBgQ";
+const PAINTING_IMG = "/assets/painting-service.png";
+
+const SEEPAGE_IMG = "/assets/seepage-service.png";
 
 export default function ServicesPage() {
   return (
@@ -322,6 +320,14 @@ export default function ServicesPage() {
                   Protective Painting &amp; Finishing
                 </h2>
               </div>
+              <div className="max-w-3xl mx-auto mb-12">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  alt="Professional interior painting service"
+                  className="w-full rounded-xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
+                  src={PAINTING_IMG}
+                />
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-12">
                 <div className="bg-white p-10 rounded-xl border border-outline-variant">
                   <div className="flex items-center gap-4 mb-6">
@@ -476,7 +482,7 @@ export default function ServicesPage() {
                 <img
                   alt="Lush Garden"
                   className="rounded-xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
-                  src={GARDEN_IMG}
+                  src={SEEPAGE_IMG}
                 />
               </div>
             </div>
@@ -580,85 +586,6 @@ export default function ServicesPage() {
                     back to traditional maintenance.
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-section-padding bg-white">
-          <div className="max-w-container-max mx-auto px-gutter text-center mb-margin-desktop">
-            <h2 className="font-headline-lg text-headline-lg">
-              The DN Service Flow
-            </h2>
-            <div className="w-24 h-1 bg-primary-container mx-auto mt-4" />
-          </div>
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-center relative">
-            <div className="hidden md:block absolute top-1/4 left-0 w-full h-px bg-outline-variant -z-10" />
-            <div className="space-y-6 group">
-              <div className="w-16 h-16 bg-white border border-outline-variant rounded-full mx-auto flex items-center justify-center font-bold text-xl group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                01
-              </div>
-              <h4 className="font-semibold">Consultation</h4>
-              <p className="text-sm text-on-surface-variant">
-                Instant booking via app or concierge call.
-              </p>
-            </div>
-            <div className="space-y-6 group">
-              <div className="w-16 h-16 bg-white border border-outline-variant rounded-full mx-auto flex items-center justify-center font-bold text-xl group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                02
-              </div>
-              <h4 className="font-semibold">Diagnostic</h4>
-              <p className="text-sm text-on-surface-variant">
-                Uniformed engineers arrive for deep assessment.
-              </p>
-            </div>
-            <div className="space-y-6 group">
-              <div className="w-16 h-16 bg-white border border-outline-variant rounded-full mx-auto flex items-center justify-center font-bold text-xl group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                03
-              </div>
-              <h4 className="font-semibold">Execution</h4>
-              <p className="text-sm text-on-surface-variant">
-                Clean-room protocol service delivery.
-              </p>
-            </div>
-            <div className="space-y-6 group">
-              <div className="w-16 h-16 bg-white border border-outline-variant rounded-full mx-auto flex items-center justify-center font-bold text-xl group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                04
-              </div>
-              <h4 className="font-semibold">Post-Care</h4>
-              <p className="text-sm text-on-surface-variant">
-                Digital service report and warranty logged.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-section-padding">
-          <div className="max-w-container-max mx-auto px-gutter">
-            <div className="relative bg-surface-container-low rounded-3xl p-16 overflow-hidden text-center">
-              <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl" />
-              <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl" />
-              <h2 className="font-display-xl text-5xl md:text-6xl mb-8">
-                Ready for Invisible Perfection?
-              </h2>
-              <p className="font-body-lg text-on-surface-variant max-w-2xl mx-auto mb-12">
-                Whether it&apos;s a single emergency fix or a lifetime of care,
-                we are ready to elevate your property standard. Join the elite
-                who choose DN ProServe.
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-6">
-                <button
-                  type="button"
-                  className="bg-primary-container text-on-primary-container px-12 py-5 rounded-full font-label-caps tracking-[0.2em] shadow-xl hover:shadow-2xl transition-all"
-                >
-                  BOOK YOUR FIRST SERVICE
-                </button>
-                <button
-                  type="button"
-                  className="border border-primary text-primary px-12 py-5 rounded-full font-label-caps tracking-[0.2em] hover:bg-primary hover:text-white transition-all"
-                >
-                  TALK TO AN EXPERT
-                </button>
               </div>
             </div>
           </div>

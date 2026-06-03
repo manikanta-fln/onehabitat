@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 import { upsertCustomerFromBooking } from "@/lib/customers";
+import { sendBookingNotificationEmail } from "@/lib/email/send-booking-notification";
 import { getDb } from "@/lib/mongodb";
 import { isValidBooking, isValidRecommendation } from "@/lib/validation";
 import type { BookingDocument, IssueDocument } from "@/types/database";
@@ -81,8 +82,27 @@ export async function POST(request: Request) {
       }
     );
 
+    const bookingId = bookingResult.insertedId.toString();
+
+    try {
+      await sendBookingNotificationEmail(db, {
+        bookingId,
+        issueId,
+        customerId: customerId.toString(),
+        booking,
+        recommendation,
+        issue,
+        submittedAt: now,
+      });
+    } catch (emailError) {
+      console.error(
+        `[POST /api/bookings] Booking ${bookingId} saved, but notification email failed:`,
+        emailError
+      );
+    }
+
     return NextResponse.json({
-      bookingId: bookingResult.insertedId.toString(),
+      bookingId,
       customerId: customerId.toString(),
       issueId,
     });

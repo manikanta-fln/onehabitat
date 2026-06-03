@@ -1,4 +1,8 @@
 import type { AIRecommendation, BookingFormData } from "@/types/upload-issue";
+import {
+  AI_ANALYSIS_TIMEOUT_MS,
+  AI_ANALYSIS_TIMEOUT_MESSAGE,
+} from "@/lib/ai/constants";
 
 type ApiErrorBody = {
   error?: string;
@@ -27,10 +31,28 @@ export async function analyzeIssue(file: File): Promise<{
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch("/api/issues/analyze", {
-    method: "POST",
-    body: formData,
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(
+    () => controller.abort(),
+    AI_ANALYSIS_TIMEOUT_MS + 5_000
+  );
+
+  let response: Response;
+
+  try {
+    response = await fetch("/api/issues/analyze", {
+      method: "POST",
+      body: formData,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error(AI_ANALYSIS_TIMEOUT_MESSAGE);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!response.ok) {
     throw new Error(await parseError(response));

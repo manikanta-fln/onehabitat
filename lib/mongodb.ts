@@ -1,8 +1,29 @@
 import { MongoClient, type Db } from "mongodb";
 
+function readTimeoutMs(
+  envKey: string,
+  fallback: number,
+  minimum = 5_000
+): number {
+  const raw = process.env[envKey]?.trim();
+  if (!raw) return fallback;
+
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed) || parsed < minimum) {
+    return fallback;
+  }
+
+  return parsed;
+}
+
 const options = {
   maxPoolSize: 10,
-  serverSelectionTimeoutMS: 10_000,
+  serverSelectionTimeoutMS: readTimeoutMs(
+    "MONGODB_SERVER_SELECTION_TIMEOUT_MS",
+    30_000
+  ),
+  connectTimeoutMS: readTimeoutMs("MONGODB_CONNECT_TIMEOUT_MS", 30_000),
+  socketTimeoutMS: readTimeoutMs("MONGODB_SOCKET_TIMEOUT_MS", 45_000),
 };
 
 declare global {
@@ -49,6 +70,27 @@ function getClientPromise(): Promise<MongoClient> {
   }
 
   return global._mongoClientPromise;
+}
+
+export function isMongoConnectionError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false;
+
+  const message = error.message.toLowerCase();
+  const name = error.name.toLowerCase();
+
+  return (
+    name.includes("mongoserverselectionerror") ||
+    message.includes("server selection timed out") ||
+    message.includes("econnrefused") ||
+    message.includes("failed to connect") ||
+    message.includes("connection timed out") ||
+    message.includes("getaddrinfo enotfound") ||
+    message.includes("mongodb_uri is not defined")
+  );
+}
+
+export function getMongoConnectionErrorMessage(): string {
+  return "Unable to connect to the database. Check that MongoDB is running, MONGODB_URI is configured on the server, and your deployment host is allowed to reach MongoDB.";
 }
 
 export async function getDb(): Promise<Db> {

@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 import { analyzeHomeServicesImage } from "@/lib/ai/home-services-diagnostic";
 import { parseImageFromFormData } from "@/lib/form-file";
 import { saveIssueImage } from "@/lib/issue-images";
-import { getDb } from "@/lib/mongodb";
+import { getDb, getMongoConnectionErrorMessage, isMongoConnectionError, verifyMongoConnection } from "@/lib/mongodb";
 import type { IssueAnalysisResult, IssueDocument } from "@/types/database";
 import { mockAnalyzeIssue } from "@/utils/mockAiAnalysis";
 
 export const runtime = "nodejs";
-export const maxDuration = 120;
+/** Must match AI_ANALYSIS_TIMEOUT_SECONDS in lib/ai/constants.ts (3 minutes). */
+export const maxDuration = 180;
 
 async function getRecommendation(file: NonNullable<Awaited<ReturnType<typeof parseImageFromFormData>>>) {
   if (process.env.OPENAI_API_KEY?.trim()) {
@@ -31,6 +32,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    await verifyMongoConnection();
 
     const recommendation = await getRecommendation(parsed);
     const now = new Date();
@@ -76,6 +79,14 @@ export async function POST(request: Request) {
     return NextResponse.json(analysisResult);
   } catch (error) {
     console.error("[POST /api/issues/analyze]", error);
+
+    if (isMongoConnectionError(error)) {
+      return NextResponse.json(
+        { error: getMongoConnectionErrorMessage() },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json(
       {
         error:

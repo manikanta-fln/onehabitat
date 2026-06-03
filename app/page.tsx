@@ -1,5 +1,6 @@
 import OnehabitatFooter from "@/components/onehabitat/Footer";
 import OnehabitatHeader from "@/components/onehabitat/Header";
+import AppLaunchSection from "@/components/onehabitat/AppLaunchSection";
 import MaintenanceCategories from "@/components/onehabitat/MaintenanceCategories";
 import UploadIssueProvider from "@/components/onehabitat/UploadIssueProvider";
 import UploadIssueTrigger from "@/components/onehabitat/UploadIssueTrigger";
@@ -228,6 +229,12 @@ export default function HomePage() {
                 </span>{" "}
                 Pergola
               </li>
+              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
+                <span className="material-symbols-outlined text-primary">
+                  check_circle
+                </span>{" "}
+                Tiles &amp; Water Proofing
+              </li>
             </ul>
           </div>
         </div>
@@ -247,7 +254,7 @@ export default function HomePage() {
           </p>
           <div className="bg-surface-container p-md rounded-lg border-l-4 border-secondary">
             <p className="font-body text-body-md italic text-on-surface">
-              &quot;We saved $4,000 in repair costs by identifying structural
+              &quot;We saved ₹10,000 in repair costs by identifying structural
               snags before the final payment.&quot;
             </p>
             <p className="font-body text-body-sm mt-xs text-on-surface-variant">
@@ -425,6 +432,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <AppLaunchSection />
 
       <section className="py-xl px-margin-mobile md:px-margin-desktop max-w-3xl mx-auto">
         <h2 className="font-headline text-headline-lg text-center mb-xl">

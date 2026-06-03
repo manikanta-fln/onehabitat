@@ -8,6 +8,7 @@ type MaintenanceCategory = {
   icon: string;
   title: string;
   description: string;
+  startingFrom?: string;
   image: string;
   imageAlt: string;
 };
@@ -63,6 +64,17 @@ const MAINTENANCE_CATEGORIES: MaintenanceCategory[] = [
     image: "/assets/plumbing-service.png",
     imageAlt: "Professional plumbing repair under sink",
   },
+  {
+    id: "pest-control",
+    label: "Pest Control",
+    icon: "pest_control",
+    title: "Pest Control Services",
+    description:
+      "Professional Pest Control Solutions for Homes and Businesses. Safe, Effective, and Long-Lasting Protection Against Termites, Cockroaches, Rodents, Mosquitoes, Bed Bugs, and Other Pests.",
+    startingFrom: "₹680",
+    image: "/assets/pest-control-service.png",
+    imageAlt: "Professional pest control for homes and businesses",
+  },
 ];
 
 export default function MaintenanceCategories() {
@@ -74,9 +86,14 @@ export default function MaintenanceCategories() {
   return (
     <section className="py-xl bg-surface-container-lowest">
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
-        <h2 className="font-headline text-headline-lg mb-xl text-center">
-          Maintenance Services
-        </h2>
+        <div className="mb-xl text-center">
+          <h2 className="font-headline text-headline-lg text-on-surface">
+            Maintenance Services
+          </h2>
+          <p className="mt-sm font-body text-body-lg text-on-surface-variant">
+            Starting from ₹149
+          </p>
+        </div>
         <div className="flex flex-col md:flex-row gap-lg bg-white rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden min-h-[500px]">
           <div
             role="tablist"
@@ -136,6 +153,11 @@ export default function MaintenanceCategories() {
               <p className="font-body text-body-md text-on-surface-variant">
                 {activeCategory.description}
               </p>
+              {activeCategory.startingFrom ? (
+                <p className="mt-md font-headline text-headline-sm text-on-surface">
+                  Starting from {activeCategory.startingFrom}
+                </p>
+              ) : null}
             </div>
             <div className="flex-1 order-1 md:order-2">
               <div className="aspect-video md:aspect-square rounded-lg overflow-hidden shadow-lg">
