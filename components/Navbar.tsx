@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
-import { BRAND_NAME, CONTACT_HREF, MAIN_NAV_LINKS } from "@/utils/constants";
+import {
+  BRAND_LOGO_SRC,
+  BRAND_NAME,
+  CONTACT_HREF,
+  MAIN_NAV_LINKS,
+} from "@/utils/constants";
 
 type NavbarProps = {
   brandName?: string;
@@ -133,12 +138,20 @@ export default function Navbar({
 
   return (
     <nav className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur-md shadow-sm">
-      <div className="relative mx-auto flex max-w-7xl items-center justify-between px-margin-mobile py-4 lg:px-margin-desktop">
+      <div className="relative mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between gap-sm px-margin-mobile sm:h-[4.75rem] lg:px-margin-desktop">
         <Link
           href={brandHref}
-          className="font-headline text-headline-md font-bold text-primary"
+          className="flex shrink-0 items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          aria-label={`${brandName} home`}
         >
-          {brandName}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={BRAND_LOGO_SRC}
+            alt={brandName}
+            width={785}
+            height={439}
+            className="h-12 w-auto max-h-[3.25rem] max-w-[min(17.5rem,72vw)] object-contain object-left sm:h-14 sm:max-h-[3.75rem] lg:h-16 lg:max-h-[4rem] lg:max-w-[20rem]"
+          />
         </Link>
 
         <div className="hidden items-center gap-gutter lg:flex">

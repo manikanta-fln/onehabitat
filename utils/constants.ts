@@ -1,6 +1,7 @@
 import type { NavLink } from "@/types";
 
 export const BRAND_NAME = "Onehabitat";
+export const BRAND_LOGO_SRC = "/assets/one-habitat-logo.svg";
 export const SITE_TITLE =
   "Onehabitat - Maintenance that Cares. Interiors That Inspire.";
 export const BRAND_EMAIL = "hello@onehabitat.com";

@@ -246,7 +246,7 @@ export default function HomePage() {
           </h2>
           <p className="font-body text-body-lg text-on-surface-variant">
             Don&apos;t inherit the builder&apos;s mistakes. Our certified
-            engineers conduct a 200+ point audit of your new property.
+            experts conduct a 200+ point audit of your new property.
           </p>
           <div className="bg-surface-container p-md rounded-lg border-l-4 border-secondary">
             <p className="font-body text-body-md italic text-on-surface">
