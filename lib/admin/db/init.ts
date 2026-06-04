@@ -77,6 +77,11 @@ async function createIndexes(db: Db): Promise<void> {
       { key: { status: 1, createdAt: -1 }, name: "bookings_status_created_at" },
       { key: { "booking.preferredDate": 1 }, name: "bookings_preferred_date" },
     ]),
+    db.collection(ADMIN_COLLECTIONS.consultations).createIndexes([
+      { key: { createdAt: -1 }, name: "consultations_created_at" },
+      { key: { phone: 1 }, name: "consultations_phone" },
+      { key: { fullName: 1 }, name: "consultations_full_name" },
+    ]),
     db.collection(ADMIN_COLLECTIONS.images).createIndexes([
       { key: { issueId: 1 }, unique: true, name: "images_issue_id_unique" },
     ]),

@@ -1,3 +1,4 @@
+import type { ConsultationFormData, ConsultationSource } from "@/types/consultation";
 import type { AIRecommendation, BookingFormData } from "@/types/upload-issue";
 import {
   AI_ANALYSIS_TIMEOUT_MS,
@@ -83,4 +84,21 @@ export async function createBooking(payload: {
   }
 
   return response.json() as Promise<{ bookingId: string; issueId: string }>;
+}
+
+export async function submitConsultation(payload: {
+  consultation: ConsultationFormData;
+  source: ConsultationSource;
+}): Promise<{ consultationId: string }> {
+  const response = await fetch("/api/consultations", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseError(response));
+  }
+
+  return response.json() as Promise<{ consultationId: string }>;
 }

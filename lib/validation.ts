@@ -1,6 +1,34 @@
+import type { ConsultationFormData } from "@/types/consultation";
 import type { AIRecommendation, BookingFormData } from "@/types/upload-issue";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^[\d\s+\-()]{10,20}$/;
+
+export function isValidConsultation(
+  value: unknown
+): value is ConsultationFormData {
+  if (!value || typeof value !== "object") return false;
+
+  const c = value as Record<string, unknown>;
+
+  if (typeof c.fullName !== "string" || c.fullName.trim().length < 2) {
+    return false;
+  }
+  if (typeof c.phone !== "string" || !PHONE_PATTERN.test(c.phone.trim())) {
+    return false;
+  }
+  if (typeof c.address !== "string" || c.address.trim().length < 5) {
+    return false;
+  }
+  if (typeof c.email !== "string") return false;
+
+  const email = c.email.trim();
+  if (email.length > 0 && !EMAIL_PATTERN.test(email)) {
+    return false;
+  }
+
+  return true;
+}
 
 export function isValidBooking(booking: unknown): booking is BookingFormData {
   if (!booking || typeof booking !== "object") return false;

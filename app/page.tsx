@@ -3,6 +3,7 @@ import OnehabitatHeader from "@/components/onehabitat/Header";
 import AppLaunchSection from "@/components/onehabitat/AppLaunchSection";
 import MaintenanceCategories from "@/components/onehabitat/MaintenanceCategories";
 import UploadIssueProvider from "@/components/onehabitat/UploadIssueProvider";
+import FreeConsultationButton from "@/components/onehabitat/FreeConsultationButton";
 import UploadIssueTrigger from "@/components/onehabitat/UploadIssueTrigger";
 
 const HERO_IMAGE = "/assets/hero-section.png";
@@ -34,12 +35,7 @@ export default function HomePage() {
             </p>
             <div className="mt-sm flex w-full flex-col gap-md md:flex-row md:flex-wrap">
               <UploadIssueTrigger variant="primary" className="w-full md:w-auto" />
-              <button
-                type="button"
-                className="flex w-full items-center justify-center rounded-DEFAULT border-2 border-primary px-lg py-md font-label text-label-lg text-primary transition-all hover:bg-primary hover:text-white md:w-auto"
-              >
-                Get Free Consultation
-              </button>
+              <FreeConsultationButton className="flex w-full items-center justify-center rounded-DEFAULT border-2 border-primary px-lg py-md font-label text-label-lg text-primary transition-all hover:bg-primary hover:text-white md:w-auto" />
             </div>
             <div className="flex flex-wrap gap-gutter items-center mt-md text-on-surface-variant">
               <span className="flex items-center gap-xs font-label text-label-sm">

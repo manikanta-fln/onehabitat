@@ -65,3 +65,13 @@ export type BookingDocument = {
   notificationEmailSentAt?: Date;
   createdAt: Date;
 };
+
+export type ConsultationDocument = {
+  _id?: ObjectId;
+  fullName: string;
+  phone: string;
+  address: string;
+  email: string;
+  source: string;
+  createdAt: Date;
+};
