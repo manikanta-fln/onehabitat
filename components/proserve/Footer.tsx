@@ -112,7 +112,7 @@ export default function ProServeFooter() {
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-slate-100">
           <p className="font-manrope text-xs tracking-widest uppercase text-on-surface-variant/60">
-            © 2024 {BRAND_NAME}. All Rights Reserved.
+            © 2026 {BRAND_NAME}. All Rights Reserved.
           </p>
           <div className="flex space-x-8 mt-6 md:mt-0">
             <span className="text-xs uppercase tracking-widest font-bold text-on-surface/40">

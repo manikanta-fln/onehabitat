@@ -73,7 +73,7 @@ const MAINTENANCE_CATEGORIES: MaintenanceCategory[] = [
       "Professional Pest Control Solutions for Homes and Businesses. Safe, Effective, and Long-Lasting Protection Against Termites, Cockroaches, Rodents, Mosquitoes, Bed Bugs, and Other Pests.",
     startingFrom: "₹680",
     image: "/assets/pest-control-service.png",
-    imageAlt: "Professional pest control for homes and businesses",
+    imageAlt: "Professional pest control technician treating a home kitchen",
   },
 ];
 

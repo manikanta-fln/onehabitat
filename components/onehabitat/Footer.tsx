@@ -32,7 +32,7 @@ export default function OnehabitatFooter() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto border-t border-white/20 mt-xl pt-lg text-center font-body text-body-sm opacity-60">
-        © 2024 {BRAND_NAME}. All rights reserved. Privacy Policy | Cookies
+        © 2026 {BRAND_NAME}. All rights reserved. Privacy Policy | Cookies
       </div>
     </footer>
   );

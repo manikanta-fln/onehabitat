@@ -22,6 +22,8 @@ const PAINTING_IMG = "/assets/painting-service.png";
 
 const SEEPAGE_IMG = "/assets/seepage-service.png";
 
+const PEST_CONTROL_IMG = "/assets/pest-control-service.png";
+
 export default function ServicesPage() {
   return (
     <div className="proserve-page bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
@@ -483,6 +485,82 @@ export default function ServicesPage() {
                   alt="Lush Garden"
                   className="rounded-xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
                   src={SEEPAGE_IMG}
+                />
+              </div>
+            </div>
+          </section>
+
+          <section className="py-section-padding bg-surface-container-lowest">
+            <div className="max-w-container-max mx-auto px-gutter grid grid-cols-12 gap-gutter items-center">
+              <div className="col-span-12 lg:col-span-6">
+                <span className="text-primary font-label-caps mb-4 block">
+                  06 / PEST MANAGEMENT
+                </span>
+                <h2 className="font-headline-lg text-headline-lg mb-8">
+                  Pest Control Services
+                </h2>
+                <p className="font-body-lg text-on-surface-variant mb-12">
+                  Professional pest control solutions for homes and businesses.
+                  Safe, effective, and long-lasting protection against termites,
+                  cockroaches, rodents, mosquitoes, bed bugs, and other pests.
+                </p>
+                <div className="mb-12">
+                  <h4 className="font-label-caps text-xs text-on-surface-variant mb-6">
+                    WHAT WE OFFER
+                  </h4>
+                  <div className="flex flex-wrap gap-3">
+                    <span className="px-4 py-2 bg-white border border-outline-variant text-sm rounded-full">
+                      Termite Treatment
+                    </span>
+                    <span className="px-4 py-2 bg-white border border-outline-variant text-sm rounded-full">
+                      Cockroach Control
+                    </span>
+                    <span className="px-4 py-2 bg-white border border-outline-variant text-sm rounded-full">
+                      Rodent Proofing
+                    </span>
+                    <span className="px-4 py-2 bg-white border border-outline-variant text-sm rounded-full">
+                      Mosquito Management
+                    </span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-8 mb-12 border-l-2 border-primary-container pl-8">
+                  <div>
+                    <p className="font-label-caps text-xs text-primary mb-2">
+                      WHY IT MATTERS
+                    </p>
+                    <p className="text-sm">
+                      Protects health, hygiene, and structural integrity across
+                      your property.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-label-caps text-xs text-primary mb-2">
+                      STARTING FROM
+                    </p>
+                    <p className="text-sm font-medium">₹680</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    className="bg-primary-container text-on-primary-container px-8 py-4 rounded font-label-caps text-xs tracking-widest"
+                  >
+                    BOOK SERVICE
+                  </button>
+                  <button
+                    type="button"
+                    className="text-primary font-label-caps text-xs tracking-widest border-b border-primary py-4"
+                  >
+                    GET AMC QUOTE
+                  </button>
+                </div>
+              </div>
+              <div className="col-span-12 lg:col-span-6 mt-12 lg:mt-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  alt="Professional pest control technician treating a home kitchen"
+                  className="rounded-xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
+                  src={PEST_CONTROL_IMG}
                 />
               </div>
             </div>
