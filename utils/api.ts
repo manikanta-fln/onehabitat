@@ -1,4 +1,5 @@
 import type { ConsultationFormData, ConsultationSource } from "@/types/consultation";
+import type { WaitlistFormData, WaitlistSource } from "@/types/waitlist";
 import type { AIRecommendation, BookingFormData } from "@/types/upload-issue";
 import {
   AI_ANALYSIS_TIMEOUT_MS,
@@ -101,4 +102,21 @@ export async function submitConsultation(payload: {
   }
 
   return response.json() as Promise<{ consultationId: string }>;
+}
+
+export async function submitJoinlist(payload: {
+  entry: WaitlistFormData;
+  source: WaitlistSource;
+}): Promise<{ joinlistId: string }> {
+  const response = await fetch("/api/joinlist", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseError(response));
+  }
+
+  return response.json() as Promise<{ joinlistId: string }>;
 }

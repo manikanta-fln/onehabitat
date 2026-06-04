@@ -1,22 +1,22 @@
 "use client";
 
 import ModalPortal from "@/components/onehabitat/ModalPortal";
-import type { ConsultationFormData } from "@/types/consultation";
+import type { WaitlistFormData } from "@/types/waitlist";
 
 const INPUT_CLASS =
   "w-full rounded-DEFAULT border border-outline-variant/30 bg-surface-container-lowest px-md py-sm text-left font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
 
-type ConsultationModalProps = {
-  form: ConsultationFormData;
+type WaitlistModalProps = {
+  form: WaitlistFormData;
   isSubmitting: boolean;
   isSubmitted: boolean;
   submitError: string | null;
   onClose: () => void;
-  onChange: (field: keyof ConsultationFormData, value: string) => void;
+  onChange: (field: keyof WaitlistFormData, value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
 };
 
-export default function ConsultationModal({
+export default function WaitlistModal({
   form,
   isSubmitting,
   isSubmitted,
@@ -24,14 +24,14 @@ export default function ConsultationModal({
   onClose,
   onChange,
   onSubmit,
-}: ConsultationModalProps) {
+}: WaitlistModalProps) {
   return (
     <ModalPortal>
     <div
       className="fixed inset-0 z-[200] flex items-center justify-center p-margin-mobile md:p-md"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="consultation-modal-title"
+      aria-labelledby="waitlist-modal-title"
     >
       <button
         type="button"
@@ -44,13 +44,13 @@ export default function ConsultationModal({
         <div className="flex shrink-0 items-start justify-between gap-md border-b border-outline-variant/10 px-lg py-md">
           <div className="min-w-0 flex-1 text-left">
             <p className="font-label text-label-sm uppercase tracking-wide text-on-surface-variant">
-              Onehabitat
+              Onehabitat App
             </p>
             <h2
-              id="consultation-modal-title"
+              id="waitlist-modal-title"
               className="font-headline text-headline-md leading-tight text-primary"
             >
-              {isSubmitted ? "Request Received" : "Free Consultation"}
+              {isSubmitted ? "You're on the list" : "Join the Waitlist"}
             </h2>
           </div>
           <button
@@ -77,8 +77,9 @@ export default function ConsultationModal({
                 </span>
               </div>
               <p className="max-w-md font-body text-body-md text-on-surface-variant">
-                Thank you, {form.fullName.trim()}. Our team will contact you shortly
-                to schedule your free consultation.
+                Thanks, {form.fullName.trim()}. We&apos;ll email you at{" "}
+                <strong className="text-on-surface">{form.email.trim()}</strong>{" "}
+                when the app launches.
               </p>
               <button
                 type="button"
@@ -91,13 +92,13 @@ export default function ConsultationModal({
           ) : (
             <form onSubmit={onSubmit} className="space-y-md">
               <p className="font-body text-body-md text-on-surface-variant">
-                Share your details and we&apos;ll reach out to help with repairs,
-                interiors, or complete home care.
+                Be the first to know when our AI-powered apartment living app is
+                ready.
               </p>
 
               <label className="flex flex-col gap-xs text-left">
                 <span className="font-label text-label-sm leading-snug text-on-surface-variant">
-                  Full name *
+                  Name *
                 </span>
                 <input
                   required
@@ -112,39 +113,10 @@ export default function ConsultationModal({
 
               <label className="flex flex-col gap-xs text-left">
                 <span className="font-label text-label-sm leading-snug text-on-surface-variant">
-                  Mobile number *
+                  Email *
                 </span>
                 <input
                   required
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => onChange("phone", e.target.value)}
-                  className={INPUT_CLASS}
-                  placeholder="+91 98765 43210"
-                  autoComplete="tel"
-                />
-              </label>
-
-              <label className="flex flex-col gap-xs text-left">
-                <span className="font-label text-label-sm leading-snug text-on-surface-variant">
-                  Address *
-                </span>
-                <textarea
-                  required
-                  rows={3}
-                  value={form.address}
-                  onChange={(e) => onChange("address", e.target.value)}
-                  className={`${INPUT_CLASS} resize-none`}
-                  placeholder="Apartment, street, city"
-                  autoComplete="street-address"
-                />
-              </label>
-
-              <label className="flex flex-col gap-xs text-left">
-                <span className="font-label text-label-sm leading-snug text-on-surface-variant">
-                  Email <span className="font-normal">(optional)</span>
-                </span>
-                <input
                   type="email"
                   value={form.email}
                   onChange={(e) => onChange("email", e.target.value)}
@@ -174,7 +146,7 @@ export default function ConsultationModal({
                     Submitting…
                   </>
                 ) : (
-                  "Submit Request"
+                  "Join the Waitlist"
                 )}
               </button>
             </form>

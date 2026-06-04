@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties } from "react";
-import { BRAND_EMAIL, CONTACT_HREF } from "@/utils/constants";
+import JoinWaitlistButton from "@/components/onehabitat/JoinWaitlistButton";
+import { CONTACT_HREF } from "@/utils/constants";
 
 /** iPhone 13 width (390px); height reduced for layout — width unchanged */
 const IPHONE_13_WIDTH_PX = 390;
@@ -24,8 +25,6 @@ const FEATURES = [
   { icon: "notifications_active", label: "Smart Notifications" },
   { icon: "analytics", label: "Apartment Analytics" },
 ] as const;
-
-const WAITLIST_MAILTO = `mailto:${BRAND_EMAIL}?subject=${encodeURIComponent("App Waitlist — Onehabitat")}&body=${encodeURIComponent("Hi Onehabitat team,\n\nI'd like to join the waitlist for the upcoming apartment living app.\n\nName:\nApartment / Society:\nPhone:\n")}`;
 
 export default function AppLaunchSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -127,12 +126,7 @@ export default function AppLaunchSection() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-md mt-xs">
-              <a
-                href={WAITLIST_MAILTO}
-                className="inline-flex items-center justify-center rounded-DEFAULT bg-primary px-lg py-md font-label text-label-lg text-on-primary shadow-lg transition-all hover:shadow-xl hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-              >
-                Join the Waitlist
-              </a>
+              <JoinWaitlistButton className="inline-flex items-center justify-center rounded-DEFAULT bg-primary px-lg py-md font-label text-label-lg text-on-primary shadow-lg transition-all hover:shadow-xl hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" />
               <button
                 type="button"
                 onClick={scrollToFeatures}

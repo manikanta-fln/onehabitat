@@ -75,3 +75,11 @@ export type ConsultationDocument = {
   source: string;
   createdAt: Date;
 };
+
+export type JoinlistDocument = {
+  _id?: ObjectId;
+  fullName: string;
+  email: string;
+  source: string;
+  createdAt: Date;
+};

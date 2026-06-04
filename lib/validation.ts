@@ -1,4 +1,5 @@
 import type { ConsultationFormData } from "@/types/consultation";
+import type { WaitlistFormData } from "@/types/waitlist";
 import type { AIRecommendation, BookingFormData } from "@/types/upload-issue";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,6 +29,19 @@ export function isValidConsultation(
   }
 
   return true;
+}
+
+export function isValidWaitlist(value: unknown): value is WaitlistFormData {
+  if (!value || typeof value !== "object") return false;
+
+  const w = value as Record<string, unknown>;
+
+  return (
+    typeof w.fullName === "string" &&
+    w.fullName.trim().length >= 2 &&
+    typeof w.email === "string" &&
+    EMAIL_PATTERN.test(w.email.trim())
+  );
 }
 
 export function isValidBooking(booking: unknown): booking is BookingFormData {

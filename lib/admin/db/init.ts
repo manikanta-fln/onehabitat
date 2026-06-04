@@ -82,6 +82,11 @@ async function createIndexes(db: Db): Promise<void> {
       { key: { phone: 1 }, name: "consultations_phone" },
       { key: { fullName: 1 }, name: "consultations_full_name" },
     ]),
+    db.collection(ADMIN_COLLECTIONS.joinlist).createIndexes([
+      { key: { createdAt: -1 }, name: "joinlist_created_at" },
+      { key: { email: 1 }, name: "joinlist_email" },
+      { key: { fullName: 1 }, name: "joinlist_full_name" },
+    ]),
     db.collection(ADMIN_COLLECTIONS.images).createIndexes([
       { key: { issueId: 1 }, unique: true, name: "images_issue_id_unique" },
     ]),

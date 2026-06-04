@@ -9,5 +9,6 @@ export const ADMIN_COLLECTIONS = {
   bookings: "bookings",
   customers: "customers",
   consultations: "consultations",
+  joinlist: "joinlist",
   images: "images",
 } as const;

@@ -14,6 +14,7 @@ export type AdminPermission =
   | "bookings:read"
   | "bookings:write"
   | "consultations:read"
+  | "joinlist:read"
   | "customers:read"
   | "customers:write"
   | "analytics:read"
