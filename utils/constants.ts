@@ -4,6 +4,8 @@ export const BRAND_NAME = "Onehabitat";
 export const BRAND_LOGO_SRC = "/assets/one-habitat-logo.svg";
 export const SITE_TITLE =
   "Onehabitat - Maintenance that Cares. Interiors That Inspire.";
+export const SITE_DESCRIPTION =
+  "From Small Repairs to complete home makeovers. Served only in bangalore. Upload an issue, get AI analysis, expert guidance, and professional service at your doorstep.";
 export const BRAND_EMAIL = "hello@onehabitat.com";
 export const BRAND_PHONE = "+91 83417 96243";
 

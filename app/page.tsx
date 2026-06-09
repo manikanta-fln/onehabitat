@@ -83,7 +83,7 @@ export default function HomePage() {
                 </span>
               </div>
               <div>
-                <p className="font-headline text-headline-sm">12,000+</p>
+                <p className="font-headline text-headline-sm">20+</p>
                 <p className="font-label text-label-sm opacity-60">
                   Repairs Completed
                 </p>
