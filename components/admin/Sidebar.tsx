@@ -14,6 +14,7 @@ export const ADMIN_NAV_ITEMS = [
   { href: "/admin/consultations", label: "Consultations", icon: "support_agent" },
   { href: "/admin/joinlist", label: "Joinlist", icon: "playlist_add" },
   { href: "/admin/customers", label: "Customers", icon: "groups" },
+  { href: "/admin/media", label: "Media", icon: "photo_library" },
   { href: "/admin/analytics", label: "Analytics", icon: "monitoring" },
   { href: "/admin/settings", label: "Settings", icon: "settings" },
   { href: "/admin/users", label: "Users", icon: "shield_person" },

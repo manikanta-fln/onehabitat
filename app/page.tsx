@@ -232,6 +232,15 @@ export default function HomePage() {
                 Tiles &amp; Water Proofing
               </li>
             </ul>
+            <a
+              href="/gallery"
+              className="mt-md inline-flex w-fit items-center gap-sm rounded-DEFAULT border-2 border-primary px-lg py-md font-label text-label-lg text-primary transition-all hover:bg-primary hover:text-white"
+            >
+              View project gallery
+              <span className="material-symbols-outlined text-[1.25rem] leading-none">
+                arrow_forward
+              </span>
+            </a>
           </div>
         </div>
       </section>

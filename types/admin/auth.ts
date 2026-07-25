@@ -17,6 +17,8 @@ export type AdminPermission =
   | "joinlist:read"
   | "customers:read"
   | "customers:write"
+  | "media:read"
+  | "media:write"
   | "analytics:read"
   | "analytics:export"
   | "settings:read"

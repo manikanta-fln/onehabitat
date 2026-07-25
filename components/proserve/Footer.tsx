@@ -1,4 +1,5 @@
 import { BRAND_NAME } from "@/utils/constants";
+import FooterSocialLinks from "@/components/FooterSocialLinks";
 
 export default function ProServeFooter() {
   return (
@@ -13,20 +14,7 @@ export default function ProServeFooter() {
               Architectural precision in every weld, every wire, and every drop of
               water. The gold standard in luxury maintenance.
             </p>
-            <div className="flex space-x-4">
-              <a
-                className="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary-container transition-colors"
-                href="#"
-              >
-                <span className="material-symbols-outlined text-sm">share</span>
-              </a>
-              <a
-                className="w-8 h-8 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary-container transition-colors"
-                href="#"
-              >
-                <span className="material-symbols-outlined text-sm">mail</span>
-              </a>
-            </div>
+            <FooterSocialLinks />
           </div>
           <div>
             <h4 className="font-label-caps text-xs tracking-widest text-primary mb-8 uppercase">
@@ -71,7 +59,7 @@ export default function ProServeFooter() {
                 </a>
               </li>
               <li>
-                <a className="hover:text-primary" href="#">
+                <a className="hover:text-primary" href="/gallery">
                   Project Gallery
                 </a>
               </li>

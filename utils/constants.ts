@@ -18,6 +18,7 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_PHONE}`;
 export const MAIN_NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Interiors", href: "/#interiors" },
   { label: "Inspections", href: "/#inspections" },
   { label: "AMC Plans", href: "/#amc-plans" },

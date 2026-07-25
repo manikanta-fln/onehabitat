@@ -7,10 +7,13 @@ export async function adminFetch<T>(
   path: string,
   init?: RequestInit
 ): Promise<T> {
+  const isFormData =
+    typeof FormData !== "undefined" && init?.body instanceof FormData;
+
   const response = await fetch(path, {
     ...init,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...(init?.headers ?? {}),
     },
     credentials: "same-origin",
@@ -41,6 +44,16 @@ export async function adminFetch<T>(
   }
 
   return response.json() as Promise<T>;
+}
+
+export async function adminUpload<T>(
+  path: string,
+  formData: FormData
+): Promise<T> {
+  return adminFetch<T>(path, {
+    method: "POST",
+    body: formData,
+  });
 }
 
 export function buildQuery(params: Record<string, string | number | undefined>) {

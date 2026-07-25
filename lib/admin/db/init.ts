@@ -90,6 +90,11 @@ async function createIndexes(db: Db): Promise<void> {
     db.collection(ADMIN_COLLECTIONS.images).createIndexes([
       { key: { issueId: 1 }, unique: true, name: "images_issue_id_unique" },
     ]),
+    db.collection(ADMIN_COLLECTIONS.galleryMedia).createIndexes([
+      { key: { createdAt: -1 }, name: "gallery_media_created_at" },
+      { key: { mediaType: 1, createdAt: -1 }, name: "gallery_media_type_created" },
+      { key: { aspectRatio: 1 }, name: "gallery_media_aspect_ratio" },
+    ]),
   ]);
 }
 
@@ -172,6 +177,25 @@ async function seedDashboardSettings(db: Db): Promise<void> {
       value: {
         maxImageBytes: 50 * 1024 * 1024,
         allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/heic"],
+      },
+    },
+    {
+      key: "gallery_upload",
+      value: {
+        maxImageBytes: 10 * 1024 * 1024,
+        maxVideoBytes: 100 * 1024 * 1024,
+        allowedImageMimeTypes: [
+          "image/jpeg",
+          "image/png",
+          "image/avif",
+          "image/heic",
+          "image/heif",
+        ],
+        allowedVideoMimeTypes: [
+          "video/mp4",
+          "video/webm",
+          "video/quicktime",
+        ],
       },
     },
     {
