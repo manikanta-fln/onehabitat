@@ -10,6 +10,7 @@ import {
   uploadGalleryMedia,
 } from "@/lib/admin/services/gallery-media-service";
 import { parsePagination } from "@/lib/admin/utils/pagination";
+import { GALLERY_CATEGORIES, isGalleryCategory } from "@/types/gallery-media";
 
 export const runtime = "nodejs";
 
@@ -20,6 +21,7 @@ export async function GET(request: Request) {
     const params = parsePagination(searchParams);
     const mediaType = searchParams.get("mediaType");
     const aspectRatio = searchParams.get("aspectRatio");
+    const categoryParam = searchParams.get("category");
 
     const [data, limits] = await Promise.all([
       getAdminGalleryMedia(params, {
@@ -31,11 +33,19 @@ export async function GET(request: Request) {
           aspectRatio === "square"
             ? aspectRatio
             : undefined,
+        category:
+          categoryParam && isGalleryCategory(categoryParam)
+            ? categoryParam
+            : undefined,
       }),
       getGalleryUploadLimits(),
     ]);
 
-    return NextResponse.json({ ...data, limits });
+    return NextResponse.json({
+      ...data,
+      limits,
+      categories: GALLERY_CATEGORIES,
+    });
   } catch (error) {
     return handleAdminRouteError(error);
   }

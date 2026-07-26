@@ -1,16 +1,40 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type { GalleryMediaPublic } from "@/types/gallery-media";
+import { useEffect, useMemo, useState } from "react";
+import { GALLERY_CATEGORIES } from "@/types/gallery-media";
+import type {
+  GalleryCategory,
+  GalleryMediaPublic,
+} from "@/types/gallery-media";
 
 type GalleryResponse = {
   media: GalleryMediaPublic[];
+  categories?: typeof GALLERY_CATEGORIES;
 };
+
+type TabKey = "all" | GalleryCategory;
+
+function tileAspect(item: GalleryMediaPublic): string {
+  if (item.width > 0 && item.height > 0) {
+    return `${item.width} / ${item.height}`;
+  }
+  if (item.aspectRatio === "portrait") return "3 / 4";
+  if (item.aspectRatio === "landscape") return "16 / 10";
+  return "1 / 1";
+}
+
+function gridSpan(item: GalleryMediaPublic): string {
+  if (item.aspectRatio === "landscape") {
+    return "sm:col-span-2";
+  }
+  return "sm:col-span-1";
+}
 
 export default function GalleryGrid() {
   const [media, setMedia] = useState<GalleryMediaPublic[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [active, setActive] = useState<GalleryMediaPublic | null>(null);
+  const [tab, setTab] = useState<TabKey>("all");
 
   useEffect(() => {
     let cancelled = false;
@@ -26,7 +50,7 @@ export default function GalleryGrid() {
         }
         const data = (await response.json()) as GalleryResponse;
         if (!cancelled) {
-          setMedia(data.media);
+          setMedia(data.media ?? []);
         }
       } catch (err) {
         if (!cancelled) {
@@ -58,6 +82,12 @@ export default function GalleryGrid() {
     };
   }, [active]);
 
+  const filtered = useMemo(() => {
+    if (!media) return [];
+    if (tab === "all") return media;
+    return media.filter((item) => item.category === tab);
+  }, [media, tab]);
+
   if (media === null) {
     return (
       <div className="flex min-h-[40vh] items-center justify-center">
@@ -74,31 +104,57 @@ export default function GalleryGrid() {
     );
   }
 
-  if (media.length === 0) {
-    return (
-      <div className="mx-auto max-w-md py-24 text-center">
-        <p className="text-[21px] font-medium tracking-tight text-black/80">
-          Gallery coming soon
-        </p>
-        <p className="mt-3 text-[17px] leading-relaxed text-black/45">
-          Project photography and walkthroughs will appear here.
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <>
-      <div className="columns-1 gap-6 sm:columns-2 sm:gap-7 lg:columns-3 lg:gap-8 xl:columns-4">
-        {media.map((item, index) => (
-          <GalleryTile
-            key={item.id}
-            item={item}
-            index={index}
-            onOpen={() => setActive(item)}
+    <div className="space-y-10">
+      <div
+        className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1"
+        role="tablist"
+        aria-label="Gallery categories"
+      >
+        <CategoryTab
+          label="All"
+          selected={tab === "all"}
+          onSelect={() => setTab("all")}
+        />
+        {GALLERY_CATEGORIES.map((category) => (
+          <CategoryTab
+            key={category.key}
+            label={category.label}
+            selected={tab === category.key}
+            onSelect={() => setTab(category.key)}
           />
         ))}
       </div>
+
+      {media.length === 0 ? (
+        <div className="mx-auto max-w-md py-16 text-center">
+          <p className="text-[21px] font-medium tracking-tight text-black/80">
+            Gallery coming soon
+          </p>
+          <p className="mt-3 text-[17px] leading-relaxed text-black/45">
+            Project photography and walkthroughs will appear here.
+          </p>
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="mx-auto max-w-md py-16 text-center">
+          <p className="text-[21px] font-medium tracking-tight text-black/80">
+            No media in this category
+          </p>
+          <p className="mt-3 text-[17px] leading-relaxed text-black/45">
+            Try another tab or upload media for this category from admin.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7 xl:grid-cols-4">
+          {filtered.map((item) => (
+            <GalleryTile
+              key={`${tab}-${item.id}`}
+              item={item}
+              onOpen={() => setActive(item)}
+            />
+          ))}
+        </div>
+      )}
 
       {active ? (
         <div
@@ -136,67 +192,61 @@ export default function GalleryGrid() {
                 className="max-h-[88vh] w-full rounded-2xl object-contain"
               />
             )}
-            {active.title ? (
+            {(active.title || active.categoryLabel) && (
               <p className="mt-4 text-center text-[15px] text-white/70">
-                {active.title}
+                {[active.categoryLabel, active.title].filter(Boolean).join(" · ")}
               </p>
-            ) : null}
+            )}
           </div>
         </div>
       ) : null}
-    </>
+    </div>
+  );
+}
+
+function CategoryTab({
+  label,
+  selected,
+  onSelect,
+}: {
+  label: string;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="tab"
+      aria-selected={selected}
+      onClick={onSelect}
+      className={`shrink-0 rounded-full px-5 py-2.5 text-[14px] font-medium tracking-tight transition-colors ${
+        selected
+          ? "bg-black text-white"
+          : "bg-black/[0.04] text-black/55 hover:bg-black/[0.08] hover:text-black/80"
+      }`}
+    >
+      {label}
+    </button>
   );
 }
 
 function GalleryTile({
   item,
-  index,
   onOpen,
 }: {
   item: GalleryMediaPublic;
-  index: number;
   onOpen: () => void;
 }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: "40px" }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <button
-      ref={ref}
       type="button"
       onClick={onOpen}
-      className={`group mb-6 inline-block w-full break-inside-avoid overflow-hidden rounded-[22px] bg-[#ececee] text-left outline-none transition-all duration-700 ease-out focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-4 sm:mb-7 lg:mb-8 ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      }`}
-      style={{ transitionDelay: `${Math.min(index, 8) * 45}ms` }}
+      className={`group w-full overflow-hidden rounded-[22px] bg-[#ececee] text-left outline-none transition-transform duration-500 ease-out hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-4 ${gridSpan(item)}`}
       aria-label={`View ${item.title || item.fileName}`}
     >
       <div
         className="relative w-full overflow-hidden"
-        style={{
-          aspectRatio:
-            item.width > 0 && item.height > 0
-              ? `${item.width} / ${item.height}`
-              : undefined,
-        }}
+        style={{ aspectRatio: tileAspect(item) }}
       >
         {item.mediaType === "video" ? (
           <>

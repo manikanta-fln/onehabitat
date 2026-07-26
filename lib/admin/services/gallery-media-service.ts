@@ -18,15 +18,28 @@ import {
 import { buildPaginationResult } from "@/lib/admin/utils/pagination";
 import { serializeDate, serializeId } from "@/lib/admin/utils/serialize";
 import type { PaginationParams } from "@/types/admin/api";
-import type { GalleryMediaDocument, GalleryMediaPublic } from "@/types/gallery-media";
+import type {
+  GalleryCategory,
+  GalleryMediaDocument,
+  GalleryMediaPublic,
+} from "@/types/gallery-media";
+import {
+  getGalleryCategoryLabel,
+  isGalleryCategory,
+} from "@/types/gallery-media";
 
 function toPublic(media: GalleryMediaDocument): GalleryMediaPublic {
   const id = serializeId(media._id);
+  const category =
+    media.category && isGalleryCategory(media.category) ? media.category : null;
+
   return {
     id,
     fileName: media.fileName,
     mimeType: media.mimeType,
     mediaType: media.mediaType,
+    category,
+    categoryLabel: getGalleryCategoryLabel(category),
     sizeBytes: media.sizeBytes,
     width: media.width,
     height: media.height,
@@ -75,9 +88,9 @@ export async function getAdminGalleryMedia(
   );
 }
 
-export async function getPublicGalleryMedia() {
+export async function getPublicGalleryMedia(category?: GalleryCategory) {
   const db = await getDb();
-  const data = await listAllGalleryMedia(db);
+  const data = await listAllGalleryMedia(db, category);
   return { media: data.map(toPublic) };
 }
 

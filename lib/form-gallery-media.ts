@@ -3,12 +3,14 @@ import {
   DEFAULT_MAX_GALLERY_VIDEO_BYTES,
   defaultMimeFromExtension,
   detectGalleryMediaType,
+  parseGalleryCategory,
 } from "@/lib/gallery-media-constants";
-import type { GalleryMediaType } from "@/types/gallery-media";
+import type { GalleryCategory, GalleryMediaType } from "@/types/gallery-media";
 import type { ParsedUploadFile } from "@/lib/form-file";
 
 export type ParsedGalleryUpload = ParsedUploadFile & {
   mediaType: GalleryMediaType;
+  category: GalleryCategory;
   width: number;
   height: number;
   title: string;
@@ -29,7 +31,7 @@ function parsePositiveInt(value: FormDataEntryValue | null, fallback: number): n
 
 /**
  * Parse a gallery image/video upload from multipart form data.
- * Expects fields: file, width, height, optional title/alt.
+ * Expects fields: file, category, width, height, optional title/alt.
  */
 export async function parseGalleryMediaFromFormData(
   formData: FormData,
@@ -42,6 +44,15 @@ export async function parseGalleryMediaFromFormData(
 
   if (!entry || typeof entry === "string") {
     return { ok: false, error: "No file provided" };
+  }
+
+  const category = parseGalleryCategory(formData.get("category"));
+  if (!category) {
+    return {
+      ok: false,
+      error:
+        "Select a category: Tiles, Modular Kitchen and Wardrobe, Painting, Electrical, or Plumbing",
+    };
   }
 
   const blob = entry as Blob;
@@ -108,6 +119,7 @@ export async function parseGalleryMediaFromFormData(
       mimeType: resolvedMime,
       sizeBytes: buffer.length,
       mediaType,
+      category,
       width,
       height,
       title,

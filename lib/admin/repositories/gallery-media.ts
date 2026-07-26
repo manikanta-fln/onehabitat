@@ -10,13 +10,17 @@ import {
 } from "@/lib/admin/db/collections";
 import { classifyAspectRatio } from "@/lib/gallery-media-constants";
 import type { ParsedGalleryUpload } from "@/lib/form-gallery-media";
-import type { GalleryMediaDocument } from "@/types/gallery-media";
+import type {
+  GalleryCategory,
+  GalleryMediaDocument,
+} from "@/types/gallery-media";
 import type { PaginationParams } from "@/types/admin/api";
 import { getSkip } from "@/lib/admin/utils/pagination";
 
 export type GalleryMediaFilters = {
   mediaType?: "image" | "video";
   aspectRatio?: "portrait" | "landscape" | "square";
+  category?: GalleryCategory;
 };
 
 function getBucket(db: Db) {
@@ -36,6 +40,7 @@ export async function saveGalleryMedia(
     metadata: {
       mediaType: file.mediaType,
       mimeType: file.mimeType,
+      category: file.category,
       uploadedBy: uploadedBy.toString(),
     },
   });
@@ -50,6 +55,7 @@ export async function saveGalleryMedia(
     fileName: file.fileName,
     mimeType: file.mimeType,
     mediaType: file.mediaType,
+    category: file.category,
     sizeBytes: file.sizeBytes,
     width: file.width,
     height: file.height,
@@ -78,6 +84,7 @@ export async function listGalleryMedia(
   const filter: Filter<GalleryMediaDocument> = {};
   if (filters.mediaType) filter.mediaType = filters.mediaType;
   if (filters.aspectRatio) filter.aspectRatio = filters.aspectRatio;
+  if (filters.category) filter.category = filters.category;
 
   const sortField = params.sortBy ?? "createdAt";
   const sortOrder = params.sortOrder === "asc" ? 1 : -1;
@@ -98,10 +105,16 @@ export async function listGalleryMedia(
   return { data, total };
 }
 
-export async function listAllGalleryMedia(db: Db): Promise<GalleryMediaDocument[]> {
+export async function listAllGalleryMedia(
+  db: Db,
+  category?: GalleryCategory
+): Promise<GalleryMediaDocument[]> {
+  const filter: Filter<GalleryMediaDocument> = {};
+  if (category) filter.category = category;
+
   return db
     .collection<GalleryMediaDocument>(ADMIN_COLLECTIONS.galleryMedia)
-    .find({})
+    .find(filter)
     .sort({ createdAt: -1 })
     .toArray();
 }

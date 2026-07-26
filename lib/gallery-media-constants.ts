@@ -1,4 +1,9 @@
-import type { GalleryAspectRatio, GalleryMediaType } from "@/types/gallery-media";
+import type {
+  GalleryAspectRatio,
+  GalleryCategory,
+  GalleryMediaType,
+} from "@/types/gallery-media";
+import { GALLERY_CATEGORIES, isGalleryCategory } from "@/types/gallery-media";
 
 export const GALLERY_IMAGE_EXTENSIONS = new Set([
   ".jpg",
@@ -34,6 +39,8 @@ export const GALLERY_VIDEO_MIME_TYPES = new Set([
 /** Default limits when settings are unavailable */
 export const DEFAULT_MAX_GALLERY_IMAGE_BYTES = 10 * 1024 * 1024;
 export const DEFAULT_MAX_GALLERY_VIDEO_BYTES = 100 * 1024 * 1024;
+
+export { GALLERY_CATEGORIES, isGalleryCategory };
 
 export function extensionFromFileName(fileName: string): string {
   const dot = fileName.lastIndexOf(".");
@@ -102,4 +109,12 @@ export function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+export function parseGalleryCategory(
+  value: FormDataEntryValue | string | null | undefined
+): GalleryCategory | null {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return isGalleryCategory(trimmed) ? trimmed : null;
 }

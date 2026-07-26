@@ -4,17 +4,26 @@ import {
   getMongoConnectionErrorMessage,
   isMongoConnectionError,
 } from "@/lib/mongodb";
+import { GALLERY_CATEGORIES, isGalleryCategory } from "@/types/gallery-media";
 
 export const runtime = "nodejs";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const data = await getPublicGalleryMedia();
-    return NextResponse.json(data, {
-      headers: {
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
-      },
-    });
+    const { searchParams } = new URL(request.url);
+    const categoryParam = searchParams.get("category");
+    const category =
+      categoryParam && isGalleryCategory(categoryParam) ? categoryParam : undefined;
+
+    const data = await getPublicGalleryMedia(category);
+    return NextResponse.json(
+      { ...data, categories: GALLERY_CATEGORIES },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
+      }
+    );
   } catch (error) {
     if (isMongoConnectionError(error)) {
       return NextResponse.json(

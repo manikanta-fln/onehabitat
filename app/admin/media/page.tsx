@@ -14,18 +14,20 @@ import {
   DEFAULT_MAX_GALLERY_VIDEO_BYTES,
   detectGalleryMediaType,
   formatBytes,
+  GALLERY_CATEGORIES,
   GALLERY_IMAGE_EXTENSIONS,
   GALLERY_VIDEO_EXTENSIONS,
 } from "@/lib/gallery-media-constants";
 import { adminFetch, adminUpload, buildQuery } from "@/services/admin/api-client";
 import type { PaginatedResult } from "@/types/admin/api";
-import type { GalleryMediaPublic } from "@/types/gallery-media";
+import type { GalleryCategory, GalleryMediaPublic } from "@/types/gallery-media";
 
 type MediaListResponse = PaginatedResult<GalleryMediaPublic> & {
   limits: {
     maxImageBytes: number;
     maxVideoBytes: number;
   };
+  categories: typeof GALLERY_CATEGORIES;
 };
 
 type UploadResult = { media: GalleryMediaPublic };
@@ -46,7 +48,6 @@ function readImageDimensions(file: File): Promise<{ width: number; height: numbe
     };
     img.onerror = () => {
       URL.revokeObjectURL(url);
-      // HEIC may fail in Chromium — fall back to square so layout still works
       resolve({ width: 1, height: 1 });
     };
     img.src = url;
@@ -76,15 +77,19 @@ function readVideoDimensions(file: File): Promise<{ width: number; height: numbe
 export default function AdminMediaPage() {
   const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [uploadCategory, setUploadCategory] = useState<GalleryCategory | "">(
+    ""
+  );
   const [mediaType, setMediaType] = useState("");
   const [aspectRatio, setAspectRatio] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [page, setPage] = useState(1);
   const [dragOver, setDragOver] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadingCount, setUploadingCount] = useState(0);
 
   const listQuery = useQuery({
-    queryKey: ["admin", "media", page, mediaType, aspectRatio],
+    queryKey: ["admin", "media", page, mediaType, aspectRatio, categoryFilter],
     queryFn: () =>
       adminFetch<MediaListResponse>(
         `/api/admin/media${buildQuery({
@@ -92,6 +97,7 @@ export default function AdminMediaPage() {
           limit: 24,
           mediaType: mediaType || undefined,
           aspectRatio: aspectRatio || undefined,
+          category: categoryFilter || undefined,
           sortBy: "createdAt",
           sortOrder: "desc",
         })}`
@@ -110,11 +116,17 @@ export default function AdminMediaPage() {
     maxImageBytes: DEFAULT_MAX_GALLERY_IMAGE_BYTES,
     maxVideoBytes: DEFAULT_MAX_GALLERY_VIDEO_BYTES,
   };
+  const categories = listQuery.data?.categories ?? GALLERY_CATEGORIES;
 
   const uploadFiles = useCallback(
     async (files: FileList | File[]) => {
       const list = Array.from(files);
       if (list.length === 0) return;
+
+      if (!uploadCategory) {
+        setUploadError("Select a category before uploading.");
+        return;
+      }
 
       setUploadError(null);
       setUploadingCount(list.length);
@@ -145,6 +157,7 @@ export default function AdminMediaPage() {
 
           const formData = new FormData();
           formData.append("file", file);
+          formData.append("category", uploadCategory);
           formData.append("width", String(dims.width));
           formData.append("height", String(dims.height));
           formData.append(
@@ -166,7 +179,7 @@ export default function AdminMediaPage() {
       }
       void queryClient.invalidateQueries({ queryKey: ["admin", "media"] });
     },
-    [limits.maxImageBytes, limits.maxVideoBytes, queryClient]
+    [limits.maxImageBytes, limits.maxVideoBytes, queryClient, uploadCategory]
   );
 
   function onDrop(event: DragEvent) {
@@ -183,7 +196,7 @@ export default function AdminMediaPage() {
   return (
     <AdminShell
       title="Media"
-      subtitle="Upload images and videos for the public gallery"
+      subtitle="Upload images and videos for the public gallery by category"
     >
       <div className="space-y-6">
         <div
@@ -208,13 +221,38 @@ export default function AdminMediaPage() {
           <p className="mx-auto mt-2 max-w-lg font-body text-body-sm text-on-surface-variant">
             Images: JPEG, PNG, AVIF, HEIC (max {formatBytes(limits.maxImageBytes)}).
             Videos: MP4, WebM, MOV (max {formatBytes(limits.maxVideoBytes)}).
-            Files are placed on the public gallery by aspect ratio.
+            Choose a category so items appear under the matching gallery tab.
           </p>
+
+          <div className="mx-auto mt-6 max-w-sm text-left">
+            <label
+              htmlFor="upload-category"
+              className="mb-2 block font-label text-label-sm text-on-surface-variant"
+            >
+              Category
+            </label>
+            <select
+              id="upload-category"
+              value={uploadCategory}
+              onChange={(event) =>
+                setUploadCategory(event.target.value as GalleryCategory | "")
+              }
+              className={`${filterInputClassName()} w-full`}
+            >
+              <option value="">Select category…</option>
+              {categories.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <button
               type="button"
               className="admin-btn-primary"
-              disabled={uploadingCount > 0}
+              disabled={uploadingCount > 0 || !uploadCategory}
               onClick={() => inputRef.current?.click()}
             >
               <span className="material-symbols-outlined text-[1.125rem] leading-none">
@@ -244,6 +282,23 @@ export default function AdminMediaPage() {
         </div>
 
         <FilterBar>
+          <FilterField label="Category">
+            <select
+              value={categoryFilter}
+              onChange={(event) => {
+                setCategoryFilter(event.target.value);
+                setPage(1);
+              }}
+              className={filterInputClassName()}
+            >
+              <option value="">All</option>
+              {categories.map((item) => (
+                <option key={item.key} value={item.key}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+          </FilterField>
           <FilterField label="Type">
             <select
               value={mediaType}
@@ -288,7 +343,7 @@ export default function AdminMediaPage() {
         {listQuery.data && rows.length === 0 ? (
           <EmptyState
             title="No media yet"
-            description="Upload images or videos to populate the public gallery."
+            description="Upload images or videos with a category to populate the public gallery."
           />
         ) : null}
 
@@ -385,7 +440,12 @@ function MediaThumbnail({
             loading="lazy"
           />
         )}
-        <div className="absolute left-2 top-2 flex gap-1">
+        <div className="absolute left-2 top-2 flex max-w-[calc(100%-3rem)] flex-wrap gap-1">
+          {item.categoryLabel ? (
+            <span className="truncate rounded-full bg-black/55 px-2 py-0.5 font-label text-[10px] uppercase tracking-wide text-white">
+              {item.categoryLabel}
+            </span>
+          ) : null}
           <span className="rounded-full bg-black/55 px-2 py-0.5 font-label text-[10px] uppercase tracking-wide text-white">
             {item.aspectRatio}
           </span>

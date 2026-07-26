@@ -94,6 +94,7 @@ async function createIndexes(db: Db): Promise<void> {
       { key: { createdAt: -1 }, name: "gallery_media_created_at" },
       { key: { mediaType: 1, createdAt: -1 }, name: "gallery_media_type_created" },
       { key: { aspectRatio: 1 }, name: "gallery_media_aspect_ratio" },
+      { key: { category: 1, createdAt: -1 }, name: "gallery_media_category_created" },
     ]),
   ]);
 }
