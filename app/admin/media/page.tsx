@@ -459,10 +459,10 @@ function MediaThumbnail({
           type="button"
           onClick={onDelete}
           disabled={deleting}
-          className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/55 text-white opacity-0 transition-opacity group-hover:opacity-100 disabled:opacity-50"
+          className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white shadow-sm transition-opacity disabled:opacity-50 md:h-8 md:w-8 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100"
           aria-label={`Delete ${item.title}`}
         >
-          <span className="material-symbols-outlined text-[1.125rem] leading-none">
+          <span className="material-symbols-outlined text-[1.25rem] leading-none md:text-[1.125rem]">
             delete
           </span>
         </button>
