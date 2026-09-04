@@ -30,7 +30,7 @@ export default function ServicesPage() {
       <ProServeHeader />
 
       <main>
-        <section className="relative h-screen flex items-center overflow-hidden">
+        <section className="relative flex min-h-screen items-center overflow-hidden py-28 md:h-screen md:py-0">
           <div className="absolute inset-0 z-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -45,7 +45,7 @@ export default function ServicesPage() {
               <span className="inline-block font-label-caps text-label-caps text-primary mb-6 tracking-[0.3em]">
                 CRAFTING PERFECTION
               </span>
-              <h1 className="font-display-xl text-display-xl leading-none mb-8">
+              <h1 className="font-display-xl text-headline-xl leading-tight mb-6 md:text-display-xl md:leading-none md:mb-8">
                 Architectural Standards
                 <br />
                 in Daily Maintenance.
@@ -56,15 +56,15 @@ export default function ServicesPage() {
                 luxury estates and modern infrastructures, where invisibility is
                 the ultimate mark of success.
               </p>
-              <div className="flex gap-4">
+              <div className="flex flex-col gap-3 md:flex-row md:gap-4">
                 <a
-                  className="bg-primary text-white px-10 py-5 rounded-full font-label-caps tracking-widest hover:bg-primary/90 transition-colors"
+                  className="w-full bg-primary text-white px-8 py-4 text-center rounded-full font-label-caps tracking-widest hover:bg-primary/90 transition-colors md:w-auto md:px-10 md:py-5"
                   href="#disciplines"
                 >
                   Explore Catalog
                 </a>
                 <a
-                  className="border border-outline-variant px-10 py-5 rounded-full font-label-caps tracking-widest hover:bg-surface-container-low transition-colors"
+                  className="w-full border border-outline-variant px-8 py-4 text-center rounded-full font-label-caps tracking-widest hover:bg-surface-container-low transition-colors md:w-auto md:px-10 md:py-5"
                   href="#"
                 >
                   View AMC Plans

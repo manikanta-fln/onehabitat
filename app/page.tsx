@@ -1,6 +1,7 @@
 import OnehabitatFooter from "@/components/onehabitat/Footer";
 import OnehabitatHeader from "@/components/onehabitat/Header";
 import AppLaunchSection from "@/components/onehabitat/AppLaunchSection";
+import FoundersSection from "@/components/onehabitat/FoundersSection";
 import MaintenanceCategories from "@/components/onehabitat/MaintenanceCategories";
 import UploadIssueProvider from "@/components/onehabitat/UploadIssueProvider";
 import FreeConsultationButton from "@/components/onehabitat/FreeConsultationButton";
@@ -8,13 +9,8 @@ import UploadIssueTrigger from "@/components/onehabitat/UploadIssueTrigger";
 
 const HERO_IMAGE = "/assets/hero-section.png";
 
-const WALL_CEILING_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuA8C8s0sv_4bdoCeuI40l0WaTA0QGFArGt5NDyajHD0Wt-M3QIS4K0sQWbvzBucrqj-G-cBlfAct-a3DCcc0z_DYY8bLeCNjQ3XQzI_cRAsc4_Svy52l3LY9Lfx0CY__rHpGfQEAHONsR4L7bste2KjAwqZ3j0xFGDUCmiNv_OV3RBgXW5uvDjJKeMj4GjjTAfshCj3jTld3qND04F-BQkCiTtTEjzujvT4y2u-1IqlWrUs0ieDg_9YltfJ5kuN5kQArok5202aPg";
-
-const INTERIOR_IMAGE_1 = WALL_CEILING_IMAGE;
-
-const INTERIOR_IMAGE_2 =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDzbSVn5t-eigbQr1tlZDCRTtFpVQxC9-dDk184dazH7HIOCF1n-wqTuM24xGFaElh1ddwcQlNmKhb7NYuYEqa8EDrexU6T5mBsBfpzOMU2uyOq4GZgqMhc6aqDZvFtvPZAIau0G0QkY508Cx0SO0onxwEpsXkcfbfltDwDn9c8T_72r95FwCgVYoohocf-0ke3TAGrGUByyKtz8T_Nd5iMOYE44hG5vDSkgTHCO9CtSm92I9fYK2-ufDUxZsGNv3_xHI4_9BNI8g";
+const INTERIOR_IMAGE_1 = "/assets/tiles1.png";
+const INTERIOR_IMAGE_2 = "/assets/tiles2.png";
 
 export default function HomePage() {
   return (
@@ -167,13 +163,13 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-md">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                alt="Modern Kitchen"
+                alt="Interior tiles installation"
                 className="rounded-lg shadow-lg w-full aspect-square object-cover"
                 src={INTERIOR_IMAGE_1}
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                alt="Living Room"
+                alt="Professional tile finishing work"
                 className="rounded-lg shadow-lg w-full aspect-[4/5] object-cover mt-md"
                 src={INTERIOR_IMAGE_2}
               />
@@ -437,6 +433,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <FoundersSection />
 
       <AppLaunchSection />
 
