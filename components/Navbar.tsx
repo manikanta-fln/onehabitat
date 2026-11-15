@@ -16,6 +16,12 @@ type NavbarProps = {
   action?: ReactNode;
 };
 
+// Only these menu items are shown; the rest stay hidden.
+const VISIBLE_NAV_HREFS = new Set(["/", "/services"]);
+const VISIBLE_NAV_LINKS = MAIN_NAV_LINKS.filter(({ href }) =>
+  VISIBLE_NAV_HREFS.has(href),
+);
+
 function isNavLinkActive(pathname: string, href: string): boolean {
   if (href === "/") {
     return pathname === "/";
@@ -96,7 +102,7 @@ function MobileNavMenu({ pathname, action }: MobileNavMenuProps) {
           className="absolute left-0 right-0 top-full border-t border-outline-variant/10 bg-white/95 backdrop-blur-md lg:hidden"
         >
           <div className="mx-auto flex max-w-7xl flex-col gap-xs px-margin-mobile py-md">
-            {MAIN_NAV_LINKS.map(({ label, href }) => {
+            {VISIBLE_NAV_LINKS.map(({ label, href }) => {
               const active = isNavLinkActive(pathname, href);
 
               return (
@@ -155,7 +161,7 @@ export default function Navbar({
         </Link>
 
         <div className="hidden items-center gap-gutter lg:flex">
-          {MAIN_NAV_LINKS.map(({ label, href }) => {
+          {VISIBLE_NAV_LINKS.map(({ label, href }) => {
             const active = isNavLinkActive(pathname, href);
 
             return (
