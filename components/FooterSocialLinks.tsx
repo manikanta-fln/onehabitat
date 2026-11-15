@@ -44,7 +44,7 @@ export default function FooterSocialLinks() {
     <div className="flex space-x-4">
       <a
         className={iconLinkClassName}
-        href="https://www.instagram.com/"
+        href="https://www.instagram.com/onehabitat03"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram"

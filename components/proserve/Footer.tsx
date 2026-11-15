@@ -5,7 +5,7 @@ export default function ProServeFooter() {
   return (
     <footer className="w-full py-20 px-12 border-t border-slate-200 bg-white">
       <div className="max-w-[1440px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
           <div className="col-span-1 md:col-span-1">
             <div className="text-2xl font-bold tracking-tighter text-on-background mb-6">
               {BRAND_NAME}
@@ -18,41 +18,9 @@ export default function ProServeFooter() {
           </div>
           <div>
             <h4 className="font-label-caps text-xs tracking-widest text-primary mb-8 uppercase">
-              Services
-            </h4>
-            <ul className="space-y-4 text-sm font-medium text-on-surface-variant/80">
-              <li>
-                <a className="hover:text-primary" href="#">
-                  Hydraulic Systems
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-primary" href="#">
-                  Electrical Engineering
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-primary" href="#">
-                  Aesthetic Finishes
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-primary" href="#">
-                  Horticulture
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-label-caps text-xs tracking-widest text-primary mb-8 uppercase">
               Company
             </h4>
             <ul className="space-y-4 text-sm font-medium text-on-surface-variant/80">
-              <li>
-                <a className="hover:text-primary" href="#">
-                  About Our Ethos
-                </a>
-              </li>
               <li>
                 <a className="hover:text-primary" href="#">
                   AMC Plans
