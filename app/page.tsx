@@ -1,11 +1,10 @@
 import OnehabitatFooter from "@/components/onehabitat/Footer";
 import OnehabitatHeader from "@/components/onehabitat/Header";
-import AppLaunchSection from "@/components/onehabitat/AppLaunchSection";
 import FoundersSection from "@/components/onehabitat/FoundersSection";
 import MaintenanceCategories from "@/components/onehabitat/MaintenanceCategories";
 import UploadIssueProvider from "@/components/onehabitat/UploadIssueProvider";
-import FreeConsultationButton from "@/components/onehabitat/FreeConsultationButton";
 import UploadIssueTrigger from "@/components/onehabitat/UploadIssueTrigger";
+import { WHATSAPP_URL } from "@/utils/constants";
 
 const HERO_IMAGE = "/assets/hero-section.png";
 
@@ -21,17 +20,27 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_1.08fr] gap-lg items-center">
           <div className="flex flex-col gap-md">
             <h1 className="font-headline text-headline-xl text-primary leading-tight">
-              From Small Repairs to Complete Home Makeovers
+              From Small Renovations to Customise Home Makeovers
               <span className="mt-sm block font-body text-body-lg font-normal text-on-surface-variant">
-                Powered by Smart AI Maintenance.
+                Powered by Smart AI Assistants.
               </span>
             </h1>
             <p className="font-body text-body-lg text-on-surface-variant max-w-[32rem]">
               Upload an issue, get AI analysis, expert guidance, and professional service at your doorstep.
             </p>
-            <div className="mt-sm flex w-full flex-col gap-md md:flex-row md:flex-wrap">
+            <div className="mt-sm flex w-full flex-col gap-md md:flex-row md:flex-wrap md:items-center">
               <UploadIssueTrigger variant="primary" className="w-full md:w-auto" />
-              <FreeConsultationButton className="flex w-full items-center justify-center rounded-DEFAULT border-2 border-primary px-lg py-md font-label text-label-lg text-primary transition-all hover:bg-primary hover:text-white md:w-auto" />
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-xs rounded-DEFAULT border-2 border-primary px-lg py-md font-label text-label-lg text-primary transition-all hover:bg-primary hover:text-white md:w-auto"
+              >
+                <span className="material-symbols-outlined text-[1.25rem] leading-none">
+                  chat
+                </span>
+                Contact on WhatsApp
+              </a>
             </div>
             <div className="flex flex-wrap gap-gutter items-center mt-md text-on-surface-variant">
               <span className="flex items-center gap-xs font-label text-label-sm">
@@ -72,80 +81,81 @@ export default function HomePage() {
                 src={HERO_IMAGE}
               />
             </div>
-            <div className="absolute -bottom-base -left-base bg-white p-md rounded-lg shadow-xl flex items-center gap-sm">
-              <div className="w-12 h-12 bg-secondary-fixed rounded-full flex items-center justify-center text-secondary">
-                <span className="material-symbols-outlined">
-                  home_repair_service
-                </span>
-              </div>
-              <div>
-                <p className="font-headline text-headline-sm">20+</p>
-                <p className="font-label text-label-sm opacity-60">
-                  Repairs Completed
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-xl bg-white border-y border-outline-variant/10">
+      <section
+        id="what-we-do"
+        className="py-xl bg-white border-y border-outline-variant/10 scroll-mt-24"
+      >
         <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
-          <h2 className="font-headline text-headline-lg text-center mb-xl text-on-surface">
-            How Onehabitat Works
-          </h2>
+          <div className="text-center mb-xl">
+            <h2 className="font-headline text-headline-lg text-on-surface">
+              What We Do
+            </h2>
+            <p className="mt-sm font-body text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+              One trusted team for everything your home needs — from quick
+              fixes to complete makeovers, guided by smart AI assistants and
+              delivered by verified experts.
+            </p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg relative">
             <div className="hidden lg:block absolute top-12 left-1/4 right-1/4 h-px bg-outline-variant/30 -z-0" />
             <div className="flex flex-col items-center text-center group relative z-10">
               <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-md border-4 border-white shadow-md group-hover:scale-110 transition-transform duration-300">
                 <span className="material-symbols-outlined text-primary text-4xl">
-                  camera
+                  home_repair_service
                 </span>
               </div>
               <h3 className="font-headline text-headline-sm mb-sm text-on-surface">
-                Upload Photo
+                Maintenance &amp; Repairs
               </h3>
               <p className="font-body text-body-sm text-on-surface-variant px-md">
-                Capture the issue with your phone camera.
+                Plumbing, electrical, carpentry, painting, seepage and pest
+                control — fixed fast by verified professionals.
               </p>
             </div>
             <div className="flex flex-col items-center text-center group relative z-10">
               <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-md border-4 border-white shadow-md group-hover:scale-110 transition-transform duration-300">
                 <span className="material-symbols-outlined text-primary text-4xl">
-                  psychology
+                  format_paint
                 </span>
               </div>
               <h3 className="font-headline text-headline-sm mb-sm text-on-surface">
-                AI Analysis
+                Renovations &amp; Makeovers
               </h3>
               <p className="font-body text-body-sm text-on-surface-variant px-md">
-                Our engine detects the root cause immediately.
+                Bathroom, flat, villa, terrace and balcony makeovers,
+                customised to your style and budget.
               </p>
             </div>
             <div className="flex flex-col items-center text-center group relative z-10">
               <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-md border-4 border-white shadow-md group-hover:scale-110 transition-transform duration-300">
                 <span className="material-symbols-outlined text-primary text-4xl">
-                  receipt_long
+                  chair
                 </span>
               </div>
               <h3 className="font-headline text-headline-sm mb-sm text-on-surface">
-                Get Estimate
+                Interior Execution
               </h3>
               <p className="font-body text-body-sm text-on-surface-variant px-md">
-                Receive a transparent, fixed-price quote.
+                Modular kitchens, wardrobes, false ceilings, tiling and
+                pergolas — planned and built end to end.
               </p>
             </div>
             <div className="flex flex-col items-center text-center group relative z-10">
               <div className="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-md border-4 border-white shadow-md group-hover:scale-110 transition-transform duration-300">
                 <span className="material-symbols-outlined text-primary text-4xl">
-                  event_available
+                  fact_check
                 </span>
               </div>
               <h3 className="font-headline text-headline-sm mb-sm text-on-surface">
-                Book Service
+                Handover Inspections
               </h3>
               <p className="font-body text-body-sm text-on-surface-variant px-md">
-                Expert arrives and executes the fix professionally.
+                Detailed snag audits for 1, 2 and 3 BHK flats and villas
+                before you take possession.
               </p>
             </div>
           </div>
@@ -180,53 +190,51 @@ export default function HomePage() {
               Execution-Focused Interior Solutions
             </h2>
             <p className="font-body text-body-lg text-on-surface-variant">
-              We don&apos;t just design; we build. From modular kitchens to
-              full-home transformations, we manage the entire execution
-              lifecycle.
+              Choose the material that suits your interiors. We show you the
+              material first, then execute the work for you.
             </p>
+            <div className="flex flex-col gap-sm">
+              <p className="font-label text-label-sm uppercase tracking-wide text-on-surface-variant">
+                Your choice of material
+              </p>
+              <ul className="flex flex-wrap gap-sm">
+                {[
+                  "Prelam HDMF Interiors",
+                  "Prelam Particle Board Interiors",
+                  "Plywood Interiors",
+                ].map((material) => (
+                  <li
+                    key={material}
+                    className="flex items-center gap-xs rounded-full border border-primary/30 bg-white px-md py-xs font-label text-label-lg text-primary"
+                  >
+                    <span className="material-symbols-outlined text-[1.125rem] leading-none">
+                      layers
+                    </span>
+                    {material}
+                  </li>
+                ))}
+              </ul>
+            </div>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-md mt-sm">
-              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
-                <span className="material-symbols-outlined text-primary">
-                  check_circle
-                </span>{" "}
-                Modular Kitchens
-              </li>
-              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
-                <span className="material-symbols-outlined text-primary">
-                  check_circle
-                </span>{" "}
-                Wardrobes &amp; Storage
-              </li>
-              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
-                <span className="material-symbols-outlined text-primary">
-                  check_circle
-                </span>{" "}
-                TV &amp; Entertainment Units
-              </li>
-              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
-                <span className="material-symbols-outlined text-primary">
-                  check_circle
-                </span>{" "}
-                False Ceilings &amp; Lighting
-              </li>
-              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
-                <span className="material-symbols-outlined text-primary">
-                  check_circle
-                </span>{" "}
-                Painting
-              </li>
-              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
-                <span className="material-symbols-outlined text-primary">
-                  check_circle
-                </span>{" "}
-                Pergola
-              </li>
-              <li className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant">
-                <span className="material-symbols-outlined text-primary">
-                  check_circle
-                </span>{" "}
-                Tiles &amp; Water Proofing
-              </li>
+              {[
+                "Furniture",
+                "Sofa",
+                "Centre Table",
+                "Study Table",
+                "Bay Window Seating",
+                "Study Racks",
+                "Dining Tables",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-sm font-label text-label-lg text-on-surface-variant"
+                >
+                  <span className="material-symbols-outlined text-primary">
+                    check_circle
+                  </span>{" "}
+                  {item}
+                </li>
+              ))}
             </ul>
             <a
               href="/gallery"
@@ -314,87 +322,14 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
           <div className="text-center mb-xl">
             <h2 className="font-headline text-headline-lg text-primary">
-              AMC Plans
+              Maintenance
             </h2>
             <p className="font-body text-body-lg text-on-surface-variant max-w-2xl mx-auto">
               Annual maintenance for apartments and villas — electrician, plumber,
               and carpenter visits bundled at a predictable cost.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter items-center">
-            <div className="bg-white p-lg rounded-lg shadow-sm flex flex-col gap-md border border-outline-variant/10">
-              <h3 className="font-headline text-headline-sm">1 BHK / 2 BHK</h3>
-              <p className="text-headline-md font-bold text-primary">
-                Starting from ₹1,500
-                <span className="text-body-sm font-normal text-on-surface-variant">
-                  /-
-                </span>
-              </p>
-              <ul className="space-y-sm my-md">
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
-                  <span className="material-symbols-outlined text-primary text-base">
-                    check
-                  </span>{" "}
-                  Electrician — 2 visits
-                </li>
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
-                  <span className="material-symbols-outlined text-primary text-base">
-                    check
-                  </span>{" "}
-                  Plumber — 2 visits
-                </li>
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
-                  <span className="material-symbols-outlined text-primary text-base">
-                    check
-                  </span>{" "}
-                  Carpenter — 1 visit
-                </li>
-              </ul>
-              <button
-                type="button"
-                className="bg-primary text-on-primary py-md rounded-DEFAULT font-label text-label-lg mt-auto hover:brightness-110 transition-all"
-              >
-                Subscribe Now
-              </button>
-            </div>
-            <div className="bg-primary-container p-lg rounded-lg shadow-xl border-2 border-secondary scale-105 relative flex flex-col gap-md">
-              <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary text-white px-md py-xs rounded-full text-xs font-bold uppercase tracking-widest">
-                Most Popular
-              </span>
-              <h3 className="font-headline text-headline-sm text-on-primary-container">
-                3 BHK
-              </h3>
-              <p className="text-headline-md font-bold text-on-primary-container">
-                Starting from ₹2,899
-                <span className="text-body-sm font-normal opacity-80">/-</span>
-              </p>
-              <ul className="space-y-sm my-md">
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-primary-container">
-                  <span className="material-symbols-outlined text-base">
-                    check
-                  </span>{" "}
-                  Electrician — 3 visits
-                </li>
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-primary-container">
-                  <span className="material-symbols-outlined text-base">
-                    check
-                  </span>{" "}
-                  Plumber — 3 visits
-                </li>
-                <li className="flex items-center gap-xs font-body text-body-sm text-on-primary-container">
-                  <span className="material-symbols-outlined text-base">
-                    check
-                  </span>{" "}
-                  Carpenter — 2 visits
-                </li>
-              </ul>
-              <button
-                type="button"
-                className="bg-primary text-on-primary py-md rounded-DEFAULT font-label text-label-lg mt-auto hover:brightness-110 transition-all"
-              >
-                Subscribe Now
-              </button>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter items-stretch max-w-4xl mx-auto">
             <div className="bg-white p-lg rounded-lg shadow-sm flex flex-col gap-md border border-outline-variant/10">
               <h3 className="font-headline text-headline-sm">Villa</h3>
               <p className="text-headline-md font-bold text-primary">
@@ -430,13 +365,48 @@ export default function HomePage() {
                 Subscribe Now
               </button>
             </div>
+            <div className="bg-white p-lg rounded-lg shadow-sm flex flex-col gap-md border border-outline-variant/10">
+              <h3 className="font-headline text-headline-sm">
+                Flat Handover Inspection
+              </h3>
+              <ul className="space-y-sm my-md">
+                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
+                  <span className="material-symbols-outlined text-primary text-base">
+                    check
+                  </span>{" "}
+                  1 BHK
+                </li>
+                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
+                  <span className="material-symbols-outlined text-primary text-base">
+                    check
+                  </span>{" "}
+                  2 BHK
+                </li>
+                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
+                  <span className="material-symbols-outlined text-primary text-base">
+                    check
+                  </span>{" "}
+                  3 BHK
+                </li>
+                <li className="flex items-center gap-xs font-body text-body-sm text-on-surface-variant">
+                  <span className="material-symbols-outlined text-primary text-base">
+                    check
+                  </span>{" "}
+                  Villas
+                </li>
+              </ul>
+              <button
+                type="button"
+                className="bg-primary text-on-primary py-md rounded-DEFAULT font-label text-label-lg mt-auto hover:brightness-110 transition-all"
+              >
+                Subscribe Now
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       <FoundersSection />
-
-      <AppLaunchSection />
 
       <section className="py-xl px-margin-mobile md:px-margin-desktop max-w-3xl mx-auto">
         <h2 className="font-headline text-headline-lg text-center mb-xl">

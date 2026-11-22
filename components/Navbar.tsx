@@ -17,7 +17,7 @@ type NavbarProps = {
 };
 
 // Only these menu items are shown; the rest stay hidden.
-const VISIBLE_NAV_HREFS = new Set(["/", "/services"]);
+const VISIBLE_NAV_HREFS = new Set(["/", "/services", "/about"]);
 const VISIBLE_NAV_LINKS = MAIN_NAV_LINKS.filter(({ href }) =>
   VISIBLE_NAV_HREFS.has(href),
 );

@@ -83,3 +83,22 @@ export type JoinlistDocument = {
   source: string;
   createdAt: Date;
 };
+
+export type ChatMessageRole = "user" | "assistant" | "event";
+
+export type ChatMessageRecord = {
+  role: ChatMessageRole;
+  content: string;
+  /** Present when role === "event" (e.g. "image_analyzed", "booking_confirmed"). */
+  event?: string;
+  meta?: Record<string, unknown>;
+  at: Date;
+};
+
+export type ChatDocument = {
+  _id?: ObjectId;
+  messages: ChatMessageRecord[];
+  source: string;
+  createdAt: Date;
+  updatedAt: Date;
+};

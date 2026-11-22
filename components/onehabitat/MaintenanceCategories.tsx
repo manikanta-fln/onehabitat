@@ -15,65 +15,54 @@ type MaintenanceCategory = {
 
 const MAINTENANCE_CATEGORIES: MaintenanceCategory[] = [
   {
-    id: "electrical",
-    label: "Electrical",
-    icon: "electrical_services",
-    title: "Electrical Services",
+    id: "bathroom-makeover",
+    label: "Bathroom Makeover",
+    icon: "bathtub",
+    title: "Bathroom Makeover",
     description:
-      "We handle all electrical repairs and installations, ensuring safe and reliable power across your home.",
-    image: "/assets/electrical-service.png",
-    imageAlt: "Professional electrician servicing a home electrical panel",
-  },
-  {
-    id: "carpentry",
-    label: "Carpentry",
-    icon: "handyman",
-    title: "Carpentry Services",
-    description:
-      "We provide precise carpentry repairs and installations for doors, furniture, and fittings.",
-    image: "/assets/carpentry-service.png",
-    imageAlt: "Professional carpentry repair and door fitting service",
-  },
-  {
-    id: "painting",
-    label: "Painting",
-    icon: "format_paint",
-    title: "Painting Services",
-    description:
-      "We carry out painting repairs and touch-ups to maintain a clean and fresh finish.",
-    image: "/assets/painting-service.png",
-    imageAlt: "Professional interior painting service",
-  },
-  {
-    id: "seepage",
-    label: "Seepage Works",
-    icon: "water_drop",
-    title: "Seepage Works",
-    description:
-      "We identify and fix seepage issues to prevent damage and ensure long-term protection.",
+      "Complete bathroom makeovers with modern fittings, tiling, and waterproofing for a fresh, functional space.",
     image: "/assets/seepage-service.png",
-    imageAlt: "Professional seepage and waterproofing repair service",
+    imageAlt: "Bathroom makeover with waterproofing and modern fittings",
   },
   {
-    id: "plumbing",
-    label: "Plumbing",
-    icon: "plumbing",
-    title: "Plumbing Services",
+    id: "flats",
+    label: "Flats",
+    icon: "apartment",
+    title: "Flats",
     description:
-      "We manage all plumbing repairs and installations for smooth and leak-free operation.",
-    image: "/assets/plumbing-service.png",
-    imageAlt: "Professional plumbing repair under sink",
+      "End-to-end maintenance and makeover solutions tailored for apartments and flats of every size.",
+    image: "/assets/hero-section.png",
+    imageAlt: "Apartment flat maintenance and makeover service",
   },
   {
-    id: "pest-control",
-    label: "Pest Control",
-    icon: "pest_control",
-    title: "Pest Control Services",
+    id: "villa",
+    label: "Villa",
+    icon: "villa",
+    title: "Villa",
     description:
-      "Professional Pest Control Solutions for Homes and Businesses. Safe, Effective, and Long-Lasting Protection Against Termites, Cockroaches, Rodents, Mosquitoes, Bed Bugs, and Other Pests.",
-    startingFrom: "₹680",
-    image: "/assets/pest-control-service.png",
-    imageAlt: "Professional pest control technician treating a home kitchen",
+      "Premium upkeep and renovation services designed for independent villas and large homes.",
+    image: "/assets/tiles1.png",
+    imageAlt: "Villa renovation and premium maintenance service",
+  },
+  {
+    id: "terrace",
+    label: "Terrace",
+    icon: "roofing",
+    title: "Terrace",
+    description:
+      "Terrace waterproofing, flooring, and makeover services to protect and transform your open spaces.",
+    image: "/assets/tiles2.png",
+    imageAlt: "Terrace flooring and waterproofing makeover service",
+  },
+  {
+    id: "balcony",
+    label: "Balcony",
+    icon: "balcony",
+    title: "Balcony",
+    description:
+      "Stylish balcony makeovers with flooring, railings, and finishes that elevate your outdoor corner.",
+    image: "/assets/painting-service.png",
+    imageAlt: "Balcony makeover with flooring and finishing service",
   },
 ];
 
@@ -88,10 +77,12 @@ export default function MaintenanceCategories() {
       <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
         <div className="mb-xl text-center">
           <h2 className="font-headline text-headline-lg text-on-surface">
-            Maintenance Services
+            Renovations
           </h2>
-          <p className="mt-sm font-body text-body-lg text-on-surface-variant">
-            Starting from ₹149
+          <p className="mt-sm font-body text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+            Customised makeovers for bathrooms, flats, villas, terraces and
+            balconies — planned around your style and budget, delivered by
+            verified experts.
           </p>
         </div>
         <div className="flex flex-col md:flex-row gap-lg bg-white rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden min-h-[500px]">

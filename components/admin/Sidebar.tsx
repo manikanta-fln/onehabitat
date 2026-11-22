@@ -12,6 +12,7 @@ export const ADMIN_NAV_ITEMS = [
   { href: "/admin/issues", label: "Issues", icon: "report" },
   { href: "/admin/bookings", label: "Bookings", icon: "event_available" },
   { href: "/admin/consultations", label: "Consultations", icon: "support_agent" },
+  { href: "/admin/chats", label: "Chats", icon: "forum" },
   { href: "/admin/joinlist", label: "Joinlist", icon: "playlist_add" },
   { href: "/admin/customers", label: "Customers", icon: "groups" },
   { href: "/admin/media", label: "Media", icon: "photo_library" },

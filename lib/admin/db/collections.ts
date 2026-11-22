@@ -12,6 +12,7 @@ export const ADMIN_COLLECTIONS = {
   joinlist: "joinlist",
   images: "images",
   galleryMedia: "gallery_media",
+  chats: "chats",
 } as const;
 
 /** GridFS bucket for gallery image/video binaries */

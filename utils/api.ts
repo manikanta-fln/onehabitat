@@ -1,6 +1,7 @@
 import type { ConsultationFormData, ConsultationSource } from "@/types/consultation";
 import type { WaitlistFormData, WaitlistSource } from "@/types/waitlist";
 import type { AIRecommendation, BookingFormData } from "@/types/upload-issue";
+import type { ChatSendRequest, ChatSendResponse } from "@/types/chat";
 import {
   AI_ANALYSIS_TIMEOUT_MS,
   AI_ANALYSIS_TIMEOUT_MESSAGE,
@@ -85,6 +86,22 @@ export async function createBooking(payload: {
   }
 
   return response.json() as Promise<{ bookingId: string; issueId: string }>;
+}
+
+export async function sendChatMessage(
+  payload: ChatSendRequest
+): Promise<ChatSendResponse> {
+  const response = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(await parseError(response));
+  }
+
+  return response.json() as Promise<ChatSendResponse>;
 }
 
 export async function submitConsultation(payload: {

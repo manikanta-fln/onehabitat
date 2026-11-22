@@ -26,6 +26,11 @@ export default function OnehabitatFooter() {
             </h4>
             <ul className="space-y-4 text-sm font-medium text-on-surface-variant/80">
               <li>
+                <Link className="hover:text-primary" href="/about">
+                  About Us
+                </Link>
+              </li>
+              <li>
                 <Link className="hover:text-primary" href="/#amc-plans">
                   AMC Plans
                 </Link>

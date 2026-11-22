@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import OnehabitatChatBot from "@/components/onehabitat/ChatBot";
 import OnehabitatWhatsAppButton from "@/components/onehabitat/WhatsAppButton";
 import { inter, manrope } from "@/lib/fonts";
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/utils/constants";
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
         {children}
         <OnehabitatWhatsAppButton />
+        <OnehabitatChatBot />
       </body>
     </html>
   );

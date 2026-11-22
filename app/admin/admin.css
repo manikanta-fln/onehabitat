@@ -1,6 +1,7 @@
 /* Admin-only layout overrides (scoped via data-admin-app) */
 
-body:has([data-admin-app]) a[aria-label="Chat on WhatsApp"] {
+body:has([data-admin-app]) a[aria-label="Chat on WhatsApp"],
+body:has([data-admin-app]) [data-onehabitat-assistant] {
   display: none !important;
 }
 
