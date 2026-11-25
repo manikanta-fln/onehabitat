@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import GoogleAdsTag from "@/components/analytics/GoogleAdsTag";
 import OnehabitatChatBot from "@/components/onehabitat/ChatBot";
 import OnehabitatWhatsAppButton from "@/components/onehabitat/WhatsAppButton";
 import { inter, manrope } from "@/lib/fonts";
@@ -37,6 +38,7 @@ export default function RootLayout({
         {children}
         <OnehabitatWhatsAppButton />
         <OnehabitatChatBot />
+        <GoogleAdsTag />
       </body>
     </html>
   );

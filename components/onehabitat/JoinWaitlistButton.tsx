@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { WaitlistFormData } from "@/types/waitlist";
 import { submitJoinlist } from "@/utils/api";
+import { trackGoogleAdsConversion } from "@/lib/analytics/google-ads";
 import WaitlistModal from "./WaitlistModal";
 
 const INITIAL_FORM: WaitlistFormData = {
@@ -64,6 +65,7 @@ export default function JoinWaitlistButton({ className = "" }: JoinWaitlistButto
         source: "app_launch_section",
       });
       setIsSubmitted(true);
+      trackGoogleAdsConversion("lead");
     } catch (error) {
       setSubmitError(
         error instanceof Error ? error.message : "Failed to submit. Please try again."

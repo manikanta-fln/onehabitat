@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { ConsultationFormData } from "@/types/consultation";
 import { submitConsultation } from "@/utils/api";
+import { trackGoogleAdsConversion } from "@/lib/analytics/google-ads";
 import ConsultationModal from "./ConsultationModal";
 
 const INITIAL_FORM: ConsultationFormData = {
@@ -68,6 +69,7 @@ export default function FreeConsultationButton({
         source: "homepage_hero",
       });
       setIsSubmitted(true);
+      trackGoogleAdsConversion("lead");
     } catch (error) {
       setSubmitError(
         error instanceof Error ? error.message : "Failed to submit. Please try again."

@@ -15,6 +15,7 @@ import type {
   UploadIssueStep,
 } from "@/types/upload-issue";
 import { analyzeIssue, createBooking } from "@/utils/api";
+import { trackGoogleAdsConversion } from "@/lib/analytics/google-ads";
 import { isClientImageFile } from "@/lib/form-file";
 import UploadIssueModal from "./UploadIssueModal";
 
@@ -166,6 +167,7 @@ export default function UploadIssueProvider({ children }: { children: ReactNode 
           recommendation,
         });
         setIsBooked(true);
+        trackGoogleAdsConversion("lead");
       } catch (err) {
         setSubmitError(
           err instanceof Error ? err.message : "Failed to save booking"

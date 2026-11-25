@@ -16,6 +16,7 @@ import { IssueDiagnosticDetails } from "@/components/shared/IssueDiagnosticDetai
 import { InteriorEstimateCard } from "@/components/onehabitat/InteriorEstimateCard";
 import type { InteriorEstimate } from "@/types/interiors";
 import { WHATSAPP_URL } from "@/utils/constants";
+import { trackGoogleAdsConversion } from "@/lib/analytics/google-ads";
 
 /**
  * Conversational front-end for the existing "Upload an Issue" flow, extended
@@ -195,6 +196,13 @@ export default function OnehabitatChatBot() {
   }, []);
 
   const openWhatsApp = useCallback(() => {
+    trackGoogleAdsConversion("contact");
+    window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
+  }, []);
+
+  // "Get exact quote" on an interior estimate counts as a quote request.
+  const requestQuote = useCallback(() => {
+    trackGoogleAdsConversion("quote");
     window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
   }, []);
 
@@ -374,6 +382,7 @@ export default function OnehabitatChatBot() {
       try {
         await createBooking({ issueId, booking, recommendation });
         setPhase("booked");
+        trackGoogleAdsConversion("lead");
         setMessages((prev) => [
           ...prev,
           botText(
@@ -457,6 +466,7 @@ export default function OnehabitatChatBot() {
                   onUpload={triggerUpload}
                   onCapture={triggerCapture}
                   onContact={openWhatsApp}
+                  onQuote={requestQuote}
                   onBook={startBooking}
                   onEstimate={startEstimate}
                 />
@@ -643,6 +653,7 @@ function CtaBlock({
   onUpload,
   onCapture,
   onContact,
+  onQuote,
   onBook,
   onEstimate,
 }: {
@@ -651,6 +662,7 @@ function CtaBlock({
   onUpload: () => void;
   onCapture: () => void;
   onContact: () => void;
+  onQuote: () => void;
   onBook: () => void;
   onEstimate: () => void;
 }) {
@@ -688,7 +700,7 @@ function CtaBlock({
   if (variant === "estimate") {
     return (
       <div className="flex flex-wrap gap-xs">
-        <button type="button" onClick={onContact} className={primaryBtn}>
+        <button type="button" onClick={onQuote} className={primaryBtn}>
           <span className="material-symbols-outlined text-base">chat</span>
           Get exact quote
         </button>

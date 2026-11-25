@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import GoogleAdsPageView from "@/components/analytics/GoogleAdsPageView";
 import ProServeFooter from "@/components/proserve/Footer";
 import ProServeHeader from "@/components/proserve/Header";
 import { SITE_TITLE } from "@/utils/constants";
@@ -27,6 +28,7 @@ const PEST_CONTROL_IMG = "/assets/pest-control-service.png";
 export default function ServicesPage() {
   return (
     <div className="proserve-page bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+      <GoogleAdsPageView />
       <ProServeHeader />
 
       <main>
