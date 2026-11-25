@@ -1,3 +1,5 @@
+import type { InteriorEstimate } from "@/types/interiors";
+
 export type ChatSource = "homepage_chatbot";
 
 /** A customer text question that should receive a generated reply. */
@@ -27,6 +29,8 @@ export type ChatSendResponse = {
   conversationId: string;
   /** Present for "message" requests. */
   reply?: string;
+  /** Present when the message produced an interiors / renovation estimate. */
+  estimate?: InteriorEstimate;
 };
 
 /** A single message as shown in the admin console. */

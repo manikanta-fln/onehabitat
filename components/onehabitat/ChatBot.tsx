@@ -13,6 +13,8 @@ import {
 } from "@/utils/api";
 import { isClientImageFile } from "@/lib/form-file";
 import { IssueDiagnosticDetails } from "@/components/shared/IssueDiagnosticDetails";
+import { InteriorEstimateCard } from "@/components/onehabitat/InteriorEstimateCard";
+import type { InteriorEstimate } from "@/types/interiors";
 import { WHATSAPP_URL } from "@/utils/constants";
 
 /**
@@ -27,7 +29,10 @@ import { WHATSAPP_URL } from "@/utils/constants";
 
 type ChatPhase = "intro" | "analyzing" | "results" | "booking" | "booked";
 
-type CtaVariant = "start" | "answer" | "result";
+type CtaVariant = "start" | "answer" | "result" | "estimate";
+
+const ESTIMATE_PROMPT =
+  "Sure! Tell me your home size (e.g. 2BHK or 1100 sqft), full interiors or renovation, finish level (economy / premium / luxury) and your budget. For example: \"2BHK full interiors, premium, budget 12 lakh\" — or ask for one trade, like \"painting cost for 3BHK\".";
 
 type ChatMessage =
   | { id: number; role: "bot" | "user"; type: "text"; text: string }
@@ -38,6 +43,7 @@ type ChatMessage =
       type: "recommendation";
       recommendation: AIRecommendation;
     }
+  | { id: number; role: "bot"; type: "estimate"; estimate: InteriorEstimate }
   | { id: number; role: "bot"; type: "typing" }
   | { id: number; role: "bot"; type: "cta"; variant: CtaVariant };
 
@@ -92,7 +98,7 @@ function buildGreeting(): ChatMessage[] {
       id: 1,
       role: "bot",
       type: "text",
-      text: "Ask me anything about home repairs or makeovers — or share a photo of the issue for an instant AI diagnosis.",
+      text: "Ask me anything about home repairs, interiors or renovations — get an indicative interior estimate, or share a photo of an issue for an instant AI diagnosis.",
     },
     { id: 2, role: "bot", type: "cta", variant: "start" },
   ];
@@ -293,10 +299,23 @@ export default function OnehabitatChatBot() {
           content,
         });
         conversationIdRef.current = res.conversationId;
+        const reply = botText(
+          res.reply ?? "I'm here to help with your home maintenance needs."
+        );
         setMessages((prev) => [
           ...prev.filter((m) => m.type !== "typing"),
-          botText(res.reply ?? "I'm here to help with your home maintenance needs."),
-          ctaMessage("answer"),
+          ...(res.estimate
+            ? [
+                reply,
+                {
+                  id: makeId(),
+                  role: "bot" as const,
+                  type: "estimate" as const,
+                  estimate: res.estimate,
+                },
+                ctaMessage("estimate"),
+              ]
+            : [reply, ctaMessage("answer")]),
         ]);
       } catch (err) {
         setMessages((prev) => [
@@ -314,6 +333,12 @@ export default function OnehabitatChatBot() {
     },
     [inputValue, busy, botText, ctaMessage, makeId]
   );
+
+  const startEstimate = useCallback(() => {
+    if (busy) return;
+    setMessages((prev) => [...prev, botText(ESTIMATE_PROMPT)]);
+    logEvent("interior_estimate_started", "Customer opened the interior estimate");
+  }, [busy, botText, logEvent]);
 
   const startBooking = useCallback(() => {
     if (!recommendation || !canBook) return;
@@ -433,6 +458,7 @@ export default function OnehabitatChatBot() {
                   onCapture={triggerCapture}
                   onContact={openWhatsApp}
                   onBook={startBooking}
+                  onEstimate={startEstimate}
                 />
               ) : (
                 <ChatBubble key={message.id} message={message} />
@@ -569,7 +595,7 @@ export default function OnehabitatChatBot() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   disabled={busy}
-                  placeholder="Ask a question…"
+                  placeholder="Ask about repairs, interiors, costs…"
                   aria-label="Message"
                   className="min-w-0 flex-1 rounded-full border border-outline-variant/30 bg-surface-container-lowest px-md py-sm font-body text-body-md text-on-surface focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
                 />
@@ -618,6 +644,7 @@ function CtaBlock({
   onCapture,
   onContact,
   onBook,
+  onEstimate,
 }: {
   variant: CtaVariant;
   canBook: boolean;
@@ -625,6 +652,7 @@ function CtaBlock({
   onCapture: () => void;
   onContact: () => void;
   onBook: () => void;
+  onEstimate: () => void;
 }) {
   const primaryBtn =
     "flex items-center justify-center gap-xs rounded-full bg-primary px-md py-sm font-label text-label-sm text-on-primary transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50";
@@ -648,7 +676,26 @@ function CtaBlock({
             </span>
             Capture a photo
           </button>
+          <button type="button" onClick={onEstimate} className={outlineBtn}>
+            <span className="material-symbols-outlined text-base">chair</span>
+            Interior estimate
+          </button>
         </div>
+      </div>
+    );
+  }
+
+  if (variant === "estimate") {
+    return (
+      <div className="flex flex-wrap gap-xs">
+        <button type="button" onClick={onContact} className={primaryBtn}>
+          <span className="material-symbols-outlined text-base">chat</span>
+          Get exact quote
+        </button>
+        <button type="button" onClick={onEstimate} className={outlineBtn}>
+          <span className="material-symbols-outlined text-base">tune</span>
+          New estimate
+        </button>
       </div>
     );
   }
@@ -738,6 +785,16 @@ function ChatBubble({ message }: { message: Exclude<ChatMessage, { type: "cta" }
   }
 
   // Bot messages
+  if (message.type === "estimate") {
+    return (
+      <div className="flex justify-start">
+        <div className="max-w-[95%] rounded-2xl rounded-bl-sm border border-outline-variant/10 bg-white p-md shadow-sm">
+          <InteriorEstimateCard estimate={message.estimate} />
+        </div>
+      </div>
+    );
+  }
+
   if (message.type === "recommendation") {
     return (
       <div className="flex justify-start">

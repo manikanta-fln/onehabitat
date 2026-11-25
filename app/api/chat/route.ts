@@ -9,11 +9,16 @@ import {
 } from "@/lib/mongodb";
 import {
   generateChatReply,
+  localizeReply,
   type ChatTurn,
 } from "@/lib/ai/chat-assistant";
 import { CHAT_MESSAGE_MAX_LENGTH } from "@/lib/ai/constants";
+import { answerInteriorsQuestion } from "@/lib/interiors/answer";
+import { estimateToText } from "@/lib/interiors/estimator";
+import { TELUGU_STYLE_RE } from "@/lib/interiors/question";
 import type { ChatDocument, ChatMessageRecord } from "@/types/database";
 import type { ChatSendRequest, ChatSendResponse } from "@/types/chat";
+import type { InteriorEstimate } from "@/types/interiors";
 
 export const runtime = "nodejs";
 export const maxDuration = 45;
@@ -95,10 +100,50 @@ export async function POST(request: Request) {
       .slice(-HISTORY_WINDOW)
       .map((m) => ({ role: m.role, content: m.content }));
 
-    const reply = await generateChatReply([
-      ...priorTurns,
-      { role: "user", content },
-    ]);
+    // Interiors / renovation questions (cost, quantities, labour, rates,
+    // brands, colours, trends) are answered exactly from the rate config, and
+    // only for what was asked. Everything else goes to the AI assistant.
+    const interiors = answerInteriorsQuestion(
+      content,
+      priorTurns.filter((turn) => turn.role === "user").map((turn) => turn.content)
+    );
+
+    let reply: string;
+    let storedReply: string;
+    let estimate: InteriorEstimate | undefined;
+    let assistantMeta: Record<string, unknown> | undefined;
+
+    if (interiors) {
+      reply = TELUGU_STYLE_RE.test(content.toLowerCase())
+        ? await localizeReply(interiors.reply, content)
+        : interiors.reply;
+      storedReply = reply;
+      estimate = interiors.estimate;
+    } else {
+      reply = await generateChatReply([
+        ...priorTurns,
+        { role: "user", content },
+      ]);
+      storedReply = reply;
+    }
+
+    if (estimate) {
+      // Keep the full breakdown in the transcript for the admin console and
+      // for follow-up questions.
+      storedReply = `${reply}\n\n${estimateToText(estimate)}`;
+      assistantMeta = {
+        kind: "interior_estimate",
+        property: estimate.propertyLabel,
+        carpetAreaSqft: estimate.carpetAreaSqft,
+        scope: estimate.scope,
+        tier: estimate.tier,
+        trades: estimate.lines.map((line) => line.trade).join(", "),
+        grandTotal: estimate.grandTotal,
+        ...(estimate.budget
+          ? { budget: estimate.budget, budgetFit: estimate.budgetFit }
+          : {}),
+      };
+    }
 
     const userRecord: ChatMessageRecord = {
       role: "user",
@@ -107,7 +152,8 @@ export async function POST(request: Request) {
     };
     const assistantRecord: ChatMessageRecord = {
       role: "assistant",
-      content: reply,
+      content: storedReply,
+      ...(assistantMeta ? { meta: assistantMeta } : {}),
       at: new Date(),
     };
 
@@ -121,6 +167,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       conversationId,
       reply,
+      ...(estimate ? { estimate } : {}),
     } satisfies ChatSendResponse);
   } catch (error) {
     console.error("[POST /api/chat]", error);
