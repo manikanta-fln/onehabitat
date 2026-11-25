@@ -45,6 +45,13 @@ type ChatMessage =
       recommendation: AIRecommendation;
     }
   | { id: number; role: "bot"; type: "estimate"; estimate: InteriorEstimate }
+  | {
+      id: number;
+      role: "bot";
+      type: "followUp";
+      followUpId: string;
+      question: string;
+    }
   | { id: number; role: "bot"; type: "typing" }
   | { id: number; role: "bot"; type: "cta"; variant: CtaVariant };
 
@@ -118,6 +125,12 @@ export default function OnehabitatChatBot() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [inputValue, setInputValue] = useState("");
   const [isSending, setIsSending] = useState(false);
+  /** The "Do you know why others…?" question waiting for a Yes / No. */
+  const [pendingFollowUpId, setPendingFollowUpId] = useState<string | null>(
+    null
+  );
+  /** Buttons to show again after the follow-up is answered. */
+  const followUpCtaRef = useRef<CtaVariant>("answer");
 
   const nextId = useRef(GREETING_NEXT_ID);
   const conversationIdRef = useRef<string | null>(null);
@@ -224,6 +237,7 @@ export default function OnehabitatChatBot() {
       const src = URL.createObjectURL(file);
       objectUrls.current.push(src);
       setSubmitError(null);
+      setPendingFollowUpId(null);
       setPhase("analyzing");
 
       setMessages((prev) => [
@@ -286,13 +300,13 @@ export default function OnehabitatChatBot() {
     [runAnalysis]
   );
 
-  const sendText = useCallback(
-    async (e?: React.FormEvent) => {
-      e?.preventDefault();
-      const content = inputValue.trim();
+  const sendContent = useCallback(
+    async (rawContent: string) => {
+      const content = rawContent.trim();
       if (!content || busy) return;
 
-      setInputValue("");
+      // Any new message settles the open follow-up question.
+      setPendingFollowUpId(null);
       setMessages((prev) => [
         ...prev,
         { id: makeId(), role: "user", type: "text", text: content },
@@ -310,20 +324,42 @@ export default function OnehabitatChatBot() {
         const reply = botText(
           res.reply ?? "I'm here to help with your home maintenance needs."
         );
+
+        if (res.followUpAnswered) {
+          // Answer to "Do you know why…?" — show the same buttons as before.
+          setMessages((prev) => [
+            ...prev.filter((m) => m.type !== "typing"),
+            reply,
+            ctaMessage(followUpCtaRef.current),
+          ]);
+          return;
+        }
+
+        const ctaVariant: CtaVariant = res.estimate ? "estimate" : "answer";
+        const next: ChatMessage[] = [reply];
+        if (res.estimate) {
+          next.push({
+            id: makeId(),
+            role: "bot",
+            type: "estimate",
+            estimate: res.estimate,
+          });
+        }
+        next.push(ctaMessage(ctaVariant));
+        if (res.followUp) {
+          followUpCtaRef.current = ctaVariant;
+          setPendingFollowUpId(res.followUp.id);
+          next.push({
+            id: makeId(),
+            role: "bot",
+            type: "followUp",
+            followUpId: res.followUp.id,
+            question: res.followUp.question,
+          });
+        }
         setMessages((prev) => [
           ...prev.filter((m) => m.type !== "typing"),
-          ...(res.estimate
-            ? [
-                reply,
-                {
-                  id: makeId(),
-                  role: "bot" as const,
-                  type: "estimate" as const,
-                  estimate: res.estimate,
-                },
-                ctaMessage("estimate"),
-              ]
-            : [reply, ctaMessage("answer")]),
+          ...next,
         ]);
       } catch (err) {
         setMessages((prev) => [
@@ -339,11 +375,23 @@ export default function OnehabitatChatBot() {
         setIsSending(false);
       }
     },
-    [inputValue, busy, botText, ctaMessage, makeId]
+    [busy, botText, ctaMessage, makeId]
+  );
+
+  const sendText = useCallback(
+    (e?: React.FormEvent) => {
+      e?.preventDefault();
+      if (!inputValue.trim() || busy) return;
+      const content = inputValue;
+      setInputValue("");
+      void sendContent(content);
+    },
+    [inputValue, busy, sendContent]
   );
 
   const startEstimate = useCallback(() => {
     if (busy) return;
+    setPendingFollowUpId(null);
     setMessages((prev) => [...prev, botText(ESTIMATE_PROMPT)]);
     logEvent("interior_estimate_started", "Customer opened the interior estimate");
   }, [busy, botText, logEvent]);
@@ -469,6 +517,15 @@ export default function OnehabitatChatBot() {
                   onQuote={requestQuote}
                   onBook={startBooking}
                   onEstimate={startEstimate}
+                />
+              ) : message.type === "followUp" ? (
+                <FollowUpBubble
+                  key={message.id}
+                  question={message.question}
+                  canReply={
+                    message.followUpId === pendingFollowUpId && !busy
+                  }
+                  onReply={sendContent}
                 />
               ) : (
                 <ChatBubble key={message.id} message={message} />
@@ -762,7 +819,45 @@ function CtaBlock({
   );
 }
 
-function ChatBubble({ message }: { message: Exclude<ChatMessage, { type: "cta" }> }) {
+const FOLLOW_UP_REPLIES = ["Yes, I know", "No, tell me"] as const;
+
+function FollowUpBubble({
+  question,
+  canReply,
+  onReply,
+}: {
+  question: string;
+  canReply: boolean;
+  onReply: (content: string) => void;
+}) {
+  return (
+    <div className="flex flex-col items-start gap-xs">
+      <p className="max-w-[85%] whitespace-pre-line rounded-2xl rounded-bl-sm bg-surface-container px-md py-sm font-body text-body-md text-on-surface">
+        {question}
+      </p>
+      {canReply ? (
+        <div className="flex flex-wrap gap-xs">
+          {FOLLOW_UP_REPLIES.map((label) => (
+            <button
+              key={label}
+              type="button"
+              onClick={() => onReply(label)}
+              className="rounded-full border border-primary/40 px-md py-xs font-label text-label-sm text-primary transition-all hover:bg-primary hover:text-on-primary"
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ChatBubble({
+  message,
+}: {
+  message: Exclude<ChatMessage, { type: "cta" } | { type: "followUp" }>;
+}) {
   if (message.type === "typing") {
     return (
       <div className="flex justify-start">

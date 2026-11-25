@@ -31,6 +31,15 @@ export type ChatSendResponse = {
   reply?: string;
   /** Present when the message produced an interiors / renovation estimate. */
   estimate?: InteriorEstimate;
+  /** A "Do you know why others…?" question asked after the reply. */
+  followUp?: ChatFollowUp;
+  /** True when this reply answered the previous follow-up question. */
+  followUpAnswered?: boolean;
+};
+
+export type ChatFollowUp = {
+  id: string;
+  question: string;
 };
 
 /** A single message as shown in the admin console. */

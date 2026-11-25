@@ -16,6 +16,15 @@ import { CHAT_MESSAGE_MAX_LENGTH } from "@/lib/ai/constants";
 import { answerInteriorsQuestion } from "@/lib/interiors/answer";
 import { estimateToText } from "@/lib/interiors/estimator";
 import { TELUGU_STYLE_RE } from "@/lib/interiors/question";
+import {
+  classifyFollowUpReply,
+  FOLLOW_UP_KNOWN_REPLY,
+  FOLLOW_UPS,
+  isFollowUpId,
+  pickFollowUp,
+  TELUGU_FOLLOW_UP_RE,
+  type FollowUpId,
+} from "@/lib/chat/follow-ups";
 import type { ChatDocument, ChatMessageRecord } from "@/types/database";
 import type { ChatSendRequest, ChatSendResponse } from "@/types/chat";
 import type { InteriorEstimate } from "@/types/interiors";
@@ -100,6 +109,52 @@ export async function POST(request: Request) {
       .slice(-HISTORY_WINDOW)
       .map((m) => ({ role: m.role, content: m.content }));
 
+    const isTeluguStyle = (text: string) => {
+      const lower = text.toLowerCase();
+      return TELUGU_STYLE_RE.test(lower) || TELUGU_FOLLOW_UP_RE.test(lower);
+    };
+
+    // ---- Reply to a "Do you know why others…?" follow-up question. ----
+    const pendingFollowUp = getPendingFollowUp(existing?.messages ?? []);
+    const followUpReply = pendingFollowUp
+      ? classifyFollowUpReply(content)
+      : null;
+
+    if (pendingFollowUp && followUpReply) {
+      const baseReply =
+        followUpReply === "explain"
+          ? FOLLOW_UPS[pendingFollowUp].answer
+          : FOLLOW_UP_KNOWN_REPLY;
+      const reply = isTeluguStyle(content)
+        ? await localizeReply(baseReply, content)
+        : baseReply;
+
+      const conversationId = await appendRecords(
+        chats,
+        existing?._id ?? null,
+        [
+          { role: "user", content, at: now },
+          {
+            role: "assistant",
+            content: reply,
+            meta: {
+              kind: "follow_up_answer",
+              followUpId: pendingFollowUp,
+              customerKnew: followUpReply === "known",
+            },
+            at: new Date(),
+          },
+        ],
+        now
+      );
+
+      return NextResponse.json({
+        conversationId,
+        reply,
+        followUpAnswered: true,
+      } satisfies ChatSendResponse);
+    }
+
     // Interiors / renovation questions (cost, quantities, labour, rates,
     // brands, colours, trends) are answered exactly from the rate config, and
     // only for what was asked. Everything else goes to the AI assistant.
@@ -157,10 +212,35 @@ export async function POST(request: Request) {
       at: new Date(),
     };
 
+    // Ask one related "Do you know why others…?" question, never repeating one.
+    const followUp = pickFollowUp({
+      customerMessage: content,
+      reply,
+      hasEstimate: Boolean(estimate),
+      interiors: Boolean(interiors),
+      alreadyAsked: askedFollowUps(existing?.messages ?? []),
+    });
+    let followUpQuestion: string | undefined;
+    if (followUp) {
+      followUpQuestion = isTeluguStyle(content)
+        ? await localizeReply(followUp.question, content)
+        : followUp.question;
+    }
+
+    const records: ChatMessageRecord[] = [userRecord, assistantRecord];
+    if (followUp && followUpQuestion) {
+      records.push({
+        role: "assistant",
+        content: followUpQuestion,
+        meta: { kind: "follow_up_question", followUpId: followUp.id },
+        at: new Date(),
+      });
+    }
+
     const conversationId = await appendRecords(
       chats,
       existing?._id ?? null,
-      [userRecord, assistantRecord],
+      records,
       now
     );
 
@@ -168,6 +248,9 @@ export async function POST(request: Request) {
       conversationId,
       reply,
       ...(estimate ? { estimate } : {}),
+      ...(followUp && followUpQuestion
+        ? { followUp: { id: followUp.id, question: followUpQuestion } }
+        : {}),
     } satisfies ChatSendResponse);
   } catch (error) {
     console.error("[POST /api/chat]", error);
@@ -187,6 +270,39 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+}
+
+/**
+ * The follow-up question waiting for an answer: the latest user/assistant
+ * message is an assistant follow-up question (events in between are ignored).
+ */
+function getPendingFollowUp(messages: ChatMessageRecord[]): FollowUpId | null {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const message = messages[i];
+    if (message.role === "event") continue;
+    if (
+      message.role === "assistant" &&
+      message.meta?.kind === "follow_up_question" &&
+      isFollowUpId(message.meta.followUpId)
+    ) {
+      return message.meta.followUpId;
+    }
+    return null;
+  }
+  return null;
+}
+
+function askedFollowUps(messages: ChatMessageRecord[]): Set<string> {
+  const asked = new Set<string>();
+  for (const message of messages) {
+    if (
+      message.meta?.kind === "follow_up_question" &&
+      typeof message.meta.followUpId === "string"
+    ) {
+      asked.add(message.meta.followUpId);
+    }
+  }
+  return asked;
 }
 
 async function appendRecords(
